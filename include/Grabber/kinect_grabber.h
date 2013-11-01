@@ -20,7 +20,7 @@ using namespace handest;
 
 /// Grabber implementation
 class KinectGrabber : public Grabber {
-public:
+    public:
 	/// Pointer
 	typedef std::unique_ptr<KinectGrabber> Ptr;
 
@@ -34,13 +34,13 @@ public:
 	virtual void getCloud(Point3D::Cloud& current_cloud) const;
 
 	/// Grab point cloud
-    virtual void grab();
+	virtual void grab();
 
-protected:
-    /// RGBZXYZ Point cloud
+    protected:
+	/// RGBZXYZ Point cloud
 	Point3D::Cloud cloud;
 	/// Grabber name
-    const std::string name;
+	const std::string name;
 };
 
 #endif // KINECT_GRABBER_H_INCLUDED

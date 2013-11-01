@@ -36,9 +36,9 @@ int main()
         matrix1.inv(&matrix1);
         matrix1.showMatrix();
     }
-	catch (const std::exception& ex) {
-		std::cerr << ex.what() << std::endl;
-		return 1;
-	}
+    catch (const std::exception& ex) {
+	std::cerr << ex.what() << std::endl;
+	return 1;
+    }
     return 0;
 }
