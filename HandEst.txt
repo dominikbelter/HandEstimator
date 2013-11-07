@@ -1,0 +1,66 @@
+Grabber:
+	void getCloud(Point3D::Cloud& current_cloud);
+	void grab();
+
+Filter:
+	void FilterScene(Point3D::Cloud& input,Point3D::Cloud& output);
+
+Optimization:
+	void Optimization(Hand::Pose& hand, Point3D::Cloud& cloud)
+	void SaveToFile(Hand::Pose& hand)
+
+Kinematics:
+	void Forward(Hand::Pose& hand, Hand::Config& Config)	
+
+
+Visualizer:
+	void addCloud(Point3D::Cloud& cloud, RGBA& colour)
+	void Show()
+	void Clear()
+
+Optimization fnc:
+	float_t FitnessValue(Hand::Pose& hand, Point3D::Cloud& cloud)
+
+Hand:
+	void LoadDefault()
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Grabber:
+	wej - Kinect
+	wyj - 3D point cloud scene
+
+Filter:
+	wej - 3D point cloud scene
+	wyj - 3D point cloud hand
+
+Optimalization_function:
+	wej - 3D point cloud hand
+	wyj - Mat34, Fingers Config, Links
+
+Kinematics:
+	wej - Mat34, Fingers Config, Links
+	wyj - 3D point cloud hand estimated
+
+Visualizer:
+	wej - 3D point cloud hand estimated
+	wyj - 3D point cloud hand in openGL
+
+Optimalization:
+	wej - 3D point cloud hand in openGL
+	      3D point cloud hand
+	wyj - coef
