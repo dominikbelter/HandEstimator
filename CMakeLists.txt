@@ -7,6 +7,7 @@ PROJECT(HandEstimator)
 
 # Settings
 INCLUDE_DIRECTORIES("${CMAKE_SOURCE_DIR}/include")
+INCLUDE_DIRECTORIES("${CMAKE_SOURCE_DIR}/dependencies")
 
 # Math
 file(GLOB MATH_SOURCES
@@ -32,8 +33,20 @@ ADD_LIBRARY(GrabberKinect STATIC ${GRABBERKINECT_SOURCES} ${GRABBER_HEADERS} ${G
 INSTALL(TARGETS GrabberKinect RUNTIME DESTINATION bin LIBRARY DESTINATION bin ARCHIVE DESTINATION lib)
 INSTALL(FILES ${GRABBER_HEADERS} DESTINATION include/handest/Grabber/)
 
+
+# Kinematic interface
+SET(KINEMATIC_HEADERS ./include/Kinematic/forward_kinematics.h)
+
+# Forward Kinematics
+#set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
+#find_package(Eigen3 REQUIRED)
+SET(FK_SOURCES ./src/Kinematic/kinematic_liego.cpp)
+SET(FK_HEADERS ./include/Kinematic/kinematic_liego.h )
+ADD_LIBRARY(ForwardKinematics STATIC ${KINEMATIC_HEADERS} ${FK_SOURCES} ${FK_HEADERS})
+INSTALL(TARGETS ForwardKinematics RUNTIME DESTINATION bin LIBRARY DESTINATION bin ARCHIVE DESTINATION lib)
+
 # Demo
 SET(DEMO_SOURCES ./main.cpp)
 ADD_EXECUTABLE(Demo ${DEMO_SOURCES})
-TARGET_LINK_LIBRARIES(Demo Math GrabberKinect)
+TARGET_LINK_LIBRARIES(Demo Math GrabberKinect ForwardKinematics)
 INSTALL(TARGETS Demo RUNTIME DESTINATION bin)
