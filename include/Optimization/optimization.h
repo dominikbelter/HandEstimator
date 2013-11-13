@@ -15,7 +15,7 @@ namespace handest {
 	class OptimizationPSO {
 	public:
 
-		/// Returns the current point cloud
+		/// Optimization with Particle Swarm Optimization Algorithm
 		virtual void Optimization(Hand::Pose& hand, Point3D::Cloud& cloud) = 0;
 
 		/// Save data to file
