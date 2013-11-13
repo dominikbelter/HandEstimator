@@ -45,8 +45,18 @@ SET(FK_HEADERS ./include/Kinematic/kinematic_liego.h )
 ADD_LIBRARY(ForwardKinematics STATIC ${KINEMATIC_HEADERS} ${FK_SOURCES} ${FK_HEADERS})
 INSTALL(TARGETS ForwardKinematics RUNTIME DESTINATION bin LIBRARY DESTINATION bin ARCHIVE DESTINATION lib)
 
+#Optimization Interface
+SET(OPTIMIZATION_HEADERS ./include/Optimization/optimization.h)
+
+#Optimization 
+SET(OPTIMIZATION_SOURCES ./src/Optimization/optimizationPSO.cpp)
+SET(OPTIMIZATION_HEADERS ./include/Optimization/optimization.h)
+ADD_LIBRARY(Optimization STATIC ${OPTIMIZATION_SOURCES} ${OPTIMIZATION_HEADERS} ${OPTIMIZATION_HEADERS})
+INSTALL(TARGETS Optimization RUNTIME DESTINATION bin LIBRARY DESTINATION bin ARCHIVE DESTINATION lib)
+
+
 # Demo
 SET(DEMO_SOURCES ./main.cpp)
 ADD_EXECUTABLE(Demo ${DEMO_SOURCES})
-TARGET_LINK_LIBRARIES(Demo Math GrabberKinect ForwardKinematics)
+TARGET_LINK_LIBRARIES(Demo Math GrabberKinect ForwardKinematics Optimization)
 INSTALL(TARGETS Demo RUNTIME DESTINATION bin)
