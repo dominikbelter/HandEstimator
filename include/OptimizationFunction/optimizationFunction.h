@@ -17,7 +17,7 @@ namespace handest {
 	public:
 
         /// Fitness between model and grabbed cloud
-        virtual float_t FintnessValue(Hand::Pose& hand,Point3D::Cloud& cloud);
+        virtual float_t FintnessValue(Hand::Pose& hand,Point3D::Cloud& cloud) = 0;
 
 		/// Virtual descrutor
 		virtual ~optimizationFunction() {}
