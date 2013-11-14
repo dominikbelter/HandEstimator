@@ -1,6 +1,6 @@
 # cmake requirements
 cmake_minimum_required(VERSION 2.8)
-SET(CMAKE_CXX_FLAGS "-std=c++11")
+SET(CMAKE_CXX_FLAGS "-std=c++0x")
 
 # Estimator of Hand Configuration
 PROJECT(HandEstimator)
@@ -32,6 +32,19 @@ ADD_LIBRARY(GrabberKinect STATIC ${GRABBERKINECT_SOURCES} ${GRABBER_HEADERS} ${G
 #TARGET_LINK_LIBRARIES(GrabberKinect)
 INSTALL(TARGETS GrabberKinect RUNTIME DESTINATION bin LIBRARY DESTINATION bin ARCHIVE DESTINATION lib)
 INSTALL(FILES ${GRABBER_HEADERS} DESTINATION include/handest/Grabber/)
+
+# OptimizationFunction interface 
+SET(OPTIMIZATIONFUNCTION_HEADERS ./include/OptimizationFunction/optimizationFunction.h)
+
+# OptimizationFunctionGauss
+SET(OPTIMIZATIONFUNCTIONGAUSS_SOURCES ./src/OptimizationFunction/optimizationFunctionGauss.cpp)
+SET(OPTIMIZATIONFUNCTIONGAUSS_HEADERS ./include/OptimizationFunction/optimizationFunctionGauss.h)
+SET(OPTIMIZATIONFUNCTIONPF_SOURCES ./src/OptimizationFunction/optimizationFunctionPF.cpp)
+SET(OPTIMIZATIONFUNCTIONPF_HEADERS ./include/OptimizationFunction/optimizationFunctionPF.h)
+ADD_LIBRARY(OptimizationFunction STATIC ${OPTIMIZATIONFUNCTIONGAUSS_SOURCES} ${OPTIMIZATIONFUNCTION_HEADERS} ${OPTIMIZATIONFUNCTIONGAUSS_HEADERS} ${OPTIMIZATIONFUNCTIONPF_HEADERS} ${OPTIMIZATIONFUNCTIONPF_SOURCES})
+#TARGET_LINK_LIBRARIES(OptimizationFunction)
+INSTALL(TARGETS OptimizationFunction RUNTIME DESTINATION bin LIBRARY DESTINATION bin ARCHIVE DESTINATION lib)
+
 
 
 # Kinematic interface
