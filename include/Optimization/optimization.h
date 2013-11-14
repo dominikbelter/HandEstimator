@@ -22,7 +22,7 @@ namespace handest {
 		virtual void SaveToFile(Hand::Pose& hand) = 0;
 
 		/// Virtual descrutor
-		virtual ~OptimizationPSO() {}
+		virtual ~Optimization() {}
 	};
 };
 
