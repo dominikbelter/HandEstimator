@@ -16,7 +16,7 @@ namespace handest {
 	public:
 
 		/// Optimization with Particle Swarm Optimization Algorithm
-		virtual void Optimization(Hand::Pose& hand, Point3D::Cloud& cloud) = 0;
+		virtual void Optimize(Hand::Pose& hand, Point3D::Cloud& cloud) = 0;
 
 		/// Save data to file
 		virtual void SaveToFile(Hand::Pose& hand) = 0;
