@@ -1,19 +1,20 @@
-#include "../include/Filter/filter.h"
+#include "../include/Filter/filterPCL.h"
 #include <memory>
 #include <stdexcept>
 
 using namespace handest;
 
-Filter::Ptr filter;
+FilterPCL::Ptr filter;
 
-Filter::Filter(void) : name("Filter") {
+FilterPCL::FilterPCL(void) : name("Filter") {
 
 }
 
-const std::string& Filter::getName() const {
+const std::string& FilterPCL::getName() const {
 	return name;
 }
 
-void FilterScene(Point3D::Cloud& input,Point3D::Cloud& output) const {
+void FilterPCL::FilterScene(Point3D::Cloud& input,Point3D::Cloud& output) const {
+
 }
 

@@ -3,5 +3,5 @@
 
 float_t optimizationFunctionPF::FitnessValue(Hand::Pose& hand,Point3D::Cloud& cloud)
 {
-
+	return 0;
 }
