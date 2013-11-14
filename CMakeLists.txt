@@ -50,7 +50,7 @@ SET(OPTIMIZATION_HEADERS ./include/Optimization/optimization.h)
 
 #Optimization 
 SET(OPTIMIZATION_SOURCES ./src/Optimization/optimizationPSO.cpp)
-SET(OPTIMIZATION_HEADERS ./include/Optimization/optimization.h)
+SET(OPTIMIZATION_HEADERS ./include/Optimization/optimizationPSO.h)
 ADD_LIBRARY(Optimization STATIC ${OPTIMIZATION_SOURCES} ${OPTIMIZATION_HEADERS} ${OPTIMIZATION_HEADERS})
 INSTALL(TARGETS Optimization RUNTIME DESTINATION bin LIBRARY DESTINATION bin ARCHIVE DESTINATION lib)
 

@@ -12,7 +12,7 @@
 
 namespace handest {
 	/// Optimization interface
-	class OptimizationPSO {
+	class Optimization {
 	public:
 
 		/// Optimization with Particle Swarm Optimization Algorithm
