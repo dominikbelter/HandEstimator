@@ -36,7 +36,7 @@ private:
 			int precision = 10);
 
 	/// Conversion from eigen matrices to mat34
-	Mat34 eigen2mat34(Eigen::Matrix4f trans);
+	Mat34 eigen2mat34(const Eigen::Matrix4f &trans);
 
 	/// Recalculates "pose" matrices based on the values of joints in config
 	void fingerFK(Finger::Pose &finger, Finger::Config &config);

@@ -24,7 +24,7 @@ Eigen::Matrix4f ForwardKinematicsLiego::matrixExp(Eigen::Matrix4f epsilon,
 	return result;
 }
 
-Mat34 ForwardKinematicsLiego::eigen2mat34(Eigen::Matrix4f trans) {
+Mat34 ForwardKinematicsLiego::eigen2mat34(const Eigen::Matrix4f &trans) {
 	Mat34 pose;
 	for (int i = 0; i < 3; i++) {
 		for (int j = 0; j < 3; j++) {
