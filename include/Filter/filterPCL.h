@@ -18,7 +18,7 @@ namespace handest {
 
 using namespace handest;
 
-/// Grabber implementation
+/// Filter implementation
 class FilterPCL : public Filter {
     public:
 	/// Pointer
@@ -31,7 +31,7 @@ class FilterPCL : public Filter {
 	virtual const std::string& getName() const;
 
 	/// Filter
-	virtual void FilterScene(Point3D::Cloud& input,Point3D::Cloud& output) const;
+	Point3D::Cloud& FilterPCL::FilterScene(Point3D::Cloud& input) const;
 
     protected:
 	/// Filter name

@@ -19,7 +19,7 @@ namespace handest {
 		virtual const std::string& getName() const = 0;
 
 		/// Filter
-		virtual void FilterScene(Point3D::Cloud& input,Point3D::Cloud& output) const = 0;
+		Point3D::Cloud& FilterPCL::FilterScene(Point3D::Cloud& input) const = 0;
 
 		/// Virtual descrutor
 		virtual ~Filter() {}
