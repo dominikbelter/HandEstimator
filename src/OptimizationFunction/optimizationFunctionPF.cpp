@@ -1,7 +1,7 @@
 #include "../include/OptimizationFunction/optimizationFunctionPF.h"
 
 
-float_t optimizationFunctionPF::FitnessValue(Hand::Pose& hand,Point3D::Cloud& cloud)
+handest::float_t optimizationFunctionPF::FitnessValue(Hand::Pose& hand,Point3D::Cloud& cloud)
 {
 	//cloud[0].position.x;
 	//hand.palm.surface[0].position.x;
@@ -20,7 +20,7 @@ float_t optimizationFunctionPF::FitnessValue(Hand::Pose& hand,Point3D::Cloud& cl
 	}
 	//findNextNearestPoint(hand,cloud[0]);
 
-	float_t fitnessValue=calculateFitnessValue();
+	floatPF fitnessValue=calculateFitnessValue();
 	return fitnessValue;
 }
 
@@ -52,8 +52,8 @@ void optimizationFunctionPF::planAssignmentChange()
 int optimizationFunctionPF::findNextNearestPoint(Hand::Pose& hand,Point3D point)
 {
 	int nearestPoint;
-	float_t distance;
-	float_t nearestDistance;
+	floatPF distance;
+	floatPF nearestDistance;
 
 	for(int i=0;i<handPointCount;i++)
 	{
@@ -69,9 +69,9 @@ int optimizationFunctionPF::findNextNearestPoint(Hand::Pose& hand,Point3D point)
 	return nearestPoint;
 }
 
-float_t optimizationFunctionPF::calculateFitnessValue()
+handest::float_t optimizationFunctionPF::calculateFitnessValue()
 {
-	float_t value=0;
+	floatPF value=0;
 	for(int currentPoint=0;currentPoint<cloudPointCount;currentPoint++)
 	{
 		value+=distances[currentPoint];
@@ -79,13 +79,13 @@ float_t optimizationFunctionPF::calculateFitnessValue()
 	return value;
 }
 
-float_t optimizationFunctionPF::distanceBetweenPoints(Point3D point1,Point3D point2)
+handest::float_t optimizationFunctionPF::distanceBetweenPoints(Point3D point1,Point3D point2)
 {
-	float_t Xsq=(point2.position.x-point1.position.x)*(point2.position.x-point1.position.x);
-	float_t Ysq=(point2.position.y-point1.position.y)*(point2.position.y-point1.position.y);
-	float_t Zsq=(point2.position.z-point1.position.z)*(point2.position.z-point1.position.z);
+	floatPF Xsq=(point2.position.x-point1.position.x)*(point2.position.x-point1.position.x);
+	floatPF Ysq=(point2.position.y-point1.position.y)*(point2.position.y-point1.position.y);
+	floatPF Zsq=(point2.position.z-point1.position.z)*(point2.position.z-point1.position.z);
 
-	float_t distance=sqrt(Xsq+Ysq+Zsq);
+	floatPF distance=sqrt(Xsq+Ysq+Zsq);
 
 	return distance;
 }

@@ -16,12 +16,15 @@
 
 using namespace handest;
 
+/// Optimization Function Point Fitting floating point
+typedef handest::float_t floatPF;
+
 ///Optimization Function implementation
 	class optimizationFunctionPF : public optimizationFunction{
 	public:
 
         /// Fitness between model and grabbed cloud
-        virtual float_t FitnessValue(Hand::Pose& hand,Point3D::Cloud& cloud) = 0;
+        virtual floatPF FitnessValue(Hand::Pose& hand,Point3D::Cloud& cloud) = 0;
 
 	private:
 		/// initial assignment
@@ -41,10 +44,10 @@ using namespace handest;
 		void planAssignmentChange();
 
 		/// calculate fitness value
-		float_t calculateFitnessValue();
+		floatPF calculateFitnessValue();
 
 		/// distance between 2 points
-		float_t distanceBetweenPoints(Point3D point1,Point3D point2);
+		floatPF distanceBetweenPoints(Point3D point1,Point3D point2);
 
 		/// number of points in hand
 		int handPointCount;
@@ -60,7 +63,7 @@ using namespace handest;
 		std::vector<std::vector<int>> assignmentHistory;
 
 		/// vector of distances between points in cloud and points in hand (currently assigned)
-		std::vector<float_t> distances;
+		std::vector<floatPF> distances;
 	};
 
 #endif // _OPTIMIZATION_FUNCTION_GAUSS_H_
