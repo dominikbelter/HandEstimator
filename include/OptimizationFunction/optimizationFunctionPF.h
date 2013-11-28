@@ -9,8 +9,10 @@
 
 #include "../handest_defs.h"
 #include "optimizationFunction.h"
+#include <math.h>
 #include <string>
 #include <vector>
+#include <algorithm>
 
 using namespace handest;
 
@@ -26,29 +28,38 @@ using namespace handest;
 		/// each point from cloud is assigned to the nearest point in hand
 		void initialAssignment(Hand::Pose& hand,Point3D::Cloud& cloud);
 
-		/// find the next nearest point in hand for the given point
+		/// find the next nearest point in hand for the given point in cloud
 		int findNextNearestPoint(Hand::Pose& hand,Point3D point);
 
-		///
+		/// check for presence of "conflict" points in hand
 		bool checkForConflictHandPoints();
+
+		/// assign point in cloud to point in hand
 		void assignPointToHandPoint(Point3D cloudPoint,Point3D handPoint);
+
+		/// assignment change planning
 		void planAssignmentChange();
 
+		/// calculate fitness value
 		float_t calculateFitnessValue();
 
+		/// distance between 2 points
 		float_t distanceBetweenPoints(Point3D point1,Point3D point2);
 
-		int handPointsCount;
-		int cloudPointsCount;
+		/// number of points in hand
+		int handPointCount;
 
-		/// list of cloud points assigned to a particular hand point
+		/// number of points in cloud
+		int cloudPointCount;
+
+		/// vector of points in cloud assigned to a particular point in hand
 		/// no element for no assignment
 		std::vector<std::vector<int>> assignmentList;
 
-		/// list of assigned hand points (previously and currently) for a particular cloud point
+		/// vector of assigned points in hand (previously and currently) for a particular point in cloud
 		std::vector<std::vector<int>> assignmentHistory;
 
-		/// list of distances between cloud points and current assigned hand points
+		/// vector of distances between points in cloud and points in hand (currently assigned)
 		std::vector<float_t> distances;
 	};
 
