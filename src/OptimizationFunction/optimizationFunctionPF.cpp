@@ -16,9 +16,8 @@ handest::float_t optimizationFunctionPF::FitnessValue(Hand::Pose& hand,Point3D::
 
 	while(checkForConflictHandPoints())
 	{
-		planAssignmentChange();
+		assignmentChange(hand,cloud);
 	}
-	//findNextNearestPoint(hand,cloud[0]);
 
 	floatPF fitnessValue=calculateFitnessValue();
 	return fitnessValue;
@@ -28,28 +27,58 @@ void optimizationFunctionPF::initialAssignment(Hand::Pose& hand,Point3D::Cloud& 
 {
 	for(int cloudPoint=0;cloudPoint<cloudPointCount;cloudPoint++)	
 	{
-		int nearestHandPoint=findNextNearestPoint(hand,cloud[cloudPoint]);
-		assignPointToHandPoint(cloud[cloudPoint],hand.palm.surface[nearestHandPoint]);
+		int nearestHandPoint=findNextNearestPoint(hand,cloud,cloudPoint);
+		assignPointToHandPoint(hand,cloud,cloudPoint,nearestHandPoint);
 	}
 }
 
 bool optimizationFunctionPF::checkForConflictHandPoints()
 {
-
-	return true;
+	for(int handPoint=0;handPoint<handPointCount;handPoint++)
+	{
+		if(assignmentList[handPoint].size()>1)
+		{
+			return true;
+		}	
+	}
+	return false;
 }
 		
-void optimizationFunctionPF::assignPointToHandPoint(Point3D cloudPoint,Point3D handPoint)
+void optimizationFunctionPF::assignPointToHandPoint(Hand::Pose& hand,Point3D::Cloud& cloud,int cloudPointNumber,int handPointNumber)
 {
+	assignmentList[handPointNumber].push_back(cloudPointNumber);
+	assignmentHistory[cloudPointNumber].push_back(handPointNumber);
 
+	floatPF dist=distanceBetweenPoints(cloud[cloudPointNumber],hand.palm.surface[handPointNumber]);
+	distances[cloudPointNumber]=dist;
 }
 
-void optimizationFunctionPF::planAssignmentChange()
+void optimizationFunctionPF::assignmentChange(Hand::Pose& hand,Point3D::Cloud& cloud)
 {
+	for(int handPoint=0;handPoint<handPointCount;handPoint++)
+	{
+		if(!assignmentList[handPoint].size()>1)
+		{
+			std::vector<floatPF> distanceDiff;
+			std::vector<int> newPoints;
+			int changeVariant;
+			for(int cloudPoint=0;cloudPoint<assignmentList[handPoint].size();cloudPoint++)
+			{
+				int cloudPointNumber=assignmentList[handPoint][cloudPoint];
+				int newPoint=findNextNearestPoint(hand,cloud,cloudPointNumber);
 
+				floatPF newDist=distanceBetweenPoints(cloud[cloudPointNumber],hand[newPoint]);
+				newDist=newDist-distances[cloudPointNumber];
+
+				distanceDiff.push_back(newDist);
+				newPoints.push_back(newPoint);
+			}
+
+		}
+	}
 }
 
-int optimizationFunctionPF::findNextNearestPoint(Hand::Pose& hand,Point3D point)
+int optimizationFunctionPF::findNextNearestPoint(Hand::Pose& hand,Point3D::Cloud& cloud,int cloudPoint)
 {
 	int nearestPoint;
 	floatPF distance;
@@ -57,13 +86,16 @@ int optimizationFunctionPF::findNextNearestPoint(Hand::Pose& hand,Point3D point)
 
 	for(int i=0;i<handPointCount;i++)
 	{
+		auto notVisited=std::find(assignmentHistory[cloudPoint].begin(),assignmentHistory[cloudPoint].end(),i);
 
-
-		distance=distanceBetweenPoints(hand.palm.surface[i],point);
-		if((i==0)||(distance<nearestDistance))
+		if(notVisited==assignmentHistory[cloudPoint].end())
 		{
-			nearestDistance=distance;
-			nearestPoint=i;
+			distance=distanceBetweenPoints(hand.palm.surface[i],cloud[cloudPoint]);
+			if((i==0)||(distance<nearestDistance))
+			{
+				nearestDistance=distance;
+				nearestPoint=i;
+			}
 		}
 	}
 	return nearestPoint;

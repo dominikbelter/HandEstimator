@@ -32,16 +32,16 @@ typedef handest::float_t floatPF;
 		void initialAssignment(Hand::Pose& hand,Point3D::Cloud& cloud);
 
 		/// find the next nearest point in hand for the given point in cloud
-		int findNextNearestPoint(Hand::Pose& hand,Point3D point);
+		int findNextNearestPoint(Hand::Pose& hand,Point3D::Cloud& cloud,int cloudPoint);
 
 		/// check for presence of "conflict" points in hand
 		bool checkForConflictHandPoints();
 
 		/// assign point in cloud to point in hand
-		void assignPointToHandPoint(Point3D cloudPoint,Point3D handPoint);
+		void assignPointToHandPoint(Hand::Pose& hand,Point3D::Cloud& cloud,int cloudPointNumber,int handPointNumber);
 
-		/// assignment change planning
-		void planAssignmentChange();
+		/// plan and make new assignment
+		void assignmentChange(Hand::Pose& hand,Point3D::Cloud& cloud);
 
 		/// calculate fitness value
 		floatPF calculateFitnessValue();
