@@ -31,7 +31,7 @@ class FilterPCL : public Filter {
 	virtual const std::string& getName() const;
 
 	/// Filter
-	Point3D::Cloud& FilterPCL::FilterScene(Point3D::Cloud& input) const;
+	virtual void FilterScene(Point3D::Cloud& input, Point3D::Cloud& output) const;
 
     protected:
 	/// Filter name
