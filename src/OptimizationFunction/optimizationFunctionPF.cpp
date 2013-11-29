@@ -67,7 +67,7 @@ void optimizationFunctionPF::assignmentChange(Hand::Pose& hand,Point3D::Cloud& c
 				int cloudPointNumber=assignmentList[handPoint][cloudPoint];
 				int newPoint=findNextNearestPoint(hand,cloud,cloudPointNumber);
 
-				floatPF newDist=distanceBetweenPoints(cloud[cloudPointNumber],hand[newPoint]);
+				floatPF newDist=distanceBetweenPoints(cloud[cloudPointNumber],hand.palm.surface[newPoint]);
 				newDist=newDist-distances[cloudPointNumber];
 
 				distanceDiff.push_back(newDist);
