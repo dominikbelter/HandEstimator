@@ -4,6 +4,7 @@
 #include "Filter/filterPCL.h"
 #include "Core/Math/CMat44.h"
 #include "Kinematic/kinematic_liego.h"
+#include "OptimizationFunction/optimizationFunctionPF.h"
 #define _USE_MATH_DEFINES
 #include <math.h>
 
@@ -27,6 +28,7 @@ int main()
 
         Hand::Pose hand;
         //OptimizationFunction * optimization_function = createOptimizationGauss();
+		//optimizationFunction * optimization_function = createOptimizationFunctionPF();
         //Optimization * optimization = createOptimizationPSO();
         //optimization->optimize(hand_cloud, hand);
         //optimization->save2File(hand);
@@ -43,8 +45,8 @@ int main()
 		return 1;
 	}
 
-
-
+	
+	
 	// Before using, please fill:
 	// -Mat34 pose of the hand
 	// -Mat34 pose of the finger

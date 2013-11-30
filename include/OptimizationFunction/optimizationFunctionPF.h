@@ -14,6 +14,11 @@
 #include <vector>
 #include <algorithm>
 
+namespace handest {
+	/// create a single Point Fitting Optimization Function
+	optimizationFunction* createOptimizationFunctionPF(void);
+};
+
 using namespace handest;
 
 /// Optimization Function Point Fitting floating point
@@ -22,9 +27,11 @@ typedef handest::float_t floatPF;
 ///Optimization Function implementation
 	class optimizationFunctionPF : public optimizationFunction{
 	public:
+		/// Pointer
+		typedef std::unique_ptr<optimizationFunctionPF> Ptr;
 
         /// Fitness between model and grabbed cloud
-        virtual floatPF FitnessValue(Hand::Pose& hand,Point3D::Cloud& cloud) = 0;
+        virtual floatPF FitnessValue(Hand::Pose& hand,Point3D::Cloud& cloud);
 
 	private:
 		/// initial assignment
