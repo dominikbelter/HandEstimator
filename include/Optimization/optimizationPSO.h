@@ -19,25 +19,6 @@ namespace handest {
 using namespace handest;
 
 	
-/// dimension of the problem
-const int MAX_INPUTS = 10; 
-/// numbers of particles
-const int MAX_PARTICLES = 500;
-/// maximum velocity allowed
-const float_t V_MAX = 1.5 ; 
-/// number of algorithm iterations
-const int MAX_EPOCHS = 1000;
-/// range of the initial positions 
-const float_t START_RANGE_MIN_POS = -100.0;
-const float_t START_RANGE_MAX_POS = 100.0;
-/// range of the initial velocities 
-const float_t START_RANGE_MIN_VEL = -5.0;
-const float_t START_RANGE_MAX_VEL = 5.0;
-/// PSO equations parameters
-const int INERTIA = 1;
-const int C1 = 2;
-const int C2 = 2;
-
 
 
 class OptimizationPSO : public Optimization {
@@ -56,18 +37,40 @@ class OptimizationPSO : public Optimization {
 	virtual void SaveToFile(Hand::Pose& hand);
 
 
+	/// PSO defooult parameters
+
+	/// dimension of the problem
+	static const int DIM = 10; 
+	/// numbers of particles
+	static const int MAX_PARTICLES = 500;
+	/// maximum velocity allowed
+	static const float_t V_MAX; 
+	/// number of algorithm iterations
+	static const int MAX_EPOCHS = 1000;
+	/// range of the initial positions 
+	static const float_t START_RANGE_MIN_POS;
+	static const float_t START_RANGE_MAX_POS;
+	/// range of the initial velocities 
+	static const float_t START_RANGE_MIN_VEL;
+	static const float_t START_RANGE_MAX_VEL;
+	/// PSO equations parameters
+	static const int INERTIA = 1;
+	static const int C1 = 2;
+	static const int C2 = 2;
+	
+
 	private:
 		
 	class cParticle {
 
 private:
     /// value of each optimized variable
-    float_t Position[MAX_INPUTS];
+    float_t Position[DIM];
     /// the optimum value of function for particle
     float_t PersBest;
     /// value of particle velocity
-    float_t Velocity[MAX_INPUTS];
-    float_t BestPosition[MAX_INPUTS];
+    float_t Velocity[DIM];
+    float_t BestPosition[DIM];
 
 public:
     cParticle();

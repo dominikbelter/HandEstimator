@@ -2,6 +2,22 @@
 
 using namespace handest;
 
+OptimizationPSO::OptimizationPSO(void)
+{
+	/// initializaing floating points PSO parameters
+	
+	const float_t V_MAX = 1.5; 
+	/// number of algorithm iterations
+	const int MAX_EPOCHS = 1000;
+	/// range of the initial positions 
+	const float_t START_RANGE_MIN_POS = -100.0;
+	const float_t START_RANGE_MAX_POS = 100.0;
+	/// range of the initial velocities 
+	const float_t START_RANGE_MIN_VEL = -5.0;
+	const float_t START_RANGE_MAX_VEL = 5.0;	
+}
+
+
 void OptimizationPSO::Optimize(Hand::Pose& hand, Point3D::Cloud& cloud)
 {
 	
@@ -41,7 +57,7 @@ void OptimizationPSO::InitializeParticles()
     for (int i = 0; i < MAX_PARTICLES; i++)
     {
         InitBestValue = 0;
-        for (int j = 0; j < MAX_INPUTS; j++)
+        for (int j = 0; j < DIM; j++)
         {
             particles[i].setPosition(j, GetRandomNumber(START_RANGE_MIN_POS, START_RANGE_MAX_POS));
             InitPos = GetRandomNumber(START_RANGE_MIN_VEL, START_RANGE_MAX_VEL);
@@ -75,12 +91,12 @@ return bestParticle;
 
 void OptimizationPSO::UpdateVelocity(int gBestIndex)
 {
-    float_t NewVelocity[MAX_INPUTS];
+    float_t NewVelocity[DIM];
     float_t CurrentPos;
 
     for (int i = 0; i < MAX_PARTICLES; i++)
     {
-        for (int j = 0; j < MAX_INPUTS; j++)
+        for (int j = 0; j < DIM; j++)
         {
             NewVelocity[j] = INERTIA*(particles[i].getVelocity(j) + C1*GetRand()*(particles[i].getBestPosition(j) - 
 				particles[i].getPosition(j))+C2*GetRand()*(particles[gBestIndex].getBestPosition(j) - particles[i].getPosition(j)));
@@ -103,7 +119,7 @@ void OptimizationPSO::UpdatePositions(int gBestIndex)
 
     for (int i = 0; i < MAX_PARTICLES; i++)
     {
-        for (int j = 0; j < MAX_INPUTS; j++)
+        for (int j = 0; j < DIM; j++)
         {
             if (i != gBestIndex)
             {
