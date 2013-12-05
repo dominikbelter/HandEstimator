@@ -1,6 +1,7 @@
 #include <iostream>
 #include "handest_defs.h"
 #include "Grabber/kinect_grabber.h"
+#include "Visualizer/visualizerGL.h"
 #include "Filter/filterPCL.h"
 #include "Core/Math/CMat44.h"
 #include "Kinematic/kinematic_liego.h"
@@ -19,8 +20,8 @@ int main()
         Point3D::Cloud scene;
         grabber->grab();
         grabber->getCloud(scene);
-        //Visualizer* visualizer = createVisualizerGL();
-        //visualizer->showCloud(scene);
+        Visualizer* visualizer = createVisualizerGL();
+        //visualizer->show();
         Filter* filter = createFilterPCL();
         Point3D::Cloud hand_cloud;
         filter->FilterScene(scene, hand_cloud);

@@ -23,7 +23,6 @@ class VisualizerGL : public Visualizer {
 public:
 	/// Pointer
 	typedef std::unique_ptr<VisualizerGL> Ptr;
-
 	/// Construction
 	VisualizerGL(void);
 
