@@ -6,7 +6,6 @@
 #include "Kinematic/kinematic_liego.h"
 #include "OptimizationFunction/optimizationFunctionPF.h"
 #define _USE_MATH_DEFINES
-#include <math.h>
 
 using namespace std;
 
@@ -45,8 +44,32 @@ int main()
 		return 1;
 	}
 
-	
-	
+/*    Hand::Pose dlon;
+    Point3D::Cloud chmura;
+
+    dlon.palm.surface.resize(3);
+    dlon.palm.surface[0].position.x=0;
+    dlon.palm.surface[0].position.y=0;
+    dlon.palm.surface[1].position.x=-5;
+    dlon.palm.surface[1].position.y=-5;
+    dlon.palm.surface[2].position.x=5;
+    dlon.palm.surface[2].position.y=5;
+
+    chmura.resize(3);
+    chmura[0].position.x=5;
+    chmura[0].position.y=5;
+    chmura[1].position.x=0;
+    chmura[1].position.y=0;
+    chmura[2].position.x=10;
+    chmura[2].position.y=10;
+
+
+	optimizationFunction * optimization_function = createOptimizationFunctionPF();
+
+    handest::float_t fitness=optimization_function->FitnessValue(dlon,chmura);
+    cout<<"Fitness: "<<fitness<<endl;
+*/
+
 	// Before using, please fill:
 	// -Mat34 pose of the hand
 	// -Mat34 pose of the finger

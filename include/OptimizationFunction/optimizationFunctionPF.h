@@ -13,6 +13,8 @@
 #include <string>
 #include <vector>
 #include <algorithm>
+#include <iostream>
+#include <memory>
 
 namespace handest {
 	/// create a single Point Fitting Optimization Function
