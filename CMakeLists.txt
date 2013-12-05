@@ -56,7 +56,16 @@ ADD_LIBRARY(OptimizationFunction STATIC ${OPTIMIZATIONFUNCTIONGAUSS_SOURCES} ${O
 #TARGET_LINK_LIBRARIES(OptimizationFunction)
 INSTALL(TARGETS OptimizationFunction RUNTIME DESTINATION bin LIBRARY DESTINATION bin ARCHIVE DESTINATION lib)
 
+# Visualizer interface
+SET(VISUALIZER_HEADERS ./include/Visualizer/visualizer.h)
 
+# OpenGL Visualizer
+SET(VISUALIZERGL_SOURCES ./src/Visualizer/visualizerGL.cpp)
+SET(VISUALIZERGL_HEADERS ./include/Visualizer/visualizerGL.h)
+ADD_LIBRARY(VisualizerGL STATIC ${VISUALIZERGL_SOURCES} ${VISUALIZER_HEADERS} ${VISUALIZERGL_HEADERS})
+#TARGET_LINK_LIBRARIES(VisualizerGL)
+INSTALL(TARGETS VisualizerGL RUNTIME DESTINATION bin LIBRARY DESTINATION bin ARCHIVE DESTINATION lib)
+INSTALL(FILES ${VISUALIZER_HEADERS} DESTINATION include/handest/Visualizer/)
 
 # Kinematic interface
 SET(KINEMATIC_HEADERS ./include/Kinematic/forward_kinematics.h)
@@ -82,5 +91,5 @@ INSTALL(TARGETS Optimization RUNTIME DESTINATION bin LIBRARY DESTINATION bin ARC
 # Demo
 SET(DEMO_SOURCES ./main.cpp)
 ADD_EXECUTABLE(Demo ${DEMO_SOURCES})
-TARGET_LINK_LIBRARIES(Demo Math GrabberKinect ForwardKinematics Optimization OptimizationFunction Filter)
+TARGET_LINK_LIBRARIES(Demo Math GrabberKinect ForwardKinematics Optimization OptimizationFunction Filter VisualizerGL)
 INSTALL(TARGETS Demo RUNTIME DESTINATION bin)
