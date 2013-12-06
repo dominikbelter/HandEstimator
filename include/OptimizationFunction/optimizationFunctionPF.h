@@ -38,25 +38,28 @@ typedef handest::float_t floatPF;
 	private:
 		/// initial assignment
 		/// each point from cloud is assigned to the nearest point in hand
-		void initialAssignment(Hand::Pose& hand,Point3D::Cloud& cloud);
+		void initialAssignment(Point3D::Cloud& cloud);
 
 		/// find the next nearest point in hand for the given point in cloud
-		int findNextNearestPoint(Hand::Pose& hand,Point3D::Cloud& cloud,int cloudPoint);
+		int findNextNearestPoint(Point3D::Cloud& cloud,int cloudPoint);
 
 		/// check for presence of "conflict" points in hand
 		bool checkForConflictHandPoints();
 
 		/// assign point in cloud to point in hand
-		void assignPointToHandPoint(Hand::Pose& hand,Point3D::Cloud& cloud,int cloudPointNumber,int handPointNumber);
+		void assignPointToHandPoint(Point3D::Cloud& cloud,int cloudPointNumber,int handPointNumber);
 
 		/// plan and make new assignment
-		void assignmentChange(Hand::Pose& hand,Point3D::Cloud& cloud);
+		void assignmentChange(Point3D::Cloud& cloud);
 
 		/// calculate fitness value
 		floatPF calculateFitnessValue();
 
 		/// distance between 2 points
 		floatPF distanceBetweenPoints(Point3D point1,Point3D point2);
+
+		/// get points from hand
+		void getPointsFromHand(Hand::Pose& hand);
 
 		/// number of points in hand
 		int handPointCount;
@@ -73,6 +76,9 @@ typedef handest::float_t floatPF;
 
 		/// vector of distances between points in cloud and points in hand (currently assigned)
 		std::vector<floatPF> distances;
+
+		/// point cloud from hand
+		Point3D::Cloud handPoints;
 	};
 
 #endif // _OPTIMIZATION_FUNCTION_GAUSS_H_

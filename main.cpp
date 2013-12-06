@@ -20,7 +20,7 @@ int main()
         Point3D::Cloud scene;
         grabber->grab();
         grabber->getCloud(scene);
-        Visualizer* visualizer = createVisualizerGL();
+        //Visualizer* visualizer = createVisualizerGL();
         //visualizer->show();
         Filter* filter = createFilterPCL();
         Point3D::Cloud hand_cloud;
@@ -45,31 +45,53 @@ int main()
 		return 1;
 	}
 
-/*    Hand::Pose dlon;
+    /*
+	//OptmimizationFunctionPF test
+	Hand::Pose dlon;
     Point3D::Cloud chmura;
 
-    dlon.palm.surface.resize(3);
-    dlon.palm.surface[0].position.x=0;
+    dlon.palm.surface.resize(1);
+	dlon.fingers[0].chain[0].surface.resize(1);
+	dlon.fingers[2].chain[0].surface.resize(2);
+	dlon.fingers[3].chain[1].surface.resize(1);
+
+    dlon.palm.surface[0].position.x=-3;
     dlon.palm.surface[0].position.y=0;
-    dlon.palm.surface[1].position.x=-5;
-    dlon.palm.surface[1].position.y=-5;
-    dlon.palm.surface[2].position.x=5;
-    dlon.palm.surface[2].position.y=5;
+	dlon.palm.surface[0].position.z=-4;
+    dlon.fingers[0].chain[0].surface[0].position.x=0;
+    dlon.fingers[0].chain[0].surface[0].position.y=-1;
+	dlon.fingers[0].chain[0].surface[0].position.z=1;
+	dlon.fingers[2].chain[0].surface[0].position.x=1;
+    dlon.fingers[2].chain[0].surface[0].position.y=1;
+	dlon.fingers[2].chain[0].surface[0].position.z=2;
+	dlon.fingers[2].chain[0].surface[1].position.x=0;
+    dlon.fingers[2].chain[0].surface[1].position.y=3;
+	dlon.fingers[2].chain[0].surface[1].position.z=-2;
+	dlon.fingers[3].chain[1].surface[0].position.x=3;
+    dlon.fingers[3].chain[1].surface[0].position.y=3;
+	dlon.fingers[3].chain[1].surface[0].position.z=4;
 
-    chmura.resize(3);
-    chmura[0].position.x=5;
-    chmura[0].position.y=5;
-    chmura[1].position.x=0;
-    chmura[1].position.y=0;
-    chmura[2].position.x=10;
-    chmura[2].position.y=10;
-
+    chmura.resize(5);
+    chmura[0].position.x=-4;
+    chmura[0].position.y=0;
+	chmura[0].position.z=1;
+    chmura[1].position.x=-1;
+    chmura[1].position.y=2;
+	chmura[1].position.z=0;
+    chmura[2].position.x=3;
+    chmura[2].position.y=4;
+	chmura[2].position.z=-2;
+	chmura[3].position.x=3;
+    chmura[3].position.y=0;
+	chmura[3].position.z=1;
+    chmura[4].position.x=2;
+    chmura[4].position.y=-2;
+	chmura[4].position.z=-3;
 
 	optimizationFunction * optimization_function = createOptimizationFunctionPF();
 
     handest::float_t fitness=optimization_function->FitnessValue(dlon,chmura);
-    cout<<"Fitness: "<<fitness<<endl;
-*/
+    cout<<"Fitness: "<<fitness<<endl;*/
 
 	// Before using, please fill:
 	// -Mat34 pose of the hand
