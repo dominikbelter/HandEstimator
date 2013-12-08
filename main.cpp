@@ -20,8 +20,14 @@ int main()
         Point3D::Cloud scene;
         grabber->grab();
         grabber->getCloud(scene);
-        //Visualizer* visualizer = createVisualizerGL();
-        //visualizer->show();
+        Visualizer* visualizer = createVisualizerGL();
+		RGBA colour;
+		colour.r = 1;
+		colour.g = 0;
+		colour.b = 0;
+		colour.a = 1;
+		visualizer->addCloud(scene,colour);
+        visualizer->show();
         Filter* filter = createFilterPCL();
         Point3D::Cloud hand_cloud;
         filter->FilterScene(scene, hand_cloud);
