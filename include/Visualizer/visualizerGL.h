@@ -27,10 +27,10 @@ public:
 	VisualizerGL(void);
 
 	///Add Points
-	virtual void addCloud(Point3D::Cloud& cloud, RGBA& colour) ;
-		
+	virtual void addCloud(Point3D::Cloud& cloud, RGBA& colour);
+
 	///Show Points
-	virtual void show();
+	virtual void show() const;
 
 	///Clear Points
 	virtual void clear();

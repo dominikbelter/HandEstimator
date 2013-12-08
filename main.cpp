@@ -20,7 +20,7 @@ int main()
         Point3D::Cloud scene;
         grabber->grab();
         grabber->getCloud(scene);
-        //Visualizer* visualizer = createVisualizerGL();
+        Visualizer* visualizer = createVisualizerGL();
         //visualizer->show();
         Filter* filter = createFilterPCL();
         Point3D::Cloud hand_cloud;

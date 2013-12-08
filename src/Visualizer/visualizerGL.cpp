@@ -15,9 +15,10 @@ void VisualizerGL::addCloud(Point3D::Cloud& cloud, RGBA& colour) {
 
 }
 
-void VisualizerGL::show(void) {
+void VisualizerGL::show(void) const{
 
 }
+
 void VisualizerGL::clear(void) {
 
 }

@@ -17,13 +17,13 @@ namespace handest {
 	public:
 
 		///Add Points
-		virtual void addCloud(Point3D::Cloud& cloud, RGBA& colour);
-		
+		virtual void addCloud(Point3D::Cloud& cloud, RGBA& colour) = 0;
+
 		///Show Points
-		virtual void show();
+		virtual void show() const = 0;
 
 		///Clear Points
-		virtual void clear();
+		virtual void clear() = 0;
 
 		/// Virtual descrutor
 		virtual ~Visualizer() {}

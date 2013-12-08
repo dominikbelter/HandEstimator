@@ -151,9 +151,10 @@ void CMat44::exportMat2file(ofstream * file){
 ///load from text file
 void CMat44::loadFromTextFile(FILE * file){
     float tmp;
-    fscanf(file, "mat=[");
-    fscanf(file, "%f ",&rotation[0]); fscanf(file, "%f ",&rotation[1]); fscanf(file, "%f ",&rotation[2]); fscanf(file, "%f;",&pos[0]);
-    fscanf(file, "%f ",&rotation[3]); fscanf(file, "%f ",&rotation[4]); fscanf(file, "%f ",&rotation[5]); fscanf(file, "%f;",&pos[1]);
-    fscanf(file, "%f ",&rotation[6]); fscanf(file, "%f ",&rotation[7]); fscanf(file, "%f ",&rotation[8]); fscanf(file, "%f;",&pos[2]);
-    fscanf(file, "%f ",&tmp); fscanf(file, "%f ",&tmp); fscanf(file, "%f ",&tmp); fscanf(file, "%f];\n",&tmp);
+    int reti;
+    if (fscanf(file, "mat=[")) reti = 0;
+    if (fscanf(file, "%f ",&rotation[0])) reti = 0; if (fscanf(file, "%f ",&rotation[1])) reti = 0; if (fscanf(file, "%f ",&rotation[2])) reti = 0; if (fscanf(file, "%f;",&pos[0])) reti = 0;
+    if (fscanf(file, "%f ",&rotation[3])) reti = 0; if (fscanf(file, "%f ",&rotation[4])) reti = 0; if (fscanf(file, "%f ",&rotation[5])) reti = 0; if (fscanf(file, "%f;",&pos[1])) reti = 0;
+    if (fscanf(file, "%f ",&rotation[6])) reti = 0; if (fscanf(file, "%f ",&rotation[7])) reti = 0; if (fscanf(file, "%f ",&rotation[8])) reti = 0; if (fscanf(file, "%f;",&pos[2])) reti = 0;
+    if (fscanf(file, "%f ",&tmp)) reti = 0; if (fscanf(file, "%f ",&tmp)) reti = 0; if (fscanf(file, "%f ",&tmp)) reti = 0; if (fscanf(file, "%f];\n",&tmp)) reti = 0;
 }
