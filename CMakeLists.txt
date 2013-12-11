@@ -9,6 +9,12 @@ SET(CMAKE_BUILD_TYPE "Release" CACHE PATH "Current build configuration")
 # Estimator of Hand Configuration
 PROJECT(HandEstimator)
 
+#PCL
+find_package(PCL 1.2 REQUIRED)
+include_directories(${PCL_INCLUDE_DIRS})
+link_directories(${PCL_LIBRARY_DIRS})
+add_definitions(${PCL_DEFINITIONS})
+
 # Folders
 SET_PROPERTY(GLOBAL PROPERTY USE_FOLDERS ON)
 
@@ -87,6 +93,7 @@ if(BUILD_HANDEST AND BUILD_HANDEST_MATH)
 	SET(GRABBERKINECT_HEADERS ./include/Grabber/kinect_grabber.h)
 	ADD_LIBRARY(GrabberKinect STATIC ${GRABBERKINECT_SOURCES} ${GRABBER_HEADERS} ${GRABBERKINECT_HEADERS})
 	#TARGET_LINK_LIBRARIES(GrabberKinect)
+	target_link_libraries (GrabberKinect ${PCL_LIBRARIES})
 	INSTALL(TARGETS GrabberKinect RUNTIME DESTINATION bin LIBRARY DESTINATION bin ARCHIVE DESTINATION lib)
 	INSTALL(FILES ${GRABBER_HEADERS} DESTINATION include/handest/Grabber/)
 endif(BUILD_HANDEST AND BUILD_HANDEST_MATH)

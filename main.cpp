@@ -16,9 +16,9 @@ int main()
         using namespace handest;
 
         Grabber* grabber = createGrabberKinect();
-        cout << "Current grabber: " << grabber->getName() << endl;
+	    //cout << "Current grabber: " << grabber->getName() << endl;
         Point3D::Cloud scene;
-        grabber->grab();
+        grabber->run();
         grabber->getCloud(scene);
         Visualizer* visualizer = createVisualizerGL();
 		RGBA colour;
