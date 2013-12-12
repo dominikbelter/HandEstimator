@@ -32,11 +32,9 @@ void FilterPCL::FilterScene(Point3D::Cloud& input, Point3D::Cloud& output) const
             output[i_out].colour.r=input[i].colour.r;
             output[i_out].colour.g=input[i].colour.g;
             output[i_out].colour.b=input[i].colour.b;
-			i_out++: //inkrementacja licznika elementów chmury wyjœciowej
+			i_out++; //inkrementacja licznika elementów chmury wyjœciowej
         }
 	}
-
-	return output;
 }
 
 handest::Filter* handest::createFilterPCL(void) {

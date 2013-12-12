@@ -10,10 +10,10 @@ SET(CMAKE_BUILD_TYPE "Release" CACHE PATH "Current build configuration")
 PROJECT(HandEstimator)
 
 #PCL
-#find_package(PCL 1.2 REQUIRED)
-#include_directories(${PCL_INCLUDE_DIRS})
-#link_directories(${PCL_LIBRARY_DIRS})
-#add_definitions(${PCL_DEFINITIONS})
+find_package(PCL REQUIRED)
+include_directories(${PCL_INCLUDE_DIRS})
+link_directories(${PCL_LIBRARY_DIRS})
+add_definitions(${PCL_DEFINITIONS})
 
 # Folders
 SET_PROPERTY(GLOBAL PROPERTY USE_FOLDERS ON)
@@ -26,8 +26,8 @@ INCLUDE_DIRECTORIES("${CMAKE_SOURCE_DIR}/dependencies")
 option(BUILD_HANDEST "Build HandEst libraries" YES)
 option(BUILD_HANDEST_MATH "Build HandEst Math library" YES)
 mark_as_advanced(BUILD_HANDEST_MATH)
-option(BUILD_HANDEST_KINECT_GRABBER "Build HandEst Kinect Grabber library" YES)
-mark_as_advanced(BUILD_HANDEST_KINECT_GRABBER)
+option(BUILD_HANDEST_GRABBER "Build HandEst Kinect Grabber library" YES)
+mark_as_advanced(BUILD_HANDEST_GRABBER)
 option(BUILD_HANDEST_FILTER_PCL "Build HandEst Filter library" YES)
 mark_as_advanced(BUILD_HANDEST_FILTER_PCL)
 option(BUILD_HANDEST_KINEMATICS "Build HandEst Kinematics library" YES)
@@ -84,7 +84,15 @@ if(BUILD_HANDEST AND BUILD_HANDEST_MATH)
 	#TARGET_LINK_LIBRARIES(Math)
 	INSTALL(TARGETS Math RUNTIME DESTINATION bin LIBRARY DESTINATION bin ARCHIVE DESTINATION lib)
 	INSTALL(FILES ${MATH_HEADERS} DESTINATION include/handest/Core/Math/)
+endif(BUILD_HANDEST AND BUILD_HANDEST_MATH)
 
+###############################################################################
+#
+# HandEst Math library
+#
+###############################################################################
+
+if(BUILD_HANDEST AND BUILD_HANDEST_GRABBER)
 	# Grabber interface
 	SET(GRABBER_HEADERS ./include/Grabber/grabber.h)
 
@@ -96,7 +104,7 @@ if(BUILD_HANDEST AND BUILD_HANDEST_MATH)
 	target_link_libraries (GrabberKinect ${PCL_LIBRARIES})
 	INSTALL(TARGETS GrabberKinect RUNTIME DESTINATION bin LIBRARY DESTINATION bin ARCHIVE DESTINATION lib)
 	INSTALL(FILES ${GRABBER_HEADERS} DESTINATION include/handest/Grabber/)
-endif(BUILD_HANDEST AND BUILD_HANDEST_MATH)
+endif(BUILD_HANDEST AND BUILD_HANDEST_GRABBER)
 
 ###############################################################################
 #
@@ -124,7 +132,7 @@ endif(BUILD_HANDEST AND BUILD_HANDEST_FILTER_PCL)
 ###############################################################################
 
 if(BUILD_HANDEST AND BUILD_HANDEST_OPTIMIZATION_FUNCTION)
-	# OptimizationFunction interface 
+	# OptimizationFunction interface
 	SET(OPTIMIZATIONFUNCTION_HEADERS ./include/OptimizationFunction/optimizationFunction.h)
 
 	# OptimizationFunctionGauss
@@ -154,7 +162,7 @@ if(BUILD_HANDEST AND BUILD_HANDEST_GL_VISUALIZER)
 	#TARGET_LINK_LIBRARIES(VisualizerGL)
 	INSTALL(TARGETS VisualizerGL RUNTIME DESTINATION bin LIBRARY DESTINATION bin ARCHIVE DESTINATION lib)
 	INSTALL(FILES ${VISUALIZER_HEADERS} DESTINATION include/handest/Visualizer/)
-	
+
 endif (BUILD_HANDEST AND BUILD_HANDEST_GL_VISUALIZER)
 
 ###############################################################################

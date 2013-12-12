@@ -17,14 +17,14 @@ using namespace handest;
 KinectGrabber::Ptr grabber;
 
 KinectGrabber::KinectGrabber(void) : name("Kinect Grabber") {
-
+    viewer = pcl::visualization::CloudViewer("dfssd");
 }
 
 
-KinectGrabber () : viewer ("PCL Viewer") // nie wiem co to jest i czy jest potrzebne
- {}
+//KinectGrabber () : viewer ("PCL Viewer") // nie wiem co to jest i czy jest potrzebne
+// {}
 
-  const std::string& KinectGrabber::getName() const {
+const std::string& KinectGrabber::getName() const {
 	return name;
 }
 
