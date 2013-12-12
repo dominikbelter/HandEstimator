@@ -29,7 +29,7 @@ const std::string& KinectGrabber::getName() const {
 }
 
 
-void KinectGrabber::cloud_cb_ (const PointCloud<PointXYZRGBA>::ConstPtr &cloud)
+void KinectGrabber::cloud_cb_ (const pcl::PointCloud<pcl::PointXYZRGBA>::ConstPtr &cloud)
 {
      // if (!viewer.wasStopped())
       //{
@@ -39,18 +39,19 @@ void KinectGrabber::cloud_cb_ (const PointCloud<PointXYZRGBA>::ConstPtr &cloud)
             //std::string name = OUT_DIR + "cloud" + out.str() + ".pcd";    // zapis chmury do pliku
             // pcl::io::savePCDFileASCII( name, *cloud );
 
-            int n=(cloud->width*cloud->height);
+            //int n=(cloud->width*cloud->height);
             Point3D point;
-            for(int i=0;i<n;i++)
+            std::cout << cloud->size() << endl;
+            for(size_t i=0;i<cloud->size();i++)
             {
-            point.colour.r = cloud->points[i].r; // zamiana formatu chmury z PCD na nasz format
-            point.colour.g = cloud->points[i].g;
-            point.colour.b = cloud->points[i].b;
-            point.colour.a = cloud->points[i].a;
-            point.position.v[0] = cloud->points[i].x;
-            point.position.v[1] = cloud->points[i].y;
-            point.position.v[2] = cloud->points[i].z;
-            cloud_3D.push_back(point);
+                point.colour.r = cloud->points[i].r; // zamiana formatu chmury z PCD na nasz format
+                point.colour.g = cloud->points[i].g;
+                point.colour.b = cloud->points[i].b;
+                point.colour.a = cloud->points[i].a;
+                point.position.v[0] = cloud->points[i].x;
+                point.position.v[1] = cloud->points[i].y;
+                point.position.v[2] = cloud->points[i].z;
+                cloud_3D.push_back(point);
             }
             //cloud_3D->points[0].x; //przenosimy chmure
 
@@ -61,19 +62,18 @@ void KinectGrabber::cloud_cb_ (const PointCloud<PointXYZRGBA>::ConstPtr &cloud)
 
 void KinectGrabber::run (void)
 {
-            pcl::Grabber* interface = new pcl::OpenNIGrabber();
+    pcl::Grabber* interface = new pcl::OpenNIGrabber();
 
-            boost::function<void (const pcl::PointCloud<pcl::PointXYZRGBA>::ConstPtr&)> f =
-                    boost::bind (&KinectGrabber::cloud_cb_, this, _1);
+    boost::function<void (const pcl::PointCloud<pcl::PointXYZRGBA>::ConstPtr&)> f =
+            boost::bind (&KinectGrabber::cloud_cb_, this, _1);
 
-            interface->registerCallback (f);
-
+    interface->registerCallback (f);
             interface->start ();
-
+std::cout << "dfs1\n";
             while (j<1) //oczekiwanie na przechwycenie pojedynczej chmury
             {
             }
-
+std::cout << "dfs3\n";
             interface->stop ();
 }
 

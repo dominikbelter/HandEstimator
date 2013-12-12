@@ -32,7 +32,11 @@ void VisualizerGL::addCloud(Point3D::Cloud& cloud, RGBA& colour) {
 
 
 void VisualizerGL::show(void) const {
-
+    std::cout << "fs1\n";
+    char *argv[1] = {(char*) "soomething"};
+    int tmp;
+    glutInit(&tmp,argv);
+    std::cout << "fs2\n";
 	char key;
 	std::cout << "OPENGL" << std::endl << "Sterowanie: " << std::endl
 		<< " *myszka (lewy klawisz obrot, prawy przesuniecie)" << std::endl
@@ -52,7 +56,7 @@ void VisualizerGL::show(void) const {
 	glutKeyboardFunc(Keyboard);
 	glutMouseFunc(MouseClick);
 	//glutPassiveMotionFunc(MouseMove);
-	glutMotionFunc(MouseMove);
+    glutMotionFunc(MouseMove);
 	glutMainLoop();
 	}
 
@@ -74,7 +78,7 @@ void VisualizerGL::CreateHand()
 	visualizer->DrawGlobalAxis();
 	visualizer->DrawGrid();
 
-	glPointSize(2.0);
+    glPointSize(20.0);
 	glBegin(GL_POINTS);
 	for(int i=0; i< myPointCloud.size(); i++)
 	{

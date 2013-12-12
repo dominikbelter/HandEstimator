@@ -1,6 +1,6 @@
 # cmake requirements
 cmake_minimum_required(VERSION 2.8)
-SET(CMAKE_CXX_FLAGS "-std=c++0x")
+SET(CMAKE_CXX_FLAGS "-std=c++11")
 
 # Build options have to be before PROJECT(...)
 SET(CMAKE_CONFIGURATION_TYPES "Debug;Release" CACHE PATH "Configuration types")
@@ -88,7 +88,7 @@ endif(BUILD_HANDEST AND BUILD_HANDEST_MATH)
 
 ###############################################################################
 #
-# HandEst Math library
+# HandEst Grabber library
 #
 ###############################################################################
 
@@ -99,10 +99,10 @@ if(BUILD_HANDEST AND BUILD_HANDEST_GRABBER)
 	# Kinect Grabber
 	SET(GRABBERKINECT_SOURCES ./src/Grabber/kinect_grabber.cpp)
 	SET(GRABBERKINECT_HEADERS ./include/Grabber/kinect_grabber.h)
-	ADD_LIBRARY(GrabberKinect STATIC ${GRABBERKINECT_SOURCES} ${GRABBER_HEADERS} ${GRABBERKINECT_HEADERS})
+        ADD_LIBRARY(Grabber STATIC ${GRABBERKINECT_SOURCES} ${GRABBER_HEADERS} ${GRABBERKINECT_HEADERS})
 	#TARGET_LINK_LIBRARIES(GrabberKinect)
-	target_link_libraries (GrabberKinect ${PCL_LIBRARIES})
-	INSTALL(TARGETS GrabberKinect RUNTIME DESTINATION bin LIBRARY DESTINATION bin ARCHIVE DESTINATION lib)
+        target_link_libraries (Grabber ${PCL_LIBRARIES})
+        INSTALL(TARGETS Grabber RUNTIME DESTINATION bin LIBRARY DESTINATION bin ARCHIVE DESTINATION lib)
 	INSTALL(FILES ${GRABBER_HEADERS} DESTINATION include/handest/Grabber/)
 endif(BUILD_HANDEST AND BUILD_HANDEST_GRABBER)
 
@@ -209,6 +209,6 @@ endif (BUILD_HANDEST AND BUILD_HANDEST_OPTIMIZATION_PSO)
 if(BUILD_HANDEST_DEMO AND BUILD_HANDEST_DEMO_BASIC)
 	SET(DEMO_SOURCES ./main.cpp)
 	ADD_EXECUTABLE(Demo ${DEMO_SOURCES})
-	TARGET_LINK_LIBRARIES(Demo Math GrabberKinect ForwardKinematics Optimization OptimizationFunction Filter VisualizerGL)
+        TARGET_LINK_LIBRARIES(Demo Math Grabber ForwardKinematics Optimization OptimizationFunction Filter VisualizerGL ${Boost_FILESYSTEM_LIBRARY} ${Boost_SYSTEM_LIBRARY} GLU GL glut)
 	INSTALL(TARGETS Demo RUNTIME DESTINATION bin)
 endif (BUILD_HANDEST_DEMO AND BUILD_HANDEST_DEMO_BASIC)

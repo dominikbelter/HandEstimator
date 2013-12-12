@@ -22,8 +22,11 @@ namespace handest {
 		/// Returns the current point cloud
 		virtual void getCloud(Point3D::Cloud& current_cloud) const = 0;
 
+        /// Runs grabber interface
+        virtual void run() = 0;
+
 		/// Grab point cloud
-		virtual void grab() = 0;
+        //virtual void grab() = 0;
 
 		/// Virtual descrutor
 		virtual ~Grabber() {}
