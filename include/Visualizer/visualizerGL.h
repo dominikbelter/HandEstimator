@@ -10,7 +10,7 @@
 #include "visualizer.h"
 #include <iostream>
 #include <memory>
-#include <gl\glut.h>
+#include <GL/glut.h>
 
 namespace handest {
 	/// create a single visualizer (OpenGL)
