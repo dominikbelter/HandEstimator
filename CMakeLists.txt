@@ -10,10 +10,10 @@ SET(CMAKE_BUILD_TYPE "Release" CACHE PATH "Current build configuration")
 PROJECT(HandEstimator)
 
 #PCL
-find_package(PCL 1.2 REQUIRED)
-include_directories(${PCL_INCLUDE_DIRS})
-link_directories(${PCL_LIBRARY_DIRS})
-add_definitions(${PCL_DEFINITIONS})
+#find_package(PCL 1.2 REQUIRED)
+#include_directories(${PCL_INCLUDE_DIRS})
+#link_directories(${PCL_LIBRARY_DIRS})
+#add_definitions(${PCL_DEFINITIONS})
 
 # Folders
 SET_PROPERTY(GLOBAL PROPERTY USE_FOLDERS ON)
