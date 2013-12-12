@@ -38,6 +38,9 @@ class KinectGrabber : public Grabber {
 	/// Name of the grabber
 	virtual const std::string& getName() const;
 
+	virtual void cloud_cb_ (const PointCloud<PointXYZRGBA>::ConstPtr &cloud);
+
+	virtual void run();
 	/// Returns the current point cloud
 	virtual void getCloud(Point3D::Cloud& current_cloud) const;
 
@@ -45,6 +48,9 @@ class KinectGrabber : public Grabber {
     //virtual void grab();   use run() instead
 
     //pcl::visualization::CloudViewer viewer;
+
+	
+
 
     protected:
     int j=0;
