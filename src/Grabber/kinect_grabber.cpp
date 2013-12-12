@@ -17,7 +17,7 @@ using namespace handest;
 KinectGrabber::Ptr grabber;
 
 KinectGrabber::KinectGrabber(void) : name("Kinect Grabber") {
-    viewer = pcl::visualization::CloudViewer("dfssd");
+    //viewer = pcl::visualization::CloudViewer("dfssd");
 }
 
 
@@ -31,9 +31,9 @@ const std::string& KinectGrabber::getName() const {
 
 void KinectGrabber::cloud_cb_ (const PointCloud<PointXYZRGBA>::ConstPtr &cloud)
 {
-      if (!viewer.wasStopped())
-      {
-            viewer.showCloud (cloud);
+     // if (!viewer.wasStopped())
+      //{
+            //viewer.showCloud (cloud);
             //std::stringstream out;
             // out << frames_saved;
             //std::string name = OUT_DIR + "cloud" + out.str() + ".pcd";    // zapis chmury do pliku
@@ -55,7 +55,7 @@ void KinectGrabber::cloud_cb_ (const PointCloud<PointXYZRGBA>::ConstPtr &cloud)
             //cloud_3D->points[0].x; //przenosimy chmure
 
             j=1;
-       }
+     // }
 
 }
 

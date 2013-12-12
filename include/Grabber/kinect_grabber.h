@@ -44,7 +44,7 @@ class KinectGrabber : public Grabber {
 	/// Grab point cloud
     //virtual void grab();   use run() instead
 
-    pcl::visualization::CloudViewer viewer;
+    //pcl::visualization::CloudViewer viewer;
 
     protected:
     int j=0;
