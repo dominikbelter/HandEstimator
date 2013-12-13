@@ -248,7 +248,7 @@ void optimizationFunctionPF::getPointsFromHand(Hand::Pose& hand)
 {	
 	//std::cout<<"Palm points: "<<hand.palm.surface.size()<<"\n";
 	for(int i=0;i<hand.palm.surface.size();i++)
-		handPoints.push_back(hand.palm.surface[0]);
+		handPoints.push_back(hand.palm.surface[i]);
 
 	//std::cout<<"Fingers: "<<int(Hand::FINGERS)<<"\n";
 	for(int i=0;i<Hand::FINGERS;i++)
