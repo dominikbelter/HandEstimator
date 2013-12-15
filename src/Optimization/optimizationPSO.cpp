@@ -25,6 +25,8 @@ void OptimizationPSO::Optimize(Hand::Pose& hand, Point3D::Cloud& cloud)
 	cloudPSO = cloud;
 
 	PsoAlgorithm();
+
+	hand = handPSO;
 }
 
 void OptimizationPSO::SaveToFile(Hand::Pose& hand)
