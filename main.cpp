@@ -39,7 +39,7 @@ int main()
         //OptimizationFunction * optimization_function = createOptimizationGauss();
 		//optimizationFunction * optimization_function = createOptimizationFunctionPF();
         //Optimization * optimization = createOptimizationPSO();
-        //optimization->optimize(hand_cloud, hand);
+        //optimization->optimize(hand, hand_cloud);
         //optimization->save2File(hand);
         //visualizer->showHand(hand);
 

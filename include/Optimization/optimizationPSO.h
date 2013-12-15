@@ -8,8 +8,13 @@
 #define OPTIMIZATIONPSO_H_INCLUDED
 
 #include "optimization.h"
-#include <iostream>
+#include "../include/OptimizationFunction/OptimizationFunction.h"
+#include "OptimizationFunction/optimizationFunctionPF.h"
+
+
 #include <memory>
+
+
 
 namespace handest {
 	/// create a single optimization
@@ -39,8 +44,12 @@ class OptimizationPSO : public Optimization {
 
 	/// PSO defooult parameters
 
-	/// dimension of the problem
-	static const int DIM = 10; 
+	/// dimension of the problem: Hand::JOINTS + wrist coordinates 
+	/// xyz + orentation (euler angles)
+	///static const int WRIST_COORDINATES 9;
+	///static const int DIM = Hand::JOINTS + WRIST_COORDINATES; 
+	static const int DIM = 29;
+
 	/// numbers of particles
 	static const int MAX_PARTICLES = 500;
 	/// maximum velocity allowed
@@ -58,6 +67,9 @@ class OptimizationPSO : public Optimization {
 	static const int C1 = 2;
 	static const int C2 = 2;
 	
+	/// optimize variables 
+	Hand::Pose handPSO; 
+	Point3D::Cloud cloudPSO;
 
 	private:
 		

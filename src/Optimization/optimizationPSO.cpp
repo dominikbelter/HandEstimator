@@ -1,5 +1,6 @@
 #include "../include/Optimization/optimizationPSO.h"
 
+
 using namespace handest;
 
 OptimizationPSO::OptimizationPSO(void)
@@ -20,15 +21,20 @@ OptimizationPSO::OptimizationPSO(void)
 
 void OptimizationPSO::Optimize(Hand::Pose& hand, Point3D::Cloud& cloud)
 {
-	
+	handPSO = hand;
+	cloudPSO = cloud;
+
+	PsoAlgorithm();
 }
 
 void OptimizationPSO::SaveToFile(Hand::Pose& hand)
 {
+    ///save to file
+	//fstream plik;
+	//plik.open("C:\\HandFile.txt", ios::out);
 	
+	//plik.close();
 }
-
-
 
 void OptimizationPSO::PsoAlgorithm()
 {
@@ -92,7 +98,7 @@ return bestParticle;
 void OptimizationPSO::UpdateVelocity(int gBestIndex)
 {
     float_t NewVelocity[DIM];
-    float_t CurrentPos;
+    //float_t CurrentPos;
 
     for (int i = 0; i < MAX_PARTICLES; i++)
     {
@@ -143,13 +149,31 @@ float_t OptimizationPSO::GetFunctionValue(int index)
 {
     float_t result;
 
+	for (int i = 0; i < Hand::JOINTS ; i++)
+		
+		/// set values of configuration
+		handPSO.config.conf[i] = particles[index].getPosition(i);
+		
+		/// set value of xyz
+	for ( int i = 0; i < 3 ; i++)
+		handPSO.pose.p.v[i] = particles[index].getPosition(Hand::JOINTS + i);
+
+	for ( int  i = 0 ; i < 3 ; i++ )
+		for (int j = 0; j < 3; j++ )
+
+			///set rotation
+			handPSO.pose.R.m[i][j] = particles[index].getPosition(Hand::JOINTS + 3 + i + j);
+
+	optimizationFunction * optimization_function = createOptimizationFunctionPF();
+
+	result = optimization_function->FitnessValue(handPSO,cloudPSO);
     return result;
 }
 
 float_t OptimizationPSO::GetRandomNumber(float_t LowBound, float_t UpBound)
 {
     float_t temp;
-    temp = (float_t)LowBound + float_t(((UpBound-LowBound))*rand()/(RAND_MAX + 1.0));
+	temp = (float_t)LowBound + float_t(((UpBound-LowBound))*rand()/(RAND_MAX + 1.0));
 
     return temp;
 }
