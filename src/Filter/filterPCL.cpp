@@ -16,11 +16,13 @@ const std::string& FilterPCL::getName() const {
 
 
 void FilterPCL::FilterScene(Point3D::Cloud& input, Point3D::Cloud& output) const {
+
 	float Y ;
     float Cb;
     float Cr;
 	float i_out=0;
-
+	Point3D::Cloud temp;
+	float av=0;
     // filtr w przestrzeni kolorów YCbCr
     for(int i=0;i<input.size();i++){
 
@@ -29,11 +31,29 @@ void FilterPCL::FilterScene(Point3D::Cloud& input, Point3D::Cloud& output) const
         Cb=128-0.168935*(float)input[i].colour.r-0.331665*(float)input[i].colour.g+0.50059*(float)input[i].colour.b;
         Cr=128+0.499813*(float)input[i].colour.r-0.418531*(float)input[i].colour.g-0.081282*(float)input[i].colour.b;
         if(Cb>=77 && Cb <=127 && Cr>=133 && Cr<=173){ //przedzia³ kolorów dla skóry w przestrzeni YCbCr
-            output[i_out].colour.r=input[i].colour.r;
-            output[i_out].colour.g=input[i].colour.g;
-            output[i_out].colour.b=input[i].colour.b;
+            temp[i_out].colour.r=input[i].colour.r;
+            temp[i_out].colour.g=input[i].colour.g;
+            temp[i_out].colour.b=input[i].colour.b;
+			temp[i_out].position.x=input[i].position.x;
+			temp[i_out].position.y=input[i].position.y;
+			temp[i_out].position.z=input[i].position.z;
+			av+=temp[i_out].position.z; //œrednia wartoœæ g³êbii
 			i_out++; //inkrementacja licznika elementów chmury wyjœciowej
         }
+	}
+	av=av/i_out; //œrednia wartoœæ g³êbii
+	i_out=0;
+	//filtracja wg g³êbii
+	for(int i=0;i<temp.size();i++){
+		if (abs(temp[i].position.z)-av<300){ // w milimetrach
+			output[i_out].colour.r=temp[i].colour.r;
+            output[i_out].colour.g=temp[i].colour.g;
+            output[i_out].colour.b=temp[i].colour.b;
+			output[i_out].position.x=temp[i].position.x;
+			output[i_out].position.y=temp[i].position.y;
+			output[i_out].position.z=temp[i].position.z;
+			i_out++;
+		}
 	}
 }
 
