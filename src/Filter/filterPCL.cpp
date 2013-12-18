@@ -17,12 +17,13 @@ const std::string& FilterPCL::getName() const {
 
 void FilterPCL::FilterScene(Point3D::Cloud& input, Point3D::Cloud& output) const {
 
-	float Y ;
+    float Y ;
     float Cb;
     float Cr;
-	float i_out=0;
-	Point3D::Cloud temp;
-	float av=0;
+    float i_out=0;
+    Point3D::Cloud temp;
+    float av=0;
+
     // filtr w przestrzeni kolorów YCbCr
     for(int i=0;i<input.size();i++){
 
@@ -41,8 +42,10 @@ void FilterPCL::FilterScene(Point3D::Cloud& input, Point3D::Cloud& output) const
 			i_out++; //inkrementacja licznika elementów chmury wyjœciowej
         }
 	}
+
 	av=av/i_out; //œrednia wartoœæ g³êbii
 	i_out=0;
+
 	//filtracja wg g³êbii
 	for(int i=0;i<temp.size();i++){
 		if (abs(temp[i].position.z)-av<300){ // w milimetrach
