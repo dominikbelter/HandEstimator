@@ -21,11 +21,11 @@ OptimizationPSO::OptimizationPSO(void)
 
 void OptimizationPSO::Optimize(Hand::Pose& hand, Point3D::Cloud& cloud)
 {
-	handPSO = hand;
+	
 	cloudPSO = cloud;
-
+	/// perfrom PSO
 	PsoAlgorithm();
-
+	/// return hand after optimization. colud is unchanged. 
 	hand = handPSO;
 }
 
@@ -156,7 +156,7 @@ float_t OptimizationPSO::GetFunctionValue(int index)
 		/// set values of configuration
 		handPSO.config.conf[i] = particles[index].getPosition(i);
 		
-		/// set value of xyz
+    /// set value of xyz
 	for ( int i = 0; i < 3 ; i++)
 		handPSO.pose.p.v[i] = particles[index].getPosition(Hand::JOINTS + i);
 

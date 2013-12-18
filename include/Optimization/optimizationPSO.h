@@ -48,7 +48,7 @@ class OptimizationPSO : public Optimization {
 	/// xyz + orentation (euler angles)
 	///static const int WRIST_COORDINATES 9;
 	///static const int DIM = Hand::JOINTS + WRIST_COORDINATES; 
-	static const int DIM = 29;
+	static const int DIM = 32;
 
 	/// numbers of particles
 	static const int MAX_PARTICLES = 500;
