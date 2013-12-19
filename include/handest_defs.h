@@ -3,7 +3,7 @@
 * Handest definitions
 *
 */
-
+ 
 #ifndef HANDEST_DEFS_H_INCLUDED
 #define HANDEST_DEFS_H_INCLUDED
 

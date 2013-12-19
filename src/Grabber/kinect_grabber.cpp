@@ -49,7 +49,7 @@ void KinectGrabber::cloud_cb_ (const pcl::PointCloud<pcl::PointXYZRGBA>::ConstPt
 	    
 	    cout << "jcb = " << cout << (int)frame_no << endl;
      // }
-
+ 
 }
 
 void KinectGrabber::run (void)
