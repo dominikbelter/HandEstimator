@@ -42,10 +42,12 @@ void KinectGrabber::cloud_cb_ (const pcl::PointCloud<pcl::PointXYZRGBA>::ConstPt
             //int n=(cloud->width*cloud->height);
             //
             //std::cout << cloud->size() << endl;
-            cloud_temp=cloud;
-            
-
-            j=1;
+            cloud_temp=*cloud;
+            cout << "rozmiar1: " << cloud_temp.points.size() << endl;
+    
+            frame_no=1;
+	    
+	    cout << "jcb = " << cout << (int)frame_no << endl;
      // }
 
 }
@@ -60,8 +62,9 @@ void KinectGrabber::run (void)
     interface->registerCallback (f);
             interface->start ();
 std::cout << "dfs1\n";
-            while (j<1) //oczekiwanie na przechwycenie pojedynczej chmury
+            while (frame_no<1) //oczekiwanie na przechwycenie pojedynczej chmury
             {
+	      cout << "j = " << cout << (int)frame_no << endl;
             }
 std::cout << "dfs3\n";
             interface->stop ();
@@ -72,15 +75,16 @@ std::cout << "dfs3\n";
 void KinectGrabber::getCloud(Point3D::Cloud& current_cloud) const {
     
 	Point3D point;
-	for(size_t i=0;i<cloud_temp->points;i++)    // tutaj moze byc zla ilosc punktow
+	cout << "rozmiar: " << cloud_temp.points.size() << endl;
+	for(size_t i=0;i<cloud_temp.points.size();i++)    // tutaj moze byc zla ilosc punktow
             {
-                point.colour.r = cloud_temp->points[i].r; // zamiana formatu chmury z PCD na nasz format
-                point.colour.g = cloud_temp->points[i].g;
-                point.colour.b = cloud_temp->points[i].b;
-                point.colour.a = cloud_temp->points[i].a;
-                point.position.v[0] = cloud_temp->points[i].x;
-                point.position.v[1] = cloud_temp->points[i].y;
-                point.position.v[2] = cloud_temp->points[i].z;
+                point.colour.r = cloud_temp.points[i].r; // zamiana formatu chmury z PCD na nasz format
+                point.colour.g = cloud_temp.points[i].g;
+                point.colour.b = cloud_temp.points[i].b;
+                point.colour.a = cloud_temp.points[i].a;
+                point.position.v[0] = cloud_temp.points[i].x;
+                point.position.v[1] = cloud_temp.points[i].y;
+                point.position.v[2] = cloud_temp.points[i].z;
                 current_cloud.push_back(point);
             }
 
