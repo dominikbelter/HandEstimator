@@ -14,7 +14,7 @@
 namespace handest {
 
 	/// handest default floating point
-    typedef double float_t;
+    typedef double float_type;
 
 	/// 3 Element vector class
     class Vec3 {
@@ -22,12 +22,12 @@ namespace handest {
         /// vector components
         union {
             struct {
-                float_t v1, v2, v3;
+                float_type v1, v2, v3;
             };
             struct {
-                float_t x, y, z;
+                float_type x, y, z;
             };
-            float_t v[3];
+            float_type v[3];
         };
 
         /// Default constructor sets the default configuration
@@ -42,11 +42,11 @@ namespace handest {
         /// Matrix elements
         union {
             struct {
-                float_t m11, m12, m13;
-                float_t m21, m22, m23;
-                float_t m31, m32, m33;
+                float_type m11, m12, m13;
+                float_type m21, m22, m23;
+                float_type m31, m32, m33;
             };
-            float_t m[3][3];
+            float_type m[3][3];
         };
         /// Default constructor
         inline Mat33() {
@@ -109,7 +109,7 @@ namespace handest {
             /// Point cloud
             Point3D::Cloud surface;
 			/// Length
-			float_t length;
+			float_type length;
 
             /// Default constructor
             inline Link() {
@@ -128,11 +128,11 @@ namespace handest {
             class Config {
                 public:
                     /// Config elements
-                    float_t conf[JOINTS];
+                    float_type conf[JOINTS];
 
                     /// Default constructor
                     inline Config() {
-                        std::fill(conf, conf + sizeof(conf), float_t(0.0));
+                        std::fill(conf, conf + sizeof(conf), float_type(0.0));
                     }
             };
 
@@ -170,17 +170,17 @@ namespace handest {
                 /// Config elements
                 union {
                     struct {
-                        float_t thumb[FINGER_JOINTS];
-                        float_t index[FINGER_JOINTS];
-                        float_t middle[FINGER_JOINTS];
-                        float_t ring[FINGER_JOINTS];
-                        float_t pinky[FINGER_JOINTS];
+                        float_type thumb[FINGER_JOINTS];
+                        float_type index[FINGER_JOINTS];
+                        float_type middle[FINGER_JOINTS];
+                        float_type ring[FINGER_JOINTS];
+                        float_type pinky[FINGER_JOINTS];
                     };
-                    float_t conf[JOINTS];
+                    float_type conf[JOINTS];
                 };
                 /// Default constructor sets the default configuration
                 inline Config() {
-                    std::fill(conf, conf + sizeof(conf), float_t(0.));
+                    std::fill(conf, conf + sizeof(conf), float_type(0.));
                 }
             };
 

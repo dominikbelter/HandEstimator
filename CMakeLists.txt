@@ -1,6 +1,5 @@
 # cmake requirements
 cmake_minimum_required(VERSION 2.8)
-SET(CMAKE_CXX_FLAGS "-std=c++11")
 
 # Build options have to be before PROJECT(...)
 SET(CMAKE_CONFIGURATION_TYPES "Debug;Release" CACHE PATH "Configuration types")
@@ -8,6 +7,7 @@ SET(CMAKE_BUILD_TYPE "Release" CACHE PATH "Current build configuration")
 
 # Estimator of Hand Configuration
 PROJECT(HandEstimator)
+SET(CMAKE_CXX_FLAGS "-std=c++11")
 
 #PCL
 find_package(PCL REQUIRED)

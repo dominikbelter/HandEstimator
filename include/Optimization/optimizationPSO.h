@@ -7,8 +7,9 @@
 #ifndef OPTIMIZATIONPSO_H_INCLUDED
 #define OPTIMIZATIONPSO_H_INCLUDED
 
+
 #include "optimization.h"
-#include "../include/OptimizationFunction/OptimizationFunction.h"
+#include "../include/OptimizationFunction/optimizationFunction.h"
 #include "OptimizationFunction/optimizationFunctionPF.h"
 
 

@@ -27,7 +27,7 @@ namespace handest {
 using namespace handest;
 
 /// Optimization Function Point Fitting floating point
-typedef handest::float_t floatGauss;
+typedef handest::float_type floatGauss;
 
 ///Optimization Function implementation
 	class optimizationFunctionGauss : public optimizationFunction{
