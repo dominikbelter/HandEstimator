@@ -2,6 +2,7 @@
 #include "handest_defs.h"
 #include "Grabber/kinect_grabber.h"
 #include "Visualizer/visualizerGL.h"
+#include "Visualizer/visualizerPCL.h"
 #include "Filter/filterPCL.h"
 #include "Core/Math/CMat44.h"
 #include "Kinematic/kinematic_liego.h"
@@ -19,17 +20,51 @@ int main()
 	    //cout << "Current grabber: " << grabber->getName() << endl;
         Point3D::Cloud scene;
         cout << scene.size() << endl;
-        grabber->run();
-        cout << scene.size() << endl;
-        grabber->getCloud(scene);
+        //grabber->run();
+        //cout << scene.size() << endl;
+        //grabber->getCloud(scene);
         cout << scene.size() << endl;
         Visualizer* visualizer = createVisualizerGL();
         RGBA colour;
         colour.r = 1;
         colour.g = 0;
 		colour.b = 0;
-        colour.a = 1;
-		visualizer->addCloud(scene,colour);
+        colour.a = 255;
+
+        //-----Vizualizer PCL test
+        Visualizer* visuPCL = createVisualizerPCL();
+        Point3D::Cloud chmura;
+        RGBA color;
+        color.r = 255;
+        color.g = 0;
+        color.b = 0;
+        color.a = 255;
+
+        chmura.resize(5);
+        chmura[0].position.x=0.1;        chmura[0].position.y=0.1;        chmura[0].position.z=0.0;
+        chmura[1].position.x=0.11;        chmura[1].position.y=0.11;        chmura[1].position.z=0.0;
+        chmura[2].position.x=0.12;        chmura[2].position.y=0.12;        chmura[2].position.z=0.0;
+        chmura[3].position.x=0.13;        chmura[3].position.y=0.13;        chmura[3].position.z=0.0;
+        chmura[4].position.x=0.14;        chmura[4].position.y=0.14;        chmura[4].position.z=0.0;
+
+        visuPCL->addCloud(chmura,color);
+
+        chmura[0].position.x=0.15;        chmura[0].position.y=0.15;        chmura[0].position.z=0.0;
+        chmura[1].position.x=0.16;        chmura[1].position.y=0.16;        chmura[1].position.z=0.0;
+        chmura[2].position.x=0.17;        chmura[2].position.y=0.17;        chmura[2].position.z=0.0;
+        chmura[3].position.x=0.18;        chmura[3].position.y=0.18;        chmura[3].position.z=0.0;
+        chmura[4].position.x=0.19;        chmura[4].position.y=0.19;        chmura[4].position.z=0.0;
+
+        color.r = 0;
+        color.g = 255;
+
+        visuPCL->addCloud(chmura,color);
+
+        visuPCL->show();
+        visuPCL->clear();
+        //-----Vizualizer PCL test
+
+        visualizer->addCloud(scene,colour);
         visualizer->show();
         Filter* filter = createFilterPCL();
         Point3D::Cloud hand_cloud;
