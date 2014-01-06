@@ -76,7 +76,7 @@ void KinectGrabber::getCloud(Point3D::Cloud& current_cloud) const {
     
 	Point3D point;
 	cout << "rozmiar: " << cloud_temp.points.size() << endl;
-	for(size_t i=0;i<cloud_temp.points.size();i++)    // tutaj moze byc zla ilosc punktow
+	for(size_t i=0;i<cloud_temp.points.size();i++)    
             {
                 point.colour.r = cloud_temp.points[i].r; // zamiana formatu chmury z PCD na nasz format
                 point.colour.g = cloud_temp.points[i].g;
@@ -90,13 +90,11 @@ void KinectGrabber::getCloud(Point3D::Cloud& current_cloud) const {
 
 }
 
-//void KinectGrabber::grab(void) {
-   // Point3D point;
-   // point.colour.r = 255; point.colour.g = 0; point.colour.b = 0; point.colour.a = 255;
-   // point.position.v[0] = 1.2; point.position.v[1] = 3.4; point.position.v[2] = 5.6;
-    //cloud.push_back(point);
-   // run();
-//}
+void KinectGrabber::LoadFromFile(void) {     // use instead of grabber->run to load a PCL cloud
+
+ 	pcl::io::loadPCDFile ("/home/michal/Pulpit/PCD/Hand2.pcd", *cloud_temp);   // use your file path instead
+
+ 	}
 
 
 handest::Grabber* handest::createGrabberKinect(void) {

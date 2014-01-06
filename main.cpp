@@ -23,6 +23,10 @@ int main()
         //grabber->run();
         //cout << scene.size() << endl;
         //grabber->getCloud(scene);
+
+	//grabber->LoadFromFile();   use instead of grabber->run() and change path to your file in grabber_kinect.cpp
+	//grabber->getCloud(scene);
+
         cout << scene.size() << endl;
         Visualizer* visualizer = createVisualizerGL();
         RGBA colour;
