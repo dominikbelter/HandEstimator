@@ -24,16 +24,18 @@ int main()
         //cout << scene.size() << endl;
         //grabber->getCloud(scene);
 
-	//grabber->LoadFromFile(std::string path);   use instead of grabber->run()
-	//grabber->getCloud(scene);
+        grabber->LoadFromFile("/home/robot/Dokumenty/Hand/HandEstimator/resources/Hand3.pcd");  // use instead of grabber->run()
+       grabber->getCloud(scene);
 
-        cout << scene.size() << endl;
-        Visualizer* visualizer = createVisualizerGL();
+
+
+        cout << "scene size: " << scene.size() << endl;
+        /*Visualizer* visualizer = createVisualizerGL();
         RGBA colour;
         colour.r = 1;
         colour.g = 0;
 		colour.b = 0;
-        colour.a = 255;
+        colour.a = 255;*/
 
         //-----Vizualizer PCL test
         Visualizer* visuPCL = createVisualizerPCL();
@@ -51,7 +53,8 @@ int main()
         chmura[3].position.x=0.13;        chmura[3].position.y=0.13;        chmura[3].position.z=0.0;
         chmura[4].position.x=0.14;        chmura[4].position.y=0.14;        chmura[4].position.z=0.0;
 
-        visuPCL->addCloud(chmura,color);
+        //visuPCL->addCloud(scene,color);
+        //visuPCL->addCloud(chmura,color);
 
         chmura[0].position.x=0.15;        chmura[0].position.y=0.15;        chmura[0].position.z=0.0;
         chmura[1].position.x=0.16;        chmura[1].position.y=0.16;        chmura[1].position.z=0.0;
@@ -62,17 +65,21 @@ int main()
         color.r = 0;
         color.g = 255;
 
-        visuPCL->addCloud(chmura,color);
+        //visuPCL->addCloud(chmura,color);
 
-        visuPCL->show();
-        visuPCL->clear();
+
         //-----Vizualizer PCL test
 
-        visualizer->addCloud(scene,colour);
-        visualizer->show();
+        //visualizer->addCloud(scene,colour);
+        //visualizer->show();
+
         Filter* filter = createFilterPCL();
         Point3D::Cloud hand_cloud;
         filter->FilterScene(scene, hand_cloud);
+        //visuPCL->addCloud(hand_cloud,color);
+
+        visuPCL->show();
+        visuPCL->clear();
 
         Hand::Pose hand;
         //OptimizationFunction * optimization_function = createOptimizationGauss();

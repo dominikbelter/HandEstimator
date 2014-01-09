@@ -17,6 +17,7 @@ using namespace handest;
 KinectGrabber::Ptr grabber;
 
 KinectGrabber::KinectGrabber(void) : name("Kinect Grabber") {
+    frame_no = 0;
     //viewer = pcl::visualization::CloudViewer("dfssd");
 }
 

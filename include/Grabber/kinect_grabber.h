@@ -53,7 +53,7 @@ class KinectGrabber : public Grabber {
 
 
     protected:
-    int frame_no=0;
+    int frame_no;
     pcl::PointCloud<pcl::PointXYZRGBA> cloud_temp;
 	/// RGBZXYZ Point cloud
     Point3D::Cloud cloud_3D;
