@@ -26,7 +26,7 @@ namespace handest {
         virtual void run() = 0;
 
 		/// Grab point cloud
-        virtual void LoadFromFile() = 0;
+        virtual void LoadFromFile(std::string path) = 0;
 
 		/// Virtual descrutor
 		virtual ~Grabber() {}

@@ -45,7 +45,7 @@ class KinectGrabber : public Grabber {
     void getCloud(Point3D::Cloud& current_cloud) const;
 
 	/// Grab point cloud
-    void LoadFromFile(); //  use run() instead
+    void LoadFromFile(std::string path); //  use run() instead
 
     //pcl::visualization::CloudViewer viewer;
 
