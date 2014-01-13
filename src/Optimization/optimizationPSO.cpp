@@ -76,7 +76,7 @@ void OptimizationPSO::InitializeParticles()
 	for ( int i = 0; i < 3 ; i++)
 	{
 		particles[index].setPosition(Hand::JOINTS + i, handPSO.pose.p.v[i]);
-		articles[index].setBestPosition(Hand::JOINTS + i, handPSO.pose.p.v[i]);
+		particles[index].setBestPosition(Hand::JOINTS + i, handPSO.pose.p.v[i]);
 	}
 
 

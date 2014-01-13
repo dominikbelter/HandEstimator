@@ -43,6 +43,8 @@ mark_as_advanced(BUILD_HANDEST_OPTIMIZATION_PSO)
 option(BUILD_HANDEST_DEMO "Build Handest demonstration programs and libraries" YES)
 option(BUILD_HANDEST_DEMO_BASIC "Build Handest test" YES)
 mark_as_advanced(BUILD_HANDEST_DEMO_BASIC)
+option(BUILD_HANDEST_OPTIMIZATION_TEST "Build Handest Optimization Test" YES)#
+mark_as_advanced(BUILD_HANDEST_OPTIMIZATION_TEST)#
 
 # Executable output directory
 SET(RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/build/bin${OUTPUT_DIRECTORY_POSTFIX} CACHE PATH "Executable output directory")
@@ -215,3 +217,19 @@ if(BUILD_HANDEST_DEMO AND BUILD_HANDEST_DEMO_BASIC)
         TARGET_LINK_LIBRARIES(Demo Math Grabber ForwardKinematics Optimization OptimizationFunction Filter VisualizerGL ${Boost_FILESYSTEM_LIBRARY} ${Boost_SYSTEM_LIBRARY} GLU GL glut)
 	INSTALL(TARGETS Demo RUNTIME DESTINATION bin)
 endif (BUILD_HANDEST_DEMO AND BUILD_HANDEST_DEMO_BASIC)
+
+
+###############################################################################
+#
+# HandEst Optimization Test
+#
+###############################################################################
+
+#
+if(BUILD_HANDEST_DEMO AND BUILD_HANDEST_OPTIMIZATION_TEST)
+	SET(OPTIMIZATION_TEST_SOURCES ./optimizationTest.cpp)
+	ADD_EXECUTABLE(OptTest ${OPTIMIZATION_TEST_SOURCES})
+        TARGET_LINK_LIBRARIES(OptTest Optimization OptimizationFunction)
+	INSTALL(TARGETS OptTest RUNTIME DESTINATION bin)
+endif (BUILD_HANDEST_DEMO AND BUILD_HANDEST_OPTIMIZATION_TEST)
+#

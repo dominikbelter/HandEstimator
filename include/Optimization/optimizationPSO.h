@@ -24,7 +24,8 @@ namespace handest {
 
 using namespace handest;
 
-	
+
+typedef handest::float_type float_t;
 
 
 class OptimizationPSO : public Optimization {
