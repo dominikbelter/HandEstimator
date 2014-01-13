@@ -19,7 +19,7 @@
 
 namespace handest {
 	/// create a single optimization
-	Optimization* createOptimization(void);
+	Optimization* createOptimizationPSO(void);
 };
 
 using namespace handest;
