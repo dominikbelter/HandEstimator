@@ -15,8 +15,9 @@
 
 #include <memory>
 
-
-
+#define V_MAX 1.5
+#define START_RANGE_MIN_VEL -5.0
+#define START_RANGE_MAX_VEL 5.0
 namespace handest {
 	/// create a single optimization
 	Optimization* createOptimizationPSO(void);
@@ -53,17 +54,17 @@ class OptimizationPSO : public Optimization {
 	static const int DIM = 32;
 
 	/// numbers of particles
-	static const int MAX_PARTICLES = 500;
+	static const int MAX_PARTICLES = 5;
 	/// maximum velocity allowed
-	static const float_t V_MAX; 
+	//static const float_t V_MAX; 
 	/// number of algorithm iterations
-	static const int MAX_EPOCHS = 1000;
+	static const int MAX_EPOCHS = 30;
 	/// range of the initial positions 
 	static const float_t START_RANGE_MIN_POS;
 	static const float_t START_RANGE_MAX_POS;
 	/// range of the initial velocities 
-	static const float_t START_RANGE_MIN_VEL;
-	static const float_t START_RANGE_MAX_VEL;
+	//static const float_t START_RANGE_MIN_VEL;
+	//static const float_t START_RANGE_MAX_VEL;
 	/// PSO equations parameters
 	static const int INERTIA = 1;
 	static const int C1 = 2;
@@ -87,23 +88,47 @@ private:
     float_t BestPosition[DIM];
 
 public:
-    cParticle();
+   
     /// return particle coordiantes
-    float_t getPosition(int index) const;
+    float_t getPosition(int index) const
+	{
+		return this->Position[index];
+	}
     /// set new particle coordiantes
-	void  setPosition(int index, float_t value);
+	void  setPosition(int index, float_t value)
+	{
+		this->Position[index] = value;
+	}
     /// return particle optimum
-    float_t getPersBest() const;
+    float_t getPersBest() const
+	{
+		return this->PersBest;
+	}
     /// set particle optimum
-	void  setPersBest(float_t value);
+	void  setPersBest(float_t value)
+	{
+		this->PersBest = value;
+	}
     /// return particle velocity vector
-    float_t getVelocity(int index) const;
+    float_t getVelocity(int index) const
+	{
+		return this->Velocity[index];
+	}
     /// set particle velocity vector
-	void  setVelocity(int index, float_t value);
+	void  setVelocity(int index, float_t value)
+	{
+		this->Velocity[index] = value;
+	}
     /// set particle best coordinates
-	void  setBestPosition(int index, float_t value);
+	void  setBestPosition(int index, float_t value)
+	{
+		this->BestPosition[index] = value;
+	}
     /// return particle best coordinates
-	float_t getBestPosition(int index) const;
+	float_t getBestPosition(int index) const
+	{
+		return this->BestPosition[index];
+	}
 
 };
 
@@ -126,5 +151,7 @@ public:
 	/// get random numbers from given range for initializing particles
 	float_t GetRandomNumber(float_t LowBound, float_t UpBound);
 };
+
+
 
 #endif 

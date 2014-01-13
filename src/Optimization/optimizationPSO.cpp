@@ -11,15 +11,15 @@ OptimizationPSO::OptimizationPSO(void)
 {
 	/// initializaing floating points PSO parameters
 	
-	const float_t V_MAX = 1.5; 
+	//const float_t V_MAX = 1.5; 
 	/// number of algorithm iterations
 	const int MAX_EPOCHS = 1000;
 	/// range of the initial positions 
 	const float_t START_RANGE_MIN_POS = -100.0;
 	const float_t START_RANGE_MAX_POS = 100.0;
 	/// range of the initial velocities 
-	const float_t START_RANGE_MIN_VEL = -5.0;
-	const float_t START_RANGE_MAX_VEL = 5.0;	
+	//const float_t START_RANGE_MIN_VEL = -5.0;
+	//const float_t START_RANGE_MAX_VEL = 5.0;
 }
 
 
@@ -201,6 +201,7 @@ float_t OptimizationPSO::GetFunctionValue(int index)
 	optimizationFunction * optimization_function = createOptimizationFunctionPF();
 
 	result = optimization_function->FitnessValue(handPSO,cloudPSO);
+	std::cout<<"Aktualne: "<<result<<std::endl;
     return result;
 }
 
@@ -219,51 +220,10 @@ float_t OptimizationPSO::GetRand()
     return temp;
 }
 
-cParticle::cParticle()
-{
-    PersBest = 0.0;
-    //Velocity = 0.0;
-}
 
-float OptimizationPSO::cParticle::getData(int index) const
-{
-    return this->Position[index];
-}
 
-void OptimizationPSO::cParticle::setData(int index, float value)
-{
-    this->Position[index] = value;
-}
 
-void OptimizationPSO::cParticle::setBestPosition(int index, float value)
-{
-    this->BestPosition[index] = value;
-}
 
-float OptimizationPSO::cParticle::getPersBest() const
-{
-    return this->PersBest;
-}
-
-void OptimizationPSO::cParticle::setPersBest(float value)
-{
-    this->PersBest = value;
-}
-
-float OptimizationPSO::cParticle::getVelocity(int index) const
-{
-    return this->Velocity[index];
-}
-
-void OptimizationPSO::cParticle::setVelocity(int index, float value)
-{
-    this->Velocity[index] = value;
-}
-
-float OptimizationPSO::cParticle::getBestPosition(int index) const
-{
-    return this->BestPosition[index];
-}
 handest::Optimization* handest::createOptimizationPSO(void) {
 	optPSO.reset(new OptimizationPSO());
 	return optPSO.get();
