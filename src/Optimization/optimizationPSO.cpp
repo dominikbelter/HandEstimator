@@ -23,6 +23,7 @@ void OptimizationPSO::Optimize(Hand::Pose& hand, Point3D::Cloud& cloud)
 {
 	
 	cloudPSO = cloud;
+	handPSO = hand;
 	/// perfrom PSO
 	PsoAlgorithm();
 	/// return hand after optimization. colud is unchanged. 
@@ -61,16 +62,43 @@ void OptimizationPSO::InitializeParticles()
 {
     float_t InitBestValue;
     float_t InitPos;
+	float_t InitVel;
+	//initialize particle positions
+	for (int index = 0; index < MAX_PARTICLES; index++)
+    {
+    
+	for (int i = 0; i < Hand::JOINTS ; i++)
+		{
+			particles[index].setPosition(i, handPSO.config.conf[i]);
+			particles[index].setBestPosition(i, handPSO.config.conf[i]);	
+	}
 
-    for (int i = 0; i < MAX_PARTICLES; i++)
+	for ( int i = 0; i < 3 ; i++)
+	{
+		particles[index].setPosition(Hand::JOINTS + i, handPSO.pose.p.v[i]);
+		articles[index].setBestPosition(Hand::JOINTS + i, handPSO.pose.p.v[i]);
+	}
+
+
+	for ( int  i = 0 ; i < 3 ; i++ )
+		for (int j = 0; j < 3; j++ )
+		{
+			particles[index].setPosition(Hand::JOINTS + 3 + i + j, handPSO.pose.R.m[i][j]);
+		    particles[index].setBestPosition(Hand::JOINTS + 3 + i + j, handPSO.pose.R.m[i][j]);
+		}
+	}
+	
+	
+	for (int i = 0; i < MAX_PARTICLES; i++)
     {
         InitBestValue = 0;
         for (int j = 0; j < DIM; j++)
         {
-            particles[i].setPosition(j, GetRandomNumber(START_RANGE_MIN_POS, START_RANGE_MAX_POS));
-            InitPos = GetRandomNumber(START_RANGE_MIN_VEL, START_RANGE_MAX_VEL);
-            particles[i].setVelocity(j,InitPos);
-            particles[i].setBestPosition(j, InitPos);
+            //InitPos = GetRandomNumber(START_RANGE_MIN_POS, START_RANGE_MAX_POS);
+			//particles[i].setPosition(j, InitPos);
+            InitVel = GetRandomNumber(START_RANGE_MIN_VEL, START_RANGE_MAX_VEL);
+            particles[i].setVelocity(j,InitVel);
+            //particles[i].setBestPosition(j, InitPos);
         }
 
         InitBestValue = GetFunctionValue(i);
