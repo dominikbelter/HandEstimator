@@ -255,9 +255,9 @@ int main()
     //cout<<"Fitness: "<<fitness<<endl;
 	//system("pause");
 
-	Optimization* optimization = createOptimization();
+	//handest::Optimization* optymalizacja = createOptimizationPSO();
 
-	optimization->Optimize(dlon,chmura);
+	//optimization->Optimize(dlon,chmura);
 
 
 

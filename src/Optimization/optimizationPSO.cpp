@@ -3,6 +3,10 @@
 
 using namespace handest;
 
+
+/// A single instance of Optimization PSO
+OptimizationPSO::Ptr optPSO;
+
 OptimizationPSO::OptimizationPSO(void)
 {
 	/// initializaing floating points PSO parameters
@@ -213,4 +217,9 @@ float_t OptimizationPSO::GetRand()
     float_t temp;
     temp = float_t(rand()/(RAND_MAX + 1.0));
     return temp;
+}
+
+handest::Optimization* handest::createOptimizationPSO(void) {
+	optPSO.reset(new OptimizationPSO());
+	return optPSO.get();
 }
