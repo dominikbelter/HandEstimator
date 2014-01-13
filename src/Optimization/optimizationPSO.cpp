@@ -219,6 +219,51 @@ float_t OptimizationPSO::GetRand()
     return temp;
 }
 
+cParticle::cParticle()
+{
+    PersBest = 0.0;
+    //Velocity = 0.0;
+}
+
+float OptimizationPSO::cParticle::getData(int index) const
+{
+    return this->Position[index];
+}
+
+void OptimizationPSO::cParticle::setData(int index, float value)
+{
+    this->Position[index] = value;
+}
+
+void OptimizationPSO::cParticle::setBestPosition(int index, float value)
+{
+    this->BestPosition[index] = value;
+}
+
+float OptimizationPSO::cParticle::getPersBest() const
+{
+    return this->PersBest;
+}
+
+void OptimizationPSO::cParticle::setPersBest(float value)
+{
+    this->PersBest = value;
+}
+
+float OptimizationPSO::cParticle::getVelocity(int index) const
+{
+    return this->Velocity[index];
+}
+
+void OptimizationPSO::cParticle::setVelocity(int index, float value)
+{
+    this->Velocity[index] = value;
+}
+
+float OptimizationPSO::cParticle::getBestPosition(int index) const
+{
+    return this->BestPosition[index];
+}
 handest::Optimization* handest::createOptimizationPSO(void) {
 	optPSO.reset(new OptimizationPSO());
 	return optPSO.get();
