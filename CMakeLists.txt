@@ -7,7 +7,7 @@ SET(CMAKE_BUILD_TYPE "Release" CACHE PATH "Current build configuration")
 
 # Estimator of Hand Configuration
 PROJECT(HandEstimator)
-SET(CMAKE_CXX_FLAGS "-std=c++11")
+SET(CMAKE_CXX_FLAGS "-std=c++0x")
 
 #PCL
 find_package(PCL REQUIRED)
@@ -43,17 +43,21 @@ mark_as_advanced(BUILD_HANDEST_OPTIMIZATION_PSO)
 option(BUILD_HANDEST_DEMO "Build Handest demonstration programs and libraries" YES)
 option(BUILD_HANDEST_DEMO_BASIC "Build Handest test" YES)
 mark_as_advanced(BUILD_HANDEST_DEMO_BASIC)
+option(BUILD_HANDEST_OPTIMIZATION_TEST "Build Handest Optimization Test" YES)
+mark_as_advanced(BUILD_HANDEST_OPTIMIZATION_TEST)
+option(BUILD_HANDEST_FK_DEMO "Build Handest Forward Kinematic Demo" YES)
+mark_as_advanced(BUILD_HANDEST_FK_DEMO)
 
 # Executable output directory
-SET(RUNTIME_OUTPUT_DIRECTORY ${PROJECT_PARENT}/bin${OUTPUT_DIRECTORY_POSTFIX} CACHE PATH "Executable output directory")
+SET(RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/build/bin${OUTPUT_DIRECTORY_POSTFIX} CACHE PATH "Executable output directory")
 mark_as_advanced(RUNTIME_OUTPUT_DIRECTORY)
 
 # Dynamic library output directory
-SET(LIBRARY_OUTPUT_DIRECTORY ${PROJECT_PARENT}/bin${OUTPUT_DIRECTORY_POSTFIX} CACHE PATH "Dynamic library output directory")
+SET(LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/build/bin${OUTPUT_DIRECTORY_POSTFIX} CACHE PATH "Dynamic library output directory")
 mark_as_advanced(LIBRARY_OUTPUT_DIRECTORY)
 
 # Static library output directory
-SET(ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_PARENT}/lib${OUTPUT_DIRECTORY_POSTFIX} CACHE PATH "Static library output directory")
+SET(ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/build/lib${OUTPUT_DIRECTORY_POSTFIX} CACHE PATH "Static library output directory")
 mark_as_advanced(ARCHIVE_OUTPUT_DIRECTORY)
 
 SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${RUNTIME_OUTPUT_DIRECTORY})
@@ -215,3 +219,35 @@ if(BUILD_HANDEST_DEMO AND BUILD_HANDEST_DEMO_BASIC)
         TARGET_LINK_LIBRARIES(Demo Math Grabber ForwardKinematics Optimization OptimizationFunction Filter VisualizerGL ${Boost_FILESYSTEM_LIBRARY} ${Boost_SYSTEM_LIBRARY} GLU GL glut)
 	INSTALL(TARGETS Demo RUNTIME DESTINATION bin)
 endif (BUILD_HANDEST_DEMO AND BUILD_HANDEST_DEMO_BASIC)
+
+
+###############################################################################
+#
+# HandEst Optimization Test
+#
+###############################################################################
+
+#
+if(BUILD_HANDEST_DEMO AND BUILD_HANDEST_OPTIMIZATION_TEST)
+	SET(OPTIMIZATION_TEST_SOURCES ./optimizationTest.cpp)
+	ADD_EXECUTABLE(OptTest ${OPTIMIZATION_TEST_SOURCES})
+        TARGET_LINK_LIBRARIES(OptTest Optimization OptimizationFunction)
+	INSTALL(TARGETS OptTest RUNTIME DESTINATION bin)
+endif (BUILD_HANDEST_DEMO AND BUILD_HANDEST_OPTIMIZATION_TEST)
+#
+
+
+###############################################################################
+#
+# HandEst Forward Kinematic Demo
+#
+###############################################################################
+
+#
+if(BUILD_HANDEST_DEMO AND BUILD_HANDEST_FK_DEMO)
+	SET(FK_DEMO_SOURCES ./fkdemo.cpp)
+	ADD_EXECUTABLE(FKdemo ${FK_DEMO_SOURCES})
+        TARGET_LINK_LIBRARIES(FKdemo Math Grabber ForwardKinematics ${Boost_FILESYSTEM_LIBRARY} ${Boost_SYSTEM_LIBRARY} GLU GL glut)
+	INSTALL(TARGETS FKdemo RUNTIME DESTINATION  ${CMAKE_CURRENT_BINARY_DIR}/build)
+endif (BUILD_HANDEST_DEMO AND BUILD_HANDEST_FK_DEMO)
+#

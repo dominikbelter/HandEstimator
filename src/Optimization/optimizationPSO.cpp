@@ -3,19 +3,23 @@
 
 using namespace handest;
 
+
+/// A single instance of Optimization PSO
+OptimizationPSO::Ptr optPSO;
+
 OptimizationPSO::OptimizationPSO(void)
 {
 	/// initializaing floating points PSO parameters
 	
-	const float_t V_MAX = 1.5; 
+	//const float_t V_MAX = 1.5; 
 	/// number of algorithm iterations
 	const int MAX_EPOCHS = 1000;
 	/// range of the initial positions 
 	const float_t START_RANGE_MIN_POS = -100.0;
 	const float_t START_RANGE_MAX_POS = 100.0;
 	/// range of the initial velocities 
-	const float_t START_RANGE_MIN_VEL = -5.0;
-	const float_t START_RANGE_MAX_VEL = 5.0;	
+	//const float_t START_RANGE_MIN_VEL = -5.0;
+	//const float_t START_RANGE_MAX_VEL = 5.0;
 }
 
 
@@ -23,6 +27,7 @@ void OptimizationPSO::Optimize(Hand::Pose& hand, Point3D::Cloud& cloud)
 {
 	
 	cloudPSO = cloud;
+	handPSO = hand;
 	/// perfrom PSO
 	PsoAlgorithm();
 	/// return hand after optimization. colud is unchanged. 
@@ -61,16 +66,43 @@ void OptimizationPSO::InitializeParticles()
 {
     float_t InitBestValue;
     float_t InitPos;
+	float_t InitVel;
+	//initialize particle positions
+	for (int index = 0; index < MAX_PARTICLES; index++)
+    {
+    
+	for (int i = 0; i < Hand::JOINTS ; i++)
+		{
+			particles[index].setPosition(i, handPSO.config.conf[i]);
+			particles[index].setBestPosition(i, handPSO.config.conf[i]);	
+	}
 
-    for (int i = 0; i < MAX_PARTICLES; i++)
+	for ( int i = 0; i < 3 ; i++)
+	{
+		particles[index].setPosition(Hand::JOINTS + i, handPSO.pose.p.v[i]);
+		particles[index].setBestPosition(Hand::JOINTS + i, handPSO.pose.p.v[i]);
+	}
+
+
+	for ( int  i = 0 ; i < 3 ; i++ )
+		for (int j = 0; j < 3; j++ )
+		{
+			particles[index].setPosition(Hand::JOINTS + 3 + i + j, handPSO.pose.R.m[i][j]);
+		    particles[index].setBestPosition(Hand::JOINTS + 3 + i + j, handPSO.pose.R.m[i][j]);
+		}
+	}
+	
+	
+	for (int i = 0; i < MAX_PARTICLES; i++)
     {
         InitBestValue = 0;
         for (int j = 0; j < DIM; j++)
         {
-            particles[i].setPosition(j, GetRandomNumber(START_RANGE_MIN_POS, START_RANGE_MAX_POS));
-            InitPos = GetRandomNumber(START_RANGE_MIN_VEL, START_RANGE_MAX_VEL);
-            particles[i].setVelocity(j,InitPos);
-            particles[i].setBestPosition(j, InitPos);
+            //InitPos = GetRandomNumber(START_RANGE_MIN_POS, START_RANGE_MAX_POS);
+			//particles[i].setPosition(j, InitPos);
+            InitVel = GetRandomNumber(START_RANGE_MIN_VEL, START_RANGE_MAX_VEL);
+            particles[i].setVelocity(j,InitVel);
+            //particles[i].setBestPosition(j, InitPos);
         }
 
         InitBestValue = GetFunctionValue(i);
@@ -169,6 +201,7 @@ float_t OptimizationPSO::GetFunctionValue(int index)
 	optimizationFunction * optimization_function = createOptimizationFunctionPF();
 
 	result = optimization_function->FitnessValue(handPSO,cloudPSO);
+	std::cout<<"Aktualne: "<<result<<std::endl;
     return result;
 }
 
@@ -185,4 +218,13 @@ float_t OptimizationPSO::GetRand()
     float_t temp;
     temp = float_t(rand()/(RAND_MAX + 1.0));
     return temp;
+}
+
+
+
+
+
+handest::Optimization* handest::createOptimizationPSO(void) {
+	optPSO.reset(new OptimizationPSO());
+	return optPSO.get();
 }
