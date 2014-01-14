@@ -92,7 +92,7 @@ void KinectGrabber::getCloud(Point3D::Cloud& current_cloud) const {
 
 void KinectGrabber::LoadFromFile(void) {     // use instead of grabber->run to load a PCL cloud
 
- 	pcl::io::loadPCDFile ("/home/michal/Pulpit/PCD/Hand2.pcd", *cloud_temp);   // use your file path instead
+ 	pcl::io::loadPCDFile ("/home/michal/Pulpit/PCD/Hand2.pcd", cloud_temp);   // use your file path instead
 
  	}
 

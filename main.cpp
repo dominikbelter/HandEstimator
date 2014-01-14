@@ -17,28 +17,40 @@ int main()
         using namespace handest;
 
         Grabber* grabber = createGrabberKinect();
-	    //cout << "Current grabber: " << grabber->getName() << endl;
-        Point3D::Cloud scene;
-        cout << scene.size() << endl;
-        //grabber->run();
-        //cout << scene.size() << endl;
-        //grabber->getCloud(scene);
+		//cout << "Current grabber: " << grabber->getName() << endl;
+		Point3D::Cloud scene;
+		cout << scene.size() << endl;
+		//grabber->run();
+		//cout << scene.size() << endl;
+		//grabber->getCloud(scene);
 
-	//grabber->LoadFromFile();   use instead of grabber->run() and change path to your file in grabber_kinect.cpp
-	//grabber->getCloud(scene);
+		//grabber->LoadFromFile();   use instead of grabber->run() and change path to your file in grabber_kinect.cpp
+		grabber->run();
+		grabber->getCloud(scene);
 
-        cout << scene.size() << endl;
-        Visualizer* visualizer = createVisualizerGL();
-        RGBA colour;
-        colour.r = 1;
-        colour.g = 0;
-		colour.b = 0;
-        colour.a = 255;
+		/*  cout << scene.size() << endl;
+		 Visualizer* visualizer = createVisualizerGL();
+		 RGBA colour;
+		 colour.r = 1;
+		 colour.g = 0;
+		 colour.b = 0;
+		 colour.a = 255;
+		 */
+		//-----Vizualizer PCL test
+		Visualizer* visuPCL = createVisualizerPCL();
+		RGBA color;
+		color.r = 255;
+		color.g = 0;
+		color.b = 0;
+		color.a = 255;
 
-        //-----Vizualizer PCL test
-        Visualizer* visuPCL = createVisualizerPCL();
-        Point3D::Cloud chmura;
-        RGBA color;
+		visuPCL->addCloud(scene, color);
+
+		int a;
+		cin >> a;
+
+		Point3D::Cloud chmura;
+		//RGBA color;
         color.r = 255;
         color.g = 0;
         color.b = 0;
@@ -68,11 +80,11 @@ int main()
         visuPCL->clear();
         //-----Vizualizer PCL test
 
-        visualizer->addCloud(scene,colour);
+      /*  visualizer->addCloud(scene,colour);
         visualizer->show();
         Filter* filter = createFilterPCL();
         Point3D::Cloud hand_cloud;
-        filter->FilterScene(scene, hand_cloud);
+        filter->FilterScene(scene, hand_cloud);*/
 
         Hand::Pose hand;
         //OptimizationFunction * optimization_function = createOptimizationGauss();
