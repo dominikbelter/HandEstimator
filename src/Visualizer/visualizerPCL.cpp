@@ -9,6 +9,7 @@ VisualizerPCL::Ptr visualizerPCL;
 
 VisualizerPCL::VisualizerPCL(void) {
     visu.reset(new pcl::visualization::PCLVisualizer("PCL visualizer"));
+    pointSize = 5;
 }
 
 void VisualizerPCL::addCloud(Point3D::Cloud& cloud, RGBA& colour) {
@@ -37,6 +38,8 @@ void VisualizerPCL::show(void) const {
         std::string str = "cloud" + number.str();
         if (scenePCL[i].size()>0)
             visu->addPointCloud (scenePCL[i].makeShared(), ColorHandlerT (scenePCL[i].makeShared(), scenePCL[i][0].r, scenePCL[i][0].g, scenePCL[i][0].b), str);
+        	visu->setPointCloudRenderingProperties (pcl::visualization::PCL_VISUALIZER_POINT_SIZE, pointSize, str);
+
     }
     visu->addCoordinateSystem();
     visu->spin ();
@@ -54,6 +57,11 @@ void VisualizerPCL::show(void) const {
 
 void VisualizerPCL::clear(void) {
     scenePCL.clear();
+}
+
+void VisualizerPCL::setPointSize(int _pointSize)
+{
+	pointSize = _pointSize;
 }
 
 handest::Visualizer* handest::createVisualizerPCL(void) {

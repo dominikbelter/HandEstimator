@@ -83,6 +83,13 @@ namespace handest {
             inline RGBA() {
                 r = 255; g = 255; b = 255; a = 255;
             }
+            /// Default constructor
+            inline RGBA(int _r, int _g, int _b, int _a = 255) {
+            	r = _r;
+            	g = _g;
+            	b = _b;
+            	a = _r;
+            }
     };
 
 	/// 3D point representation
@@ -132,7 +139,7 @@ namespace handest {
 
                     /// Default constructor
                     inline Config() {
-                        std::fill(conf, conf + sizeof(conf), float_type(0.0));
+                       std::fill(conf, conf + JOINTS, float_type(0.0));
                     }
             };
 

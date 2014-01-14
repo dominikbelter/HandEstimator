@@ -30,6 +30,9 @@ private:
     /// PCL visualizer
     pcl::visualization::PCLVisualizer::Ptr visu;
 
+    /// PCL point size
+    int pointSize;
+
     ///convert to PCL format
     void convertToPCL(Point3D::Cloud& input, pcl::PointCloud<pcl::PointXYZRGBA>& output, RGBA& colour);
 
@@ -45,6 +48,9 @@ public:
 
     ///Show Points
     void show() const;
+
+    /// Change size of visualization points
+    void setPointSize(int _pointSize);
 
     ///Clear Points
     void clear();
