@@ -266,6 +266,6 @@ int main()
 
 	//fitness=optimization_function->FitnessValue(dlon,chmura);
     //cout<<"Fitness: "<<fitness<<endl;
-	system("pause");
+    system("pause"); // DB: use std::cin.get() instead (platform independent)
 
 }

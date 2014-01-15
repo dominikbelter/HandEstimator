@@ -93,7 +93,7 @@ int main()
 	Grabber* grabber = createGrabberKinect();
 
 	// Palm
-	grabber->LoadFromFile("../../resources/joints/palm.pcd");
+    grabber->LoadFromFile("../resources/joints/palm.pcd");
 	grabber->getCloud(hand.palm.surface);
 	// Cloud scaling
 	for (int j = 0; j < hand.palm.surface.size(); j++) {
@@ -102,9 +102,9 @@ int main()
 	}
 
 	// Fingers
-	string fingerCloudNames[3] = { "../../resources/joints/finger_bottom.pcd",
-			"../../resources/joints/finger_bottom.pcd",
-			"../../resources/joints/finger_bottom.pcd" };
+    string fingerCloudNames[3] = { "../resources/joints/finger_bottom.pcd",
+            "../resources/joints/finger_bottom.pcd",
+            "../resources/joints/finger_bottom.pcd" };
 	for (int i = 0; i < 3; i++) {
 		grabber->LoadFromFile(fingerCloudNames[i]);
 		for (int k = 0; k < 5; k++) {
