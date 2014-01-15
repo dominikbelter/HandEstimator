@@ -72,36 +72,30 @@ void ForwardKinematicsLiego::fingerFK(Finger::Pose &finger, Finger::Config &conf
 	Eigen::Matrix4f epsX, epsY;
 	epsY = getEpsilon(Eigen::Vector3f::UnitY(), Eigen::Vector3f(0, 0, 0));
 	epsX = getEpsilon(Eigen::Vector3f::UnitX(), Eigen::Vector3f(0, 0, 0));
-
-
-	std::cout<< " 1 " << std::endl;
-	// Chain 0
+;
+	// Chain 0 begin
 	finger.chain[0].pose = eigen2mat34(Eigen::Matrix4f::Identity());
 
-	std::cout<< " 2 " << std::endl;
-	// Chain 1
+	// Chain 0 end = Chain 1 begin
 	zeroPos(2, 3) = finger.chain[0].length;
-	cout<<config.conf[0]<< " "<<config.conf[1]<< " "<<config.conf[2]<< " "<<config.conf[3]<<endl;
-	finger.chain[1].pose = eigen2mat34(
+	finger.chain[0].poseEnd = eigen2mat34(
 			matrixExp(epsY, config.conf[0]) * matrixExp(epsX, config.conf[1])
 					* zeroPos);
+	finger.chain[1].pose = finger.chain[0].poseEnd;
 
-	std::cout<< " 3 " << std::endl;
-	// Chain 2
+	// Chain 1 end = Chain 2 begin
 	zeroPos(2, 3) = finger.chain[1].length;
-	finger.chain[2].pose = eigen2mat34( matrixExp(epsY, config.conf[2]) * zeroPos);
+	finger.chain[1].poseEnd = eigen2mat34( matrixExp(epsY, config.conf[2]) * zeroPos);
+	finger.chain[2].pose = finger.chain[1].poseEnd;
 
-	std::cout<< " 4 " << std::endl;
+	// Chain 2 end
+	zeroPos(2, 3) = finger.chain[2].length;
+	finger.chain[2].poseEnd = eigen2mat34( matrixExp(epsY, config.conf[3]) * zeroPos);
 }
 
 void ForwardKinematicsLiego::forward(Hand::Pose &hand, Hand::Config &config)
 {
 	hand.palm.pose = eigen2mat34( Eigen::Matrix4f::Identity() );
-
-	for (int j=0;j<20;j++)
-		cout<<config.conf[j] <<" ";
-	cout<<endl;
-
 	for (int i = 0; i < Hand::FINGERS; i++) {
 		Finger::Config fingerConfig;
 		for (int j = 0; j < Finger::JOINTS; j++) {
@@ -111,7 +105,6 @@ void ForwardKinematicsLiego::forward(Hand::Pose &hand, Hand::Config &config)
 
 		fingerFK(hand.fingers[i], fingerConfig);
 	}
-	std::cout<< " Ended " << std::endl;
 }
 
 

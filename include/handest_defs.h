@@ -113,6 +113,8 @@ namespace handest {
         public:
             /// Pose
             Mat34 pose;
+            Mat34 poseEnd;
+
             /// Point cloud
             Point3D::Cloud surface;
 			/// Length
@@ -149,6 +151,7 @@ namespace handest {
 
                     /// 3D pose of the base
                     Mat34 pose;
+
                     /// Configuration
                     Config config;
                     /// Shape representation
