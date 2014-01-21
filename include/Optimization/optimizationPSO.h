@@ -12,21 +12,35 @@
 #include "../include/OptimizationFunction/optimizationFunction.h"
 #include "OptimizationFunction/optimizationFunctionPF.h"
 
+#include <iostream>
+#include "handest_defs.h"
+#include "Grabber/kinect_grabber.h"
+#include "Visualizer/visualizerPCL.h"
+#include "Kinematic/kinematic_liego.h"
+#include "../dependencies/Eigen/Eigen"
+#include <string>
+#include <fstream>
+
 
 #include <memory>
 
 #define V_MAX 1.5
 #define START_RANGE_MIN_VEL -5.0
 #define START_RANGE_MAX_VEL 5.0
+#define MAX_CONFIG_VALUE 1.0
+#define MIN_CONFIG_VALUE -1.0
+#define ROT_MAT_ELEMENTS 9
+
 namespace handest {
 	/// create a single optimization
 	Optimization* createOptimizationPSO(void);
 };
 
 using namespace handest;
+using namespace std;
 
 
-//typedef handest::float_type float_t;
+typedef handest::float_type float_t;
 
 
 class OptimizationPSO : public Optimization {
@@ -54,11 +68,11 @@ class OptimizationPSO : public Optimization {
 	static const int DIM = 32;
 
 	/// numbers of particles
-	static const int MAX_PARTICLES = 5;
+	static const int MAX_PARTICLES = 10;
 	/// maximum velocity allowed
 	//static const float_t V_MAX; 
 	/// number of algorithm iterations
-	static const int MAX_EPOCHS = 30;
+	static const int MAX_EPOCHS = 50;
 	/// range of the initial positions 
 	static const float_t START_RANGE_MIN_POS;
 	static const float_t START_RANGE_MAX_POS;
@@ -72,7 +86,11 @@ class OptimizationPSO : public Optimization {
 	
 	/// optimize variables 
 	Hand::Pose handPSO; 
+	Hand::Pose handPSODefault;
 	Point3D::Cloud cloudPSO;
+
+	enum finger {THUMB, INDEX, MIDDLE, RING, PINKY};
+	
 
 	private:
 		
@@ -150,6 +168,11 @@ public:
 	float_t GetRand();
 	/// get random numbers from given range for initializing particles
 	float_t GetRandomNumber(float_t LowBound, float_t UpBound);
+
+	Mat34 eigen_2_mat34(const Eigen::Matrix4f &trans);
+	Eigen::Matrix4f mat34_2_eigen(const Mat34 &trans);
+	Eigen::Vector4f vec3_2_eigen(Vec3 vec);
+	Vec3 eigen_2_vec3(Eigen::Vector4f vec);
 };
 
 
