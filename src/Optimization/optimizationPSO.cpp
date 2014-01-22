@@ -11,15 +11,15 @@ OptimizationPSO::OptimizationPSO(void)
 {
 	/// initializaing floating points PSO parameters
 	
-	//const float_t V_MAX = 1.5; 
+    //const float_type V_MAX = 1.5;
 	/// number of algorithm iterations
-	const int MAX_EPOCHS = 1000;
+    //const int MAX_EPOCHS = 1000;//DB usuniete -- redefinicja
 	/// range of the initial positions 
-	const float_t START_RANGE_MIN_POS = -5.0;
-	const float_t START_RANGE_MAX_POS = 5.0;
+    //const float_type START_RANGE_MIN_POS = -5.0;//DB usuniete -- redefinicja
+    //const float_type START_RANGE_MAX_POS = 5.0; //DB usuniete -- redefinicja
 	/// range of the initial velocities 
-	//const float_t START_RANGE_MIN_VEL = -5.0;
-	//const float_t START_RANGE_MAX_VEL = 5.0;
+    //const float_type START_RANGE_MIN_VEL = -5.0;
+    //const float_type START_RANGE_MAX_VEL = 5.0;
 	
 }
 
@@ -90,9 +90,9 @@ void OptimizationPSO::PsoAlgorithm()
 
 void OptimizationPSO::InitializeParticles()
 {
-    float_t InitBestValue;
-    float_t InitPos;
-	float_t InitVel;	
+    float_type InitBestValue;
+    float_type InitPos;
+    float_type InitVel;
 	
 	for (int i = 0; i < MAX_PARTICLES; i++)
     {
@@ -140,8 +140,8 @@ return bestParticle;
 
 void OptimizationPSO::UpdateVelocity(int gBestIndex)
 {
-    float_t NewVelocity[DIM];
-    //float_t CurrentPos;
+    float_type NewVelocity[DIM];
+    //float_type CurrentPos;
 
     for (int i = 0; i < MAX_PARTICLES; i++)
     {
@@ -164,7 +164,7 @@ void OptimizationPSO::UpdateVelocity(int gBestIndex)
 
 void OptimizationPSO::UpdatePositions(int gBestIndex)
 {
-    float_t  NewFunctValue, tempData;
+    float_type  NewFunctValue, tempData;
 
     for (int i = 0; i < MAX_PARTICLES; i++)
     {
@@ -188,17 +188,20 @@ void OptimizationPSO::UpdatePositions(int gBestIndex)
     }
 }
 
-float_t OptimizationPSO::GetFunctionValue(int index)
+float_type OptimizationPSO::GetFunctionValue(int index)
 {
-    float_t result;
+    float_type result;
 
-	for (int i = 0; i < Hand::JOINTS ; i++)
+    //for (int i = 0; i < Hand::JOINTS ; i++) //DB brakuje klamr lub ta linia jest niepotrzebna
 		
 
 	/* Preparing of hand to clouds comparison */
-	/************************************************************************************************************/
-	ForwardKinematics *fk = new ForwardKinematicsLiego(); 
-	Hand::Config handConfig;
+    /************************************************************************************************************/
+    //ForwardKinematics *fk = new ForwardKinematicsLiego();//DB usunalem
+    ForwardKinematics *fk = createForwardKinematicsLiego(); //DB korzystajmy z metod, ktore stworzylismy i unikajmy 'naked pointers'
+    //DB lepiej skorzystac z auto pointers, nie musimy pamietac o zwalnianiu pamieci: http://stackoverflow.com/questions/9299489/whats-a-naked-pointer
+
+    Hand::Config handConfig;
 	/// setting config in Hand according to particle data
 	for (int i=0;i<5;i++)
 		for (int j=0;j<4;j++)		
@@ -210,7 +213,7 @@ float_t OptimizationPSO::GetFunctionValue(int index)
 		handPSO.fingers[THUMB+i].chain[j].length = 4.5 / 7;
 	
 	fk->forward(handPSO, handConfig);
-	//delete fk;
+    //delete fk; //DB przy wczesniejszej deklaracji fk wykomentowanie tego nie bylo dobre
 	
 	// Read clouds from file
 	Grabber* grabber = createGrabberKinect();
@@ -336,18 +339,18 @@ float_t OptimizationPSO::GetFunctionValue(int index)
     return result;
 }
 
-float_t OptimizationPSO::GetRandomNumber(float_t LowBound, float_t UpBound)
+float_type OptimizationPSO::GetRandomNumber(float_type LowBound, float_type UpBound)
 {
-    float_t temp;
-	temp = (float_t)LowBound + float_t(((UpBound-LowBound))*rand()/(RAND_MAX + 1.0));
+    float_type temp;
+    temp = (float_type)LowBound + float_type(((UpBound-LowBound))*rand()/(RAND_MAX + 1.0));
 
     return temp;
 }
 
-float_t OptimizationPSO::GetRand()
+float_type OptimizationPSO::GetRand()
 {
-    float_t temp;
-    temp = float_t(rand()/(RAND_MAX + 1.0));
+    float_type temp;
+    temp = float_type(rand()/(RAND_MAX + 1.0));
     return temp;
 }
 /* Author: Smi */

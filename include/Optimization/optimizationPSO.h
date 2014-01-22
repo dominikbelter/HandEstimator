@@ -40,7 +40,7 @@ using namespace handest;
 using namespace std;
 
 
-typedef handest::float_type float_t;
+//typedef handest::float_type float_t; //DB usunalem ten wiersz ze wzgledu na konflikt z cmath.h, zamiast tego zamienilem wszystkie float_t (ktore dotyczy math.h) na float_type (nasza definicja)
 
 
 class OptimizationPSO : public Optimization {
@@ -70,12 +70,12 @@ class OptimizationPSO : public Optimization {
 	/// numbers of particles
 	static const int MAX_PARTICLES = 10;
 	/// maximum velocity allowed
-	//static const float_t V_MAX; 
+    //static const float_type V_MAX;
 	/// number of algorithm iterations
 	static const int MAX_EPOCHS = 50;
 	/// range of the initial positions 
-	static const float_t START_RANGE_MIN_POS;
-	static const float_t START_RANGE_MAX_POS;
+    float_type START_RANGE_MIN_POS = -5.0;
+    float_type START_RANGE_MAX_POS = 5.0;
 	/// range of the initial velocities 
 	//static const float_t START_RANGE_MIN_VEL;
 	//static const float_t START_RANGE_MAX_VEL;
@@ -98,52 +98,52 @@ class OptimizationPSO : public Optimization {
 
 private:
     /// value of each optimized variable
-    float_t Position[DIM];
+    float_type Position[DIM];
     /// the optimum value of function for particle
-    float_t PersBest;
+    float_type PersBest;
     /// value of particle velocity
-    float_t Velocity[DIM];
-    float_t BestPosition[DIM];
+    float_type Velocity[DIM];
+    float_type BestPosition[DIM];
 
 public:
    
     /// return particle coordiantes
-    float_t getPosition(int index) const
+    float_type getPosition(int index) const
 	{
 		return this->Position[index];
 	}
     /// set new particle coordiantes
-	void  setPosition(int index, float_t value)
+    void  setPosition(int index, float_type value)
 	{
 		this->Position[index] = value;
 	}
     /// return particle optimum
-    float_t getPersBest() const
+    float_type getPersBest() const
 	{
 		return this->PersBest;
 	}
     /// set particle optimum
-	void  setPersBest(float_t value)
+    void  setPersBest(float_type value)
 	{
 		this->PersBest = value;
 	}
     /// return particle velocity vector
-    float_t getVelocity(int index) const
+    float_type getVelocity(int index) const
 	{
 		return this->Velocity[index];
 	}
     /// set particle velocity vector
-	void  setVelocity(int index, float_t value)
+    void  setVelocity(int index, float_type value)
 	{
 		this->Velocity[index] = value;
 	}
     /// set particle best coordinates
-	void  setBestPosition(int index, float_t value)
+    void  setBestPosition(int index, float_type value)
 	{
 		this->BestPosition[index] = value;
 	}
     /// return particle best coordinates
-	float_t getBestPosition(int index) const
+    float_type getBestPosition(int index) const
 	{
 		return this->BestPosition[index];
 	}
@@ -161,13 +161,13 @@ public:
 	/// initialize particle
 	void InitializeParticles();
 	/// return value of problem function 
-	float_t GetFunctionValue(int index);
+    float_type GetFunctionValue(int index);
 	/// return index of particle with current optimum
 	int GetMinimum();
 		/// get random numbers for PSO equations
-	float_t GetRand();
+    float_type GetRand();
 	/// get random numbers from given range for initializing particles
-	float_t GetRandomNumber(float_t LowBound, float_t UpBound);
+    float_type GetRandomNumber(float_type LowBound, float_type UpBound);
 
 	Mat34 eigen_2_mat34(const Eigen::Matrix4f &trans);
 	Eigen::Matrix4f mat34_2_eigen(const Mat34 &trans);

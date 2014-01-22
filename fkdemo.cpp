@@ -63,8 +63,8 @@ int main()
 
     // Before using, please fill:
 	// -lengths of each finger's links
-	ForwardKinematics *fk = new ForwardKinematicsLiego();
-
+    //ForwardKinematics *fk = new ForwardKinematicsLiego();//DB bez naked pointers
+    ForwardKinematics *fk = createForwardKinematicsLiego(); //DB tak jest lepiej
 	// Filled with zeros -> reading from file
 	Hand::Config handConfig;
 	ifstream ostream;
@@ -87,7 +87,7 @@ int main()
 				hand.fingers[THUMB+i].chain[j].length = 4.5 / 7;
 
 	fk->forward(hand, handConfig);
-	delete fk;
+    //delete fk;//DB removed
 
 	// Read clouds from file
 	Grabber* grabber = createGrabberKinect();
