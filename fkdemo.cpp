@@ -89,7 +89,7 @@ int main() {
 	Grabber* grabber = createGrabberKinect();
 
 	// Palm
-	grabber->LoadFromFile("../../resources/joints/palm.pcd");
+	grabber->LoadFromFile("../resources/joints/palm.pcd");
 	grabber->getCloud(hand.palm.surface);
 	for (int j = 0; j < hand.palm.surface.size(); j++) {
 		for (int y = 0; y < 3; y++)
@@ -97,12 +97,12 @@ int main() {
 	}
 
 	// Fingers
-	string fingerCloudNames[3] = { "../../resources/joints2/finger_bottom.pcd",
-			"../../resources/joints2/finger_middle.pcd",
-			"../../resources/joints2/finger_top.pcd" };
-	string thumbCloudNames[3] = { "../../resources/joints2/thumb_bottom.pcd",
-			"../../resources/joints2/thumb_middle.pcd",
-			"../../resources/joints2/thumb_top.pcd" };
+	string fingerCloudNames[3] = { "../resources/joints2/finger_bottom.pcd",
+			"../resources/joints2/finger_middle.pcd",
+			"../resources/joints2/finger_top.pcd" };
+	string thumbCloudNames[3] = { "../resources/joints2/thumb_bottom.pcd",
+			"../resources/joints2/thumb_middle.pcd",
+			"../resources/joints2/thumb_top.pcd" };
 
 	for (int k = 0; k < 5; k++) {
 		for (int i = 0; i < 3; i++) {
