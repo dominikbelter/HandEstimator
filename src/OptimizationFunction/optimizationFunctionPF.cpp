@@ -7,33 +7,41 @@ optimizationFunctionPF::Ptr optFuncPF;
 
 floatPF optimizationFunctionPF::FitnessValue(Hand::Pose& hand,Point3D::Cloud& cloud)
 {
+	/// points from different parts of hand
+	/// stored in one cloud
 	getPointsFromHand(hand);
 
 	handPointCount=handPoints.size();
 	cloudPointCount=cloud.size();
 
+	/// compare sizes of both clouds
 	if(cloudPointCount>handPointCount)
 	{
-		std::cout<<"Error in OptimizationFunctionPF. Hand must contain more points than grabbed cloud."<<"\n";
+		std::cout<<"Error in OptimizationFunctionPF. Hand must contain more points than grabbed cloud.\n";
 		exit(1);
 	}
 
+	/// prepare assignment registers
 	assignmentList.resize(handPointCount);
 	assignmentHistory.resize(cloudPointCount);
 	distances.resize(cloudPointCount);
 
+	/// initial assignment
 	initialAssignment(cloud);
 
+	/// make assignment change if there are "conflict" points
 	while(checkForConflictHandPoints())
 	{
-		//std::cout<<"New assignment..."<<"\n";
 		assignmentChange(cloud);
 	}
 
+	/// calculate fitness value of final assignment
 	floatPF fitnessValue=calculateFitnessValue();
 	return fitnessValue;
 }
 
+/// initial assignment
+/// each point from cloud is assigned to the nearest point in hand
 void optimizationFunctionPF::initialAssignment(Point3D::Cloud& cloud)
 {
 	for(int cloudPoint=0;cloudPoint<cloudPointCount;cloudPoint++)
@@ -43,6 +51,8 @@ void optimizationFunctionPF::initialAssignment(Point3D::Cloud& cloud)
 	}
 }
 
+/// check for presence of "conflict" points in hand
+/// (those are points that have more than 1 cloud point assigned to them)
 bool optimizationFunctionPF::checkForConflictHandPoints()
 {
 	for(int handPoint=0;handPoint<handPointCount;handPoint++)
@@ -55,6 +65,8 @@ bool optimizationFunctionPF::checkForConflictHandPoints()
 	return false;
 }
 
+/// assign point from cloud to point in hand
+/// update all assignment registers of that cloud point
 void optimizationFunctionPF::assignPointToHandPoint(Point3D::Cloud& cloud,int cloudPointNumber,int handPointNumber)
 {
 	assignmentList[handPointNumber].push_back(cloudPointNumber);
@@ -63,9 +75,9 @@ void optimizationFunctionPF::assignPointToHandPoint(Point3D::Cloud& cloud,int cl
 	floatPF dist=distanceBetweenPoints(cloud[cloudPointNumber],handPoints[handPointNumber]);
 	distances[cloudPointNumber]=dist;
 
-	//std::cout<<"Cloud Point: "<<cloudPointNumber<<", Hand Point: "<<handPointNumber<<"\n";
 }
 
+/// plan and make new assignment
 void optimizationFunctionPF::assignmentChange(Point3D::Cloud& cloud)
 {
 	/// new assignment planning
@@ -78,7 +90,8 @@ void optimizationFunctionPF::assignmentChange(Point3D::Cloud& cloud)
 	{
 		if(assignmentList[handPoint].size()>1)
 		{
-			//std::cout<<"Conflict Point: "<<handPoint<<"\n";
+			/// data for possible new assignments for cloud points
+			/// assigned to given "conflict" hand point
 			std::vector<floatPF> currentPointDistanceDiff;
 			std::vector<int> currentPointNewPoints;
 			std::vector<int> currentCloudPoints;
@@ -104,7 +117,7 @@ void optimizationFunctionPF::assignmentChange(Point3D::Cloud& cloud)
 
 				if(newDist<0)
 				{
-					std::cout<<"Error in OptimizationFunctionPF. In assignmentChange: difference between distances is less than 0."<<"\n";
+					std::cout<<"Error in OptimizationFunctionPF. In assignmentChange: difference between distances is less than 0.\n";
 					exit(2);
 				}
 
@@ -125,7 +138,7 @@ void optimizationFunctionPF::assignmentChange(Point3D::Cloud& cloud)
 				variant=1;
 				if((!newPointContested)&&(!newPointNotContested))
 				{
-					std::cout<<"Error in OptimizationFunctionPF. In assignmentChange: invalid change variant"<<"\n";
+					std::cout<<"Error in OptimizationFunctionPF. In assignmentChange: invalid change variant\n";
 					exit(3);
 				}
 			}
@@ -135,7 +148,6 @@ void optimizationFunctionPF::assignmentChange(Point3D::Cloud& cloud)
 
 			switch(variant)
 			{
-
 				case 0:
 					maximalDiff=0;
 					for(int i=1;i<currentPointDistanceDiff.size();i++)
@@ -165,7 +177,6 @@ void optimizationFunctionPF::assignmentChange(Point3D::Cloud& cloud)
 					}
 					currentPointNewPoints[maximalDiff]=handPoint;
 					break;
-
 			}
 
 			newPoints.push_back(currentPointNewPoints);
@@ -177,7 +188,6 @@ void optimizationFunctionPF::assignmentChange(Point3D::Cloud& cloud)
 	/// assignment change
 	for(int conflictPoint=0;conflictPoint<conflictPointList.size();conflictPoint++)
 	{
-
 		assignmentList[conflictPointList[conflictPoint]].clear();
 
 		for(int cloudPoint=0;cloudPoint<newPoints[conflictPoint].size();cloudPoint++)
@@ -185,9 +195,10 @@ void optimizationFunctionPF::assignmentChange(Point3D::Cloud& cloud)
 			assignPointToHandPoint(cloud,cloudPoints[conflictPoint][cloudPoint],newPoints[conflictPoint][cloudPoint]);
 		}
 	}
-
 }
 
+/// find next nearest point in given cloud
+/// (the nearest point after excluding points that have already been "visited")
 int optimizationFunctionPF::findNextNearestPoint(Point3D::Cloud& cloud,int cloudPoint)
 {
 	int nearestPoint;
@@ -220,6 +231,9 @@ int optimizationFunctionPF::findNextNearestPoint(Point3D::Cloud& cloud,int cloud
 	return nearestPoint;
 }
 
+/// calculate fitness value
+/// using distances between fitted points
+/// (stored in std::vector<floatPF> distances)
 floatPF optimizationFunctionPF::calculateFitnessValue()
 {
 	floatPF value=0;
@@ -233,6 +247,7 @@ floatPF optimizationFunctionPF::calculateFitnessValue()
 	return value;
 }
 
+/// euclidean distance between points
 floatPF optimizationFunctionPF::distanceBetweenPoints(Point3D point1,Point3D point2)
 {
 	floatPF Xsq=(point2.position.x-point1.position.x)*(point2.position.x-point1.position.x);
@@ -244,27 +259,24 @@ floatPF optimizationFunctionPF::distanceBetweenPoints(Point3D point1,Point3D poi
 	return distance;
 }
 
+/// get points from different parts of hand
+/// and keep them in one cloud (Point3D::Cloud handPoints)
 void optimizationFunctionPF::getPointsFromHand(Hand::Pose& hand)
-{	
-	//std::cout<<"Palm points: "<<hand.palm.surface.size()<<"\n";
+{		
 	for(int i=0;i<hand.palm.surface.size();i++)
 		handPoints.push_back(hand.palm.surface[i]);
 
-	//std::cout<<"Fingers: "<<int(Hand::FINGERS)<<"\n";
 	for(int i=0;i<Hand::FINGERS;i++)
 	{
-		//std::cout<<"\tFinger "<<i<<". Links: "<<int(Finger::LINKS)<<"\n";
 		for(int j=0;j<Finger::LINKS;j++)
 		{
-			//std::cout<<"\t\tLink "<<j<<". points: "<<hand.fingers[i].chain[j].surface.size()<<"\n";
 			for(int k=0;k<hand.fingers[i].chain[j].surface.size();k++)
 			handPoints.push_back(hand.fingers[i].chain[j].surface[k]);
 		}
 	}
-
-	//std::cout<<"Hand Points Count: "<<handPoints.size()<<"\n";
 }
 
+/// create a single Point Fitting Optimization Function
 handest::optimizationFunction* handest::createOptimizationFunctionPF(void) {
 	optFuncPF.reset(new optimizationFunctionPF());
 	return optFuncPF.get();
