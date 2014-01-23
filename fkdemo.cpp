@@ -8,9 +8,9 @@
 #include <fstream>
 
 #ifndef WIN32
-	#include <GL/glut.h>
+#include <GL/glut.h>
 #else
-	#include <glut.h>
+#include <glut.h>
 #endif
 
 using namespace std;
@@ -39,14 +39,12 @@ Eigen::Matrix4f mat34_2_eigen(const Mat34 &trans) {
 	return pose;
 }
 
-Eigen::Vector4f vec3_2_eigen(Vec3 vec)
-{
+Eigen::Vector4f vec3_2_eigen(Vec3 vec) {
 	Eigen::Vector4f res(vec.x, vec.y, vec.z, 1.0);
 	return res;
 }
 
-Vec3 eigen_2_vec3(Eigen::Vector4f vec)
-{
+Vec3 eigen_2_vec3(Eigen::Vector4f vec) {
 	Vec3 res;
 	res.v[0] = vec(0);
 	res.v[1] = vec(1);
@@ -54,67 +52,64 @@ Vec3 eigen_2_vec3(Eigen::Vector4f vec)
 	return res;
 }
 
-
-// Demo presenting the forward kinematics
-int main()
-{
-	enum finger {THUMB, INDEX, MIDDLE, RING, PINKY};
+/// Demo of the forward kinematic using kinematic Liego
+int main() {
+	enum finger {
+		THUMB, INDEX, MIDDLE, RING, PINKY
+	};
 	Hand::Pose hand;
-
-    // Before using, please fill:
-	// -lengths of each finger's links
-    //ForwardKinematics *fk = new ForwardKinematicsLiego();//DB bez naked pointers
-    ForwardKinematics *fk = createForwardKinematicsLiego(); //DB tak jest lepiej
-	// Filled with zeros -> reading from file
 	Hand::Config handConfig;
+
+	ForwardKinematics *fk = createForwardKinematicsLiego();
+
+	// Reading the config file with the radian angles of the joints
 	ifstream ostream;
 	ostream.open("config.cfg");
-	for (int i=0;i<5;i++)
-	{
-		for (int j=0;j<4;j++)
-		{
+	for (int i = 0; i < 5; i++) {
+		for (int j = 0; j < 4; j++) {
 			string a;
-			ostream>>a;
-			handConfig.conf[i*4+j] = atof(a.c_str());
+			ostream >> a;
+			handConfig.conf[i * 4 + j] = atof(a.c_str());
 		}
-		cout<<endl;
+		cout << endl;
 	}
 	ostream.close();
 
-	// Lengths of joints
-	for (int i=0;i<5;i++)
-		for(int j=0;j<3;j++)
-				hand.fingers[THUMB+i].chain[j].length = 4.5 / 7;
+	// Lengths of joints - might need to customize as different finger have different lengths
+	for (int i = 0; i < 5; i++)
+		for (int j = 0; j < 3; j++)
+			hand.fingers[THUMB + i].chain[j].length = 4.5 / 7;
 
+	// Computing forward kinematic
 	fk->forward(hand, handConfig);
 
+	//
 	// Read clouds from file
+	//
 	Grabber* grabber = createGrabberKinect();
 
 	// Palm
-    grabber->LoadFromFile("../../resources/joints/palm.pcd");
+	grabber->LoadFromFile("../../resources/joints/palm.pcd");
 	grabber->getCloud(hand.palm.surface);
-	// Cloud scaling
 	for (int j = 0; j < hand.palm.surface.size(); j++) {
 		for (int y = 0; y < 3; y++)
 			hand.palm.surface[j].position.v[y] *= 20.0;
 	}
 
 	// Fingers
-    string fingerCloudNames[3] = {"../resources/joints2/finger_bottom.pcd",
-            "../../resources/joints2/finger_middle.pcd",
-            "../../resources/joints2/finger_top.pcd" };
-    string thumbCloudNames[3] =  { "../resources/joints2/thumb_bottom.pcd",
-            "../../resources/joints2/thumb_middle.pcd",
-            "../../resources/joints2/thumb_top.pcd" };
+	string fingerCloudNames[3] = { "../../resources/joints2/finger_bottom.pcd",
+			"../../resources/joints2/finger_middle.pcd",
+			"../../resources/joints2/finger_top.pcd" };
+	string thumbCloudNames[3] = { "../../resources/joints2/thumb_bottom.pcd",
+			"../../resources/joints2/thumb_middle.pcd",
+			"../../resources/joints2/thumb_top.pcd" };
 
 	for (int k = 0; k < 5; k++) {
 		for (int i = 0; i < 3; i++) {
-			if ( k == 0 )
+			if (k == 0)
 				grabber->LoadFromFile(fingerCloudNames[i]);
 			else
 				grabber->LoadFromFile(thumbCloudNames[i]);
-
 
 			grabber->getCloud(hand.fingers[THUMB + k].chain[i].surface);
 
@@ -127,15 +122,14 @@ int main()
 			}
 		}
 	}
-	cout << "Ended clouds loading" << endl;
+	cout << "All clouds loaded successfully" << endl;
 
-
-	// Mat34 pose of the hand
+	// Pose of the hand in the global coordinate system
 	Mat34 hand2cs;
 	hand2cs.R.m[0][0] = hand2cs.R.m[1][1] = hand2cs.R.m[2][2] = 1.0;
 	hand.pose = hand2cs;
 
-	// Mat34 pose of the finger
+	// Mounting places of the fingers in the hand coordinate system
 	Mat34 finger2hand;
 	finger2hand.R.m[0][0] = finger2hand.R.m[1][1] = finger2hand.R.m[2][2] = 1.0;
 	finger2hand.p.v[0] = -1.3;
@@ -159,34 +153,29 @@ int main()
 	finger2hand.p.v[2] = -0.2;
 	hand.fingers[PINKY].pose = finger2hand;
 
-
-
-    //
-    // Final visualization
-    //
-	cout<<"Final visualization"<<endl;
+	//
+	// Transforming clouds
+	//
+	cout << "Transforming clouds according to computed transformation" << endl;
 
 	// Transforming palm
-	for (int k=0;k<hand.palm.surface.size();k++)
-	{
+	for (int k = 0; k < hand.palm.surface.size(); k++) {
 		Eigen::Vector4f vec = vec3_2_eigen(hand.palm.surface[k].position);
 		vec = mat34_2_eigen(hand.pose) * vec;
 		hand.palm.surface[k].position = eigen_2_vec3(vec);
 	}
 
 	// Conversion between coordinate system of clouds representing part of finger and
-	// coordinate system used in forward kinematic -- it's a shame that those are different ...
+	// coordinate system used in forward kinematic
 	Eigen::Matrix4f fk2vis = Eigen::Matrix4f::Zero();
-	fk2vis(2,0) = fk2vis(0,1) = fk2vis(1,2) = fk2vis(3,3) = 1.0;
+	fk2vis(2, 0) = fk2vis(0, 1) = fk2vis(1, 2) = fk2vis(3, 3) = 1.0;
 
 	// Recalculation of already put clouds accordingly to the calculated fk
-	// I believe it is not suppose to be done automatically inside fk as computing fk 2 times
-	// would move the clouds again -> it would make visualization impossible after optimization
-	for (int j=0;j<Hand::FINGERS;j++)
-	{
+	for (int j = 0; j < Hand::FINGERS; j++) {
 		// Relative transformations to the absolute ones
 		Eigen::Matrix4f trans[4];
-		trans[0] = mat34_2_eigen(hand.pose) * mat34_2_eigen(hand.fingers[j].pose);
+		trans[0] = mat34_2_eigen(hand.pose)
+				* mat34_2_eigen(hand.fingers[j].pose);
 
 		trans[1] = mat34_2_eigen(hand.fingers[j].chain[0].poseEnd);
 		trans[1] = fk2vis * trans[1] * fk2vis.inverse();
@@ -201,41 +190,45 @@ int main()
 		trans[3] = trans[2] * trans[3];
 
 		// For all fingers, move the clouds
-		for (int i = 0; i < 3; i++)
-		{
-			for (int k=0;k<hand.fingers[j].chain[i].surface.size();k++)
-			{
-				Eigen::Vector4f vec = vec3_2_eigen(hand.fingers[j].chain[i].surface[k].position);
+		for (int i = 0; i < 3; i++) {
+			for (int k = 0; k < hand.fingers[j].chain[i].surface.size(); k++) {
+				Eigen::Vector4f vec = vec3_2_eigen(
+						hand.fingers[j].chain[i].surface[k].position);
 				vec(1) -= hand.fingers[j].chain[i].length;
-				vec = trans[i+1] * vec;
-				hand.fingers[j].chain[i].surface[k].position = eigen_2_vec3(vec);
+				vec = trans[i + 1] * vec;
+				hand.fingers[j].chain[i].surface[k].position = eigen_2_vec3(
+						vec);
 			}
 		}
 	}
 
-	std::cout<<std::endl<<"\t!!! " << std::endl << " Show results " << std::endl;
-	// Adding clouds
+	//
+	// Final visualization
+	//
+	std::cout << std::endl << " Final visualization " << std::endl;
+
+
 	Visualizer* visuPCL = createVisualizerPCL();
-	// Change the size of each point (visualization parameter)
 	((VisualizerPCL*) visuPCL)->setPointSize(10);
 	RGBA red(255, 0, 0);
-	std::cout<<"Palm - point count : " << hand.palm.surface.size() << std::endl;
+
+	// Adding palm clouds
 	visuPCL->addCloud(hand.palm.surface, red);
 
 	// Fingers got different colors for different parts to better visualize the results
-	RGBA colors[5] = {RGBA(0,255,0), RGBA(0, 0, 255), RGBA(255,255,0), RGBA(255,0,255), RGBA(0,255,255)};
-	for (int i=0;i<Hand::FINGERS; i++)
-	{
-		for (int j=0;j<3;j++)
-		{
-			std::cout<<"Point count : " << hand.fingers[THUMB + i].chain[j].surface.size() << std::endl;
-			visuPCL->addCloud(hand.fingers[THUMB + i].chain[j].surface, colors[(i+j)%5]);
+	RGBA colors[5] = { RGBA(0, 255, 0), RGBA(0, 0, 255), RGBA(255, 255, 0),
+			RGBA(255, 0, 255), RGBA(0, 255, 255) };
+	for (int i = 0; i < Hand::FINGERS; i++) {
+		for (int j = 0; j < 3; j++) {
+			visuPCL->addCloud(hand.fingers[THUMB + i].chain[j].surface,
+					colors[(i + j) % 5]);
 		}
 	}
 
 	// Show all!
 	visuPCL->show();
-
 	visuPCL->clear();
+
+	// Go home ... :)
 	return 0;
 }
