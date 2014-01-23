@@ -47,8 +47,8 @@ void OptimizationPSO::Optimize(Hand::Pose& hand, Point3D::Cloud& cloud)
 		{grabber->getCloud(handPSODefault.fingers[THUMB + k].chain[i].surface);}
 	}
 	// Scene
-    grabber->LoadFromFile("../resources/Hand3.pcd");
-	grabber->getCloud(cloudPSO);
+    //grabber->LoadFromFile("../resources/Hand3.pcd");
+    //grabber->getCloud(cloudPSO);
 	
 	/// perfrom PSO
 	PsoAlgorithm();

@@ -7,6 +7,8 @@
 #include "Core/Math/CMat44.h"
 #include "Kinematic/kinematic_liego.h"
 #include "OptimizationFunction/optimizationFunctionPF.h"
+#include "Optimization/optimizationPSO.h"
+
 #define _USE_MATH_DEFINES
 
 using namespace std;
@@ -48,6 +50,12 @@ int main()
 
 
         Hand::Pose hand;
+
+        ForwardKinematics *fk = createForwardKinematicsLiego();
+        //create optimization PSO
+        handest::Optimization* optmPSO = createOptimizationPSO();
+        // optimize with PSO
+        optmPSO->Optimize(hand,hand_cloud);
 
     }
 	catch (const std::exception& ex) {
