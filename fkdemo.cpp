@@ -87,13 +87,12 @@ int main()
 				hand.fingers[THUMB+i].chain[j].length = 4.5 / 7;
 
 	fk->forward(hand, handConfig);
-    //delete fk;//DB removed
 
 	// Read clouds from file
 	Grabber* grabber = createGrabberKinect();
 
 	// Palm
-    grabber->LoadFromFile("../resources/joints/palm.pcd");
+    grabber->LoadFromFile("../../resources/joints/palm.pcd");
 	grabber->getCloud(hand.palm.surface);
 	// Cloud scaling
 	for (int j = 0; j < hand.palm.surface.size(); j++) {
@@ -102,18 +101,29 @@ int main()
 	}
 
 	// Fingers
-    string fingerCloudNames[3] = { "../resources/joints/finger_bottom.pcd",
-            "../resources/joints/finger_bottom.pcd",
-            "../resources/joints/finger_bottom.pcd" };
-	for (int i = 0; i < 3; i++) {
-		grabber->LoadFromFile(fingerCloudNames[i]);
-		for (int k = 0; k < 5; k++) {
+    string fingerCloudNames[3] = {"../resources/joints2/finger_bottom.pcd",
+            "../../resources/joints2/finger_middle.pcd",
+            "../../resources/joints2/finger_top.pcd" };
+    string thumbCloudNames[3] =  { "../resources/joints2/thumb_bottom.pcd",
+            "../../resources/joints2/thumb_middle.pcd",
+            "../../resources/joints2/thumb_top.pcd" };
+
+	for (int k = 0; k < 5; k++) {
+		for (int i = 0; i < 3; i++) {
+			if ( k == 0 )
+				grabber->LoadFromFile(fingerCloudNames[i]);
+			else
+				grabber->LoadFromFile(thumbCloudNames[i]);
+
+
 			grabber->getCloud(hand.fingers[THUMB + k].chain[i].surface);
 
 			// Cloud scaling for better visualization
-			for (int j=0;j<hand.fingers[THUMB + k].chain[i].surface.size();j++) {
-				for (int y=0;y<3;y++)
-					hand.fingers[THUMB + k].chain[i].surface[j].position.v[y] *= 20.0;
+			for (int j = 0; j < hand.fingers[THUMB + k].chain[i].surface.size();
+					j++) {
+				for (int y = 0; y < 3; y++)
+					hand.fingers[THUMB + k].chain[i].surface[j].position.v[y] *=
+							20.0;
 			}
 		}
 	}
@@ -129,7 +139,7 @@ int main()
 	Mat34 finger2hand;
 	finger2hand.R.m[0][0] = finger2hand.R.m[1][1] = finger2hand.R.m[2][2] = 1.0;
 	finger2hand.p.v[0] = -1.3;
-	finger2hand.p.v[1] = 0.0;
+	finger2hand.p.v[1] = 0.5;
 	finger2hand.p.v[2] = -0.2;
 	hand.fingers[THUMB].pose = finger2hand;
 	finger2hand.p.v[0] = -0.5;
@@ -155,9 +165,6 @@ int main()
     // Final visualization
     //
 	cout<<"Final visualization"<<endl;
-	Visualizer* visuPCL = createVisualizerPCL();
-	// Change the size of each point (visualization parameter)
-	((VisualizerPCL*) visuPCL)->setPointSize(10);
 
 	// Transforming palm
 	for (int k=0;k<hand.palm.surface.size();k++)
@@ -196,7 +203,7 @@ int main()
 		// For all fingers, move the clouds
 		for (int i = 0; i < 3; i++)
 		{
-			for (int k=0;k<hand.fingers[j].chain[0].surface.size();k++)
+			for (int k=0;k<hand.fingers[j].chain[i].surface.size();k++)
 			{
 				Eigen::Vector4f vec = vec3_2_eigen(hand.fingers[j].chain[i].surface[k].position);
 				vec(1) -= hand.fingers[j].chain[i].length;
@@ -206,8 +213,13 @@ int main()
 		}
 	}
 
+	std::cout<<std::endl<<"\t!!! " << std::endl << " Show results " << std::endl;
 	// Adding clouds
+	Visualizer* visuPCL = createVisualizerPCL();
+	// Change the size of each point (visualization parameter)
+	((VisualizerPCL*) visuPCL)->setPointSize(10);
 	RGBA red(255, 0, 0);
+	std::cout<<"Palm - point count : " << hand.palm.surface.size() << std::endl;
 	visuPCL->addCloud(hand.palm.surface, red);
 
 	// Fingers got different colors for different parts to better visualize the results
@@ -216,6 +228,7 @@ int main()
 	{
 		for (int j=0;j<3;j++)
 		{
+			std::cout<<"Point count : " << hand.fingers[THUMB + i].chain[j].surface.size() << std::endl;
 			visuPCL->addCloud(hand.fingers[THUMB + i].chain[j].surface, colors[(i+j)%5]);
 		}
 	}
@@ -223,5 +236,6 @@ int main()
 	// Show all!
 	visuPCL->show();
 
+	visuPCL->clear();
 	return 0;
 }
