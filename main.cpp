@@ -20,13 +20,14 @@ int main()
 
         Point3D::Cloud cloud;
         Grabber* grabber = createGrabberKinect();
-        grabber->LoadFromFile("../resources/Hand3.pcd");
+        grabber->LoadFromFile("../../resources/Hand3.pcd");
         grabber->getCloud(cloud);
 
         Point3D::Cloud hand_cloud;
 
         Filter* filter = handest::createFilterPCL();
         filter->FilterScene(cloud, hand_cloud);
+
 
         //grabber->getCloud(cloud);  // converts the cloud to Point3D type
         Visualizer* visuPCL1 = createVisualizerPCL();
@@ -56,6 +57,16 @@ int main()
         handest::Optimization* optmPSO = createOptimizationPSO();
         // optimize with PSO
         optmPSO->Optimize(hand,hand_cloud);
+
+        Visualizer* visuPCL3 = createVisualizerPCL();
+        color2.r = 0;
+        color2.g = 255;
+        color2.b = 0;
+        color2.a = 255;
+        visuPCL3->addCloud(hand_cloud, color2);
+        visuPCL3->show();
+
+
 
     }
 	catch (const std::exception& ex) {

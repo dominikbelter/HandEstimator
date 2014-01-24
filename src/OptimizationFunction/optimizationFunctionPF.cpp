@@ -13,7 +13,8 @@ floatPF optimizationFunctionPF::FitnessValue(Hand::Pose& hand,Point3D::Cloud& cl
 
 	handPointCount=handPoints.size();
 	cloudPointCount=cloud.size();
-
+    std::cout<<"Pierwsza: "<<handPointCount<<std::endl;
+    std::cout<<"Druga: "<<cloudPointCount<<std::endl;
 	/// compare sizes of both clouds
 	if(cloudPointCount>handPointCount)
 	{
@@ -22,6 +23,9 @@ floatPF optimizationFunctionPF::FitnessValue(Hand::Pose& hand,Point3D::Cloud& cl
 	}
 
 	/// prepare assignment registers
+    assignmentList.clear();
+    assignmentHistory.clear();
+    distances.clear();
 	assignmentList.resize(handPointCount);
 	assignmentHistory.resize(cloudPointCount);
 	distances.resize(cloudPointCount);
@@ -115,11 +119,12 @@ void optimizationFunctionPF::assignmentChange(Point3D::Cloud& cloud)
 				floatPF newDist=distanceBetweenPoints(cloud[cloudPointNumber],handPoints[newPoint]);
 				newDist=newDist-distances[cloudPointNumber];
 
-				if(newDist<0)
-				{
-					std::cout<<"Error in OptimizationFunctionPF. In assignmentChange: difference between distances is less than 0.\n";
-					exit(2);
-				}
+
+                if(newDist<0)
+                {
+                    std::cout<<"Error in OptimizationFunctionPF. In assignmentChange: difference between distances is less than 0.\n";
+                    exit(2);
+                }
 
 				currentPointDistanceDiff.push_back(newDist);
 				currentPointNewPoints.push_back(newPoint);
@@ -241,16 +246,22 @@ floatPF optimizationFunctionPF::calculateFitnessValue()
 	{
 		value+=distances[currentPoint];
 	}
-
 	value=value/cloudPointCount;
-
 	return value;
 }
 
 /// euclidean distance between points
 floatPF optimizationFunctionPF::distanceBetweenPoints(Point3D point1,Point3D point2)
 {
-	floatPF Xsq=(point2.position.x-point1.position.x)*(point2.position.x-point1.position.x);
+    floatPF Xsq=(point2.position.x-point1.position.x)*(point2.position.x-point1.position.x);
+    /*std::cout<<"X1"<<point1.position.x<<std::endl;
+    std::cout<<"X2"<<point2.position.x<<std::endl;
+    std::cout<<"Y1"<<point1.position.y<<std::endl;
+    std::cout<<"Y2"<<point2.position.y<<std::endl;
+    std::cout<<"Z1"<<point1.position.z<<std::endl;
+    std::cout<<"Z2"<<point2.position.z<<std::endl;*/
+
+
 	floatPF Ysq=(point2.position.y-point1.position.y)*(point2.position.y-point1.position.y);
 	floatPF Zsq=(point2.position.z-point1.position.z)*(point2.position.z-point1.position.z);
 

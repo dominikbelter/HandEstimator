@@ -12,6 +12,11 @@
 #include "../include/OptimizationFunction/optimizationFunction.h"
 #include "OptimizationFunction/optimizationFunctionPF.h"
 
+#include <pcl/io/pcd_io.h>
+#include <pcl/point_types.h>
+#include <pcl/filters/voxel_grid.h>
+
+
 #include <iostream>
 #include "handest_defs.h"
 #include "Grabber/kinect_grabber.h"
@@ -27,8 +32,8 @@
 #define V_MAX 1.5
 #define START_RANGE_MIN_VEL -5.0
 #define START_RANGE_MAX_VEL 5.0
-#define MAX_CONFIG_VALUE 1.0
-#define MIN_CONFIG_VALUE -1.0
+#define MAX_CONFIG_VALUE 3.14
+#define MIN_CONFIG_VALUE -3.14
 #define ROT_MAT_ELEMENTS 9
 
 namespace handest {
@@ -74,8 +79,8 @@ class OptimizationPSO : public Optimization {
 	/// number of algorithm iterations
 	static const int MAX_EPOCHS = 50;
 	/// range of the initial positions 
-    float_type START_RANGE_MIN_POS = -5.0;
-    float_type START_RANGE_MAX_POS = 5.0;
+    static constexpr float_type START_RANGE_MIN_POS = -1.0;
+    static constexpr float_type START_RANGE_MAX_POS = 1.0;
 	/// range of the initial velocities 
 	//static const float_t START_RANGE_MIN_VEL;
 	//static const float_t START_RANGE_MAX_VEL;
