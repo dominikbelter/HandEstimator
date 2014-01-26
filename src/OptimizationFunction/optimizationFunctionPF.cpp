@@ -9,6 +9,7 @@ floatPF optimizationFunctionPF::FitnessValue(Hand::Pose& hand,Point3D::Cloud& cl
 {
 	/// points from different parts of hand
 	/// stored in one cloud
+	handPoints.clear();
 	getPointsFromHand(hand);
 
 	handPointCount=handPoints.size();
@@ -34,10 +35,10 @@ floatPF optimizationFunctionPF::FitnessValue(Hand::Pose& hand,Point3D::Cloud& cl
 	initialAssignment(cloud);
 
 	/// make assignment change if there are "conflict" points
-	while(checkForConflictHandPoints())
-	{
-		assignmentChange(cloud);
-	}
+	//while(checkForConflictHandPoints())
+	//{
+		//assignmentChange(cloud);
+	//}
 
 	/// calculate fitness value of final assignment
 	floatPF fitnessValue=calculateFitnessValue();
@@ -282,7 +283,7 @@ void optimizationFunctionPF::getPointsFromHand(Hand::Pose& hand)
 		for(int j=0;j<Finger::LINKS;j++)
 		{
 			for(int k=0;k<hand.fingers[i].chain[j].surface.size();k++)
-			handPoints.push_back(hand.fingers[i].chain[j].surface[k]);
+				handPoints.push_back(hand.fingers[i].chain[j].surface[k]);
 		}
 	}
 }
