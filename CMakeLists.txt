@@ -49,6 +49,8 @@ option(BUILD_HANDEST_FK_DEMO "Build Handest Forward Kinematic Demo" YES)
 mark_as_advanced(BUILD_HANDEST_FK_DEMO)
 option(BUILD_HANDEST_FILTER_DEMO "Build Handest Filter Demo" YES)
 mark_as_advanced(BUILD_HANDEST_FILTER_DEMO)
+option(BUILD_HANDEST_Grabber_DEMO "Build Handest Grabber Demo" YES)
+mark_as_advanced(BUILD_HANDEST_Grabber_demo)
 
 # Executable output directory
 SET(RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/build${OUTPUT_DIRECTORY_POSTFIX} CACHE PATH "Executable output directory")
@@ -269,4 +271,18 @@ if(BUILD_HANDEST_DEMO AND BUILD_HANDEST_FILTER_DEMO)
 	INSTALL(TARGETS FilterDemo DESTINATION  ${CMAKE_CURRENT_BINARY_DIR}/build)
 endif (BUILD_HANDEST_DEMO AND BUILD_HANDEST_FILTER_DEMO)
 #
+#
+###############################################################################
+#
+# HandEst Grabber Demo
+#
+###############################################################################
 
+#
+if(BUILD_HANDEST_DEMO AND BUILD_HANDEST_Grabber_DEMO)
+	SET(FK_DEMO_SOURCES ./Grabber_demo.cpp)
+	ADD_EXECUTABLE(Grabber_demo ${FK_DEMO_SOURCES})
+        TARGET_LINK_LIBRARIES(Grabber_demo Math Grabber ForwardKinematics VisualizerGL ${Boost_FILESYSTEM_LIBRARY} ${Boost_SYSTEM_LIBRARY} GLU GL glut)
+	INSTALL(TARGETS Grabber_demo DESTINATION  ${CMAKE_CURRENT_BINARY_DIR}/build)
+endif (BUILD_HANDEST_DEMO AND BUILD_HANDEST_Grabber_DEMO)
+#
