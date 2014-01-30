@@ -122,8 +122,8 @@ void OptimizationPSO::Optimize(Hand::Pose& hand, Point3D::Cloud& cloud)
     string fingerCloudNames[3] = { "../resources/joints/finger_bottom.pcd",
             "../resources/joints/finger_bottom.pcd",
             "../resources/joints/finger_bottom.pcd" };
-	
-	for (int i = 0; i < 3; i++) {
+
+    for (int i = 0; i < 3; i++) {
 
 		grabber->LoadFromFile(fingerCloudNames[i]);
 
@@ -170,7 +170,7 @@ void OptimizationPSO::Optimize(Hand::Pose& hand, Point3D::Cloud& cloud)
 	// Scene
     //grabber->LoadFromFile("../resources/Hand3.pcd");
     //grabber->getCloud(cloudPSO);
-	
+
 	/// perfrom PSO
 	PsoAlgorithm();
 	/// return hand after optimization. colud is unchanged. 

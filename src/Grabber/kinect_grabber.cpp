@@ -58,6 +58,8 @@ void KinectGrabber::getCloud(Point3D::Cloud& current_cloud) const {
 void KinectGrabber::LoadFromFile(std::string path)     // use instead of grabber->run to load a PCL cloud
 { 
 	pcl::io::loadPCDFile(path, cloud_temp); 
+    std::vector<int> tmp;
+    pcl::removeNaNFromPointCloud(cloud_temp, cloud_temp, tmp);
 }
 
 

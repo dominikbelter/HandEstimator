@@ -20,7 +20,7 @@ int main()
 
         Point3D::Cloud cloud;
         Grabber* grabber = createGrabberKinect();
-        grabber->LoadFromFile("../../resources/Hand3.pcd");
+        grabber->LoadFromFile("../resources/Hand3.pcd");
         grabber->getCloud(cloud);
 
         Point3D::Cloud hand_cloud;
