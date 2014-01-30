@@ -12,6 +12,15 @@ floatPF optimizationFunctionPF::FitnessValue(Hand::Pose& hand,Point3D::Cloud& cl
 	handPoints.clear();
 	getPointsFromHand(hand);
 
+	for(size_t i=0;i<cloud.size();i++)
+	{
+		std::cout<<"Punkt "<<i<<".:"<<cloud[i].position.x<<","<<cloud[i].position.y<<","<<cloud[i].position.z<<std::endl;
+
+		if(i%20==0)
+			std::cin.get();
+	}
+
+
 	handPointCount=handPoints.size();
 	cloudPointCount=cloud.size();
     std::cout<<"Pierwsza: "<<handPointCount<<std::endl;///DB remove
@@ -35,10 +44,10 @@ floatPF optimizationFunctionPF::FitnessValue(Hand::Pose& hand,Point3D::Cloud& cl
 	initialAssignment(cloud);
 
 	/// make assignment change if there are "conflict" points
-	//while(checkForConflictHandPoints())
-	//{
-		//assignmentChange(cloud);
-	//}
+	while(checkForConflictHandPoints())
+	{
+		assignmentChange(cloud);
+	}
 
 	/// calculate fitness value of final assignment
 	floatPF fitnessValue=calculateFitnessValue();
@@ -275,16 +284,24 @@ floatPF optimizationFunctionPF::distanceBetweenPoints(Point3D point1,Point3D poi
 /// and keep them in one cloud (Point3D::Cloud handPoints)
 void optimizationFunctionPF::getPointsFromHand(Hand::Pose& hand)
 {		
-	for(int i=0;i<hand.palm.surface.size();i++)
+	for(size_t i=0;i<hand.palm.surface.size();i++)
 		handPoints.push_back(hand.palm.surface[i]);
 
-	for(int i=0;i<Hand::FINGERS;i++)
+	for(size_t i=0;i<Hand::FINGERS;i++)
 	{
 		for(int j=0;j<Finger::LINKS;j++)
 		{
-			for(int k=0;k<hand.fingers[i].chain[j].surface.size();k++)
+			for(size_t k=0;k<hand.fingers[i].chain[j].surface.size();k++)
 				handPoints.push_back(hand.fingers[i].chain[j].surface[k]);
 		}
+	}
+
+	for(size_t i=0;i<handPoints.size();i++)
+	{
+		std::cout<<"Punkt "<<i<<".:"<<handPoints[i].position.x<<","<<handPoints[i].position.y<<","<<handPoints[i].position.z<<std::endl;
+
+		if(i%20==0)
+			std::cin.get();
 	}
 }
 

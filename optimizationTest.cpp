@@ -1,14 +1,15 @@
 #include <iostream>
 #include "handest_defs.h"
 #include "OptimizationFunction/optimizationFunctionPF.h"
-#include "Optimization/optimizationPSO.h"
+//#include "Optimization/optimizationPSO.h"
 
-#include "Grabber/kinect_grabber.h"
-#include "Visualizer/visualizerPCL.h"
-#include "Kinematic/kinematic_liego.h"
+//#include "Grabber/kinect_grabber.h"
+//#include "Visualizer/visualizerPCL.h"
+//#include "Kinematic/kinematic_liego.h"
 #include "../dependencies/Eigen/Eigen"
 #include <string>
 #include <fstream>
+#include <random>
 
 //#ifndef WIN32
 //	#include <GL/glut.h>
@@ -26,15 +27,47 @@ int main()
 	Hand::Pose hand;
     Point3D::Cloud chmura;
 
+	std::default_random_engine generator;
+	std::normal_distribution<double> distribution(5.0,2.0);
+
+	for(int i=0;i<500;i++)
+	{
+		double xCoord = distribution(generator);
+		double yCoord = distribution(generator);
+		double zCoord = distribution(generator);
+	
+		Point3D punkt;
+		punkt.position.x=xCoord;
+		punkt.position.y=yCoord;
+		punkt.position.z=zCoord;
+
+		chmura.push_back(punkt);
+	}
+
+	for(int i=0;i<600;i++)
+	{
+		double xCoord = distribution(generator)+10;
+		double yCoord = distribution(generator);
+		double zCoord = distribution(generator);
+
+		Point3D punkt;
+		punkt.position.x=xCoord;
+		punkt.position.y=yCoord;
+		punkt.position.z=zCoord;
+
+		hand.palm.surface.push_back(punkt);
+	}
+
+
 	//create optimizatiom points fitting function 
 	handest::optimizationFunction * optimization_function = createOptimizationFunctionPF();
 
-    //handest::float_type fitness=optimization_function->FitnessValue(dlon,chmura);
-    //cout<<"Fitness: "<<fitness<<endl;
-	//system("pause");
+    handest::float_type fitness=optimization_function->FitnessValue(hand,chmura);
+    cout<<"Fitness: "<<fitness<<endl;
+	cin.get();
 
 	//create optimization PSO
-	handest::Optimization* optmPSO = createOptimizationPSO();
+	/*handest::Optimization* optmPSO = createOptimizationPSO();
 	// optimize with PSO
 	optmPSO->Optimize(hand,chmura);
 
@@ -57,7 +90,7 @@ int main()
 		}
 	}
 
-	visuPCL->show();
+	visuPCL->show();*////
 	
 	//fitness=optimization_function->FitnessValue(dlon,chmura);
     //cout<<"Fitness: "<<fitness<<endl;
