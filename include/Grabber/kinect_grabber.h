@@ -37,21 +37,22 @@ class KinectGrabber : public Grabber {
 	/// Name of the grabber
     const std::string& getName() const;
 
-    ///DB komentarz
+      /// grabs a single cloud from kinect
     void run();
 
 	/// Returns the current point cloud
     void getCloud(Point3D::Cloud& current_cloud) const;
 
-	/// Grab point cloud
+	/// load point cloud from file
     void LoadFromFile(std::string path);
 
     private:
-    ///DB komentarz
+    /// callback function
     void cloud_cb_ (const pcl::PointCloud<pcl::PointXYZRGBA>::ConstPtr &cloud);
-    ///DB komentarz
+    /// needed when loading several clouds
     int frame_no;
-    pcl::PointCloud<pcl::PointXYZRGBA> cloud_temp; //DB czy na pewno ta zmienna jest konieczna w tym miejscu? lepiej lokalnie tworzyc
+	///output from run() and LoadFromFile()
+    pcl::PointCloud<pcl::PointXYZRGBA> cloud_temp; 
 	/// RGBZXYZ Point cloud
     Point3D::Cloud cloud_3D;
 	/// Grabber name

@@ -10,14 +10,13 @@ FilterPCL::FilterPCL(void) : name("Filter") {
 
 }
 
-///DB komentarz
+// funkcja pobierajaca nazwe
 const std::string& FilterPCL::getName() const {
 	return name;
 }
 
-///DB komentarz
+// funkcja filtrujaca chmure punktow
 void FilterPCL::FilterScene(Point3D::Cloud& input, Point3D::Cloud& output_cloud) const {
-    std::cout<<"Rozmiar filtrowanej chmury: "<<input.size()<<"\n";///DB remove
     float Y ;
     float Cb;
     float Cr;
@@ -29,7 +28,7 @@ void FilterPCL::FilterScene(Point3D::Cloud& input, Point3D::Cloud& output_cloud)
     int av=0;
 
     // filtr w przestrzeni kolorow YCbCr
-    for(int i=0;i<input.size();i++){///DB 'size_t' zamiast 'int'
+    for(size_t i=0;i<input.size();i++){
         //konwersja przestrzeni RGB na YCbCr
         Y=0.299*(float)input[i].colour.r+0.587*(float)input[i].colour.g+0.114*(float)input[i].colour.b;
         Cb=128-0.168935*(float)input[i].colour.r+0.331665*(float)input[i].colour.g+0.50059*(float)input[i].colour.b;
@@ -47,8 +46,7 @@ void FilterPCL::FilterScene(Point3D::Cloud& input, Point3D::Cloud& output_cloud)
             i_out++; //inkrementacja licznika elementów chmury wyjsciowej
         }
     }
-    std::cout<<"Rozmiar chmury po pierwszej czesci filtracji: "<<temp_cloud.size()<<"\n";///DB remove
-
+  
     av=(float)av/(float)i_out; //srednia wartosc glebii
 	i_out=0;
 
@@ -65,7 +63,6 @@ void FilterPCL::FilterScene(Point3D::Cloud& input, Point3D::Cloud& output_cloud)
 		}
     }
 
-      std::cout<<"Rozmiar chmury po kompletnej filtracji: "<<output_cloud.size()<<"\n";///DB remove
 
 }
 
