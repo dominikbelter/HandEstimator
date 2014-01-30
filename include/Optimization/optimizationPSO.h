@@ -74,11 +74,11 @@ class OptimizationPSO : public Optimization {
 	static const int DIM = 32;
 
 	/// numbers of particles
-	static const int MAX_PARTICLES = 10;
+    static const int MAX_PARTICLES = 500;
 	/// maximum velocity allowed
     //static const float_type V_MAX;
 	/// number of algorithm iterations
-	static const int MAX_EPOCHS = 50;
+    static const int MAX_EPOCHS = 100;
 	/// range of the initial positions 
     static constexpr float_type START_RANGE_MIN_POS = -1.0;
     static constexpr float_type START_RANGE_MAX_POS = 1.0;

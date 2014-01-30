@@ -11,6 +11,13 @@
 #include <iostream>
 #include <memory>
 
+#include <pcl/io/pcd_io.h>
+#include <pcl/point_types.h>
+#include <pcl/io/openni_grabber.h>
+#include <pcl/visualization/cloud_viewer.h>
+#include <pcl/point_cloud.h>
+#include <pcl/filters/filter.h>
+
 namespace handest {
 	/// create a single filter
 	Filter* createFilterPCL(void);

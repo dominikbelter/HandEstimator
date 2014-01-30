@@ -113,7 +113,7 @@ void OptimizationPSO::Optimize(Hand::Pose& hand, Point3D::Cloud& cloud)
     color10.a = 255;
     //visuPCL1->addCloud(handPSO.palm.surface, color1);
     visuPCL10->addCloud(handPSODefault.palm.surface, color10);
-    visuPCL10->show();
+    //visuPCL10->show();
 
 
 
@@ -455,7 +455,7 @@ float_type OptimizationPSO::GetFunctionValue(int index)
 	}
 
 	/************************************************************************************************************/
-    Visualizer* visuPCL11 = createVisualizerPCL();
+  /*  Visualizer* visuPCL11 = createVisualizerPCL();
     RGBA color11;
     color11.r = 255;
     color11.g = 0;
@@ -464,14 +464,14 @@ float_type OptimizationPSO::GetFunctionValue(int index)
     //visuPCL1->addCloud(handPSO.palm.surface, color1);
     visuPCL11->addCloud(handPSO.palm.surface, color11);
      visuPCL11->addCloud(cloudPSO, color11);
-    visuPCL11->show();
+   visuPCL11->show();*/
 
 
 
 	optimizationFunction * optimization_function = createOptimizationFunctionPF();
     std::cout<<"Aktualne: "<<cloudPSO.size()<<std::endl;
 	result = optimization_function->FitnessValue(handPSO,cloudPSO);
-	std::cout<<"Aktualne: "<<result<<std::endl;
+    std::cout<<"Result: "<<result<<std::endl;
     return result;
 }
 

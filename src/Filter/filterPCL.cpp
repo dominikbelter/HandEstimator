@@ -50,6 +50,7 @@ void FilterPCL::FilterScene(Point3D::Cloud& input, Point3D::Cloud& output_cloud)
     av=(float)av/(float)i_out; //srednia wartosc glebii
 	i_out=0;
 
+
     //filtracja wg glebii
     for(int i=0;i<temp_cloud.size();i++){
         if (abs(1000*temp_cloud[i].position.z-av)<300){ // w milimetrach
@@ -59,8 +60,13 @@ void FilterPCL::FilterScene(Point3D::Cloud& input, Point3D::Cloud& output_cloud)
             output.position.x=temp_cloud[i].position.x;
             output.position.y=temp_cloud[i].position.y;
             output.position.z=temp_cloud[i].position.z;
-            output_cloud.push_back(output);
-		}
+
+
+            if (std::isnan(output.position.x) == false)
+                output_cloud.push_back(output);
+
+
+        }
     }
 
 

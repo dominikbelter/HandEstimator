@@ -29,6 +29,8 @@ int main()
         filter->FilterScene(cloud, hand_cloud);
 
 
+
+
         //grabber->getCloud(cloud);  // converts the cloud to Point3D type
         Visualizer* visuPCL1 = createVisualizerPCL();
         RGBA color1;
@@ -64,7 +66,24 @@ int main()
         color2.b = 0;
         color2.a = 255;
         visuPCL3->addCloud(hand_cloud, color2);
+        visuPCL3->addCloud(hand.palm.surface, color1);
+
+
+
+//            for (int k = 0; k < 5; k++)
+//            {
+
+
+//                for(size_t i=0; i < 3 ; i++)
+//                {
+
+//                    visuPCL3->addCloud(hand.fingers[k].chain[i].surface, color1);
+
+//                }
+//            }
+
         visuPCL3->show();
+
 
 
 
