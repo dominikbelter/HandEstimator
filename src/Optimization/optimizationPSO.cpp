@@ -67,7 +67,7 @@ void OptimizationPSO::Optimize(Hand::Pose& hand, Point3D::Cloud& cloud)
 	Grabber* grabber = createGrabberKinect();
 
     // Palm
-    grabber->LoadFromFile("../../resources/joints/palm.pcd");
+    grabber->LoadFromFile("../resources/joints/palm.pcd");
 	grabber->getCloud(handPSODefault.palm.surface);
 
     pcl::PointXYZ pointPCLPalm;
@@ -119,9 +119,9 @@ void OptimizationPSO::Optimize(Hand::Pose& hand, Point3D::Cloud& cloud)
 
 
 	// Fingers
-    string fingerCloudNames[3] = { "../../resources/joints/finger_bottom.pcd",
-            "../../resources/joints/finger_bottom.pcd",
-            "../../resources/joints/finger_bottom.pcd" };
+    string fingerCloudNames[3] = { "../resources/joints/finger_bottom.pcd",
+            "../resources/joints/finger_bottom.pcd",
+            "../resources/joints/finger_bottom.pcd" };
 	
 	for (int i = 0; i < 3; i++) {
 
@@ -527,7 +527,6 @@ Vec3 OptimizationPSO::eigen_2_vec3(Eigen::Vector4f vec)
 	res.v[2] = vec(2);
 	return res;
 }
-
 
 handest::Optimization* handest::createOptimizationPSO(void) {
 	optPSO.reset(new OptimizationPSO());

@@ -8,7 +8,6 @@
 #define KINECT_GRABBER_H_INCLUDED
 
 #include "grabber.h"
-//#include <iostream>
 #include <memory>
 #include <iostream>
 #include <string>
@@ -38,23 +37,21 @@ class KinectGrabber : public Grabber {
 	/// Name of the grabber
     const std::string& getName() const;
 
-    void cloud_cb_ (const pcl::PointCloud<pcl::PointXYZRGBA>::ConstPtr &cloud);
-
+    ///DB komentarz
     void run();
+
 	/// Returns the current point cloud
     void getCloud(Point3D::Cloud& current_cloud) const;
 
 	/// Grab point cloud
-    void LoadFromFile(std::string path); 
+    void LoadFromFile(std::string path);
 
-    //pcl::visualization::CloudViewer viewer;
-
-	
-
-
-    protected:
+    private:
+    ///DB komentarz
+    void cloud_cb_ (const pcl::PointCloud<pcl::PointXYZRGBA>::ConstPtr &cloud);
+    ///DB komentarz
     int frame_no;
-    pcl::PointCloud<pcl::PointXYZRGBA> cloud_temp;
+    pcl::PointCloud<pcl::PointXYZRGBA> cloud_temp; //DB czy na pewno ta zmienna jest konieczna w tym miejscu? lepiej lokalnie tworzyc
 	/// RGBZXYZ Point cloud
     Point3D::Cloud cloud_3D;
 	/// Grabber name

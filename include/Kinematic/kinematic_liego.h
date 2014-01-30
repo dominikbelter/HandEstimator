@@ -12,7 +12,6 @@ namespace handest {
 	ForwardKinematics* createForwardKinematicsLiego(void);
 };
 
-
 using namespace handest;
 
 class ForwardKinematicsLiego : public ForwardKinematics {

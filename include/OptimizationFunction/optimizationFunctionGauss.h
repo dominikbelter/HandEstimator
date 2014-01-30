@@ -34,7 +34,8 @@ typedef handest::float_type floatGauss;
 	public:
 		/// Fitness between model and grabbed cloud
         virtual floatGauss FitnessValue(Hand::Pose& hand,Point3D::Cloud& cloud);
-	
+        ///DB zaginal auto-pointer i podobnie tworzenie obiektu w pliku cpp
+
 	private:
 		/// get points from hand
 		void getPointsFromHand(Hand::Pose& hand);
@@ -45,12 +46,12 @@ typedef handest::float_type floatGauss;
 		/// covariance matrix for Gauss function
 		Matrix<floatGauss,3,3>covarianceMatrix;
 
-		/// covariance values
+        /// covariance values ///DB lepiej tablica
 		floatGauss covariance_x;
 		floatGauss covariance_y;
 		floatGauss covariance_z;
 
-		/// maximum sampled cloud values
+        /// maximum sampled cloud values ///DB lepiej tablica
 		int nX;
 		int nY;
 		int nZ;

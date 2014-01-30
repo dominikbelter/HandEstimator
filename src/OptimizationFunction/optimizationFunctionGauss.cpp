@@ -39,14 +39,14 @@ floatGauss optimizationFunctionGauss::gaussFunction(Matrix<floatGauss,3,1> point
 		cloudValue=(1/(sqrt(pow(2*M_PI,3)*covarianceMatrix.determinant())))*exp(-.5*(points-cloudPointsXYZ).transpose()*covarianceMatrix.inverse()*(points-cloudPointsXYZ));
 
 		for(int j=0;j<handPoints.size();j++)
-			{
+        {
 			handPointsXYZ(0)=handPoints[j].position.x;
 			handPointsXYZ(1)=handPoints[j].position.y;
 			handPointsXYZ(2)=handPoints[j].position.z;
 
 			handValue=(1/(sqrt(pow(2*M_PI,3)*covarianceMatrix.determinant())))*exp(-.5*(points-handPointsXYZ).transpose()*covarianceMatrix.inverse()*(points-handPointsXYZ));
 			overlap=handValue*cloudValue+overlap;
-			}
+        }
 	}
 	return overlap;
 }
@@ -83,7 +83,6 @@ floatGauss optimizationFunctionGauss::FitnessValue(Hand::Pose& hand,Point3D::Clo
 
 				summaryOverlap=summaryOverlap+gaussFunction(points,cloud);
 			}
-
 
 	return summaryOverlap;
 }

@@ -62,10 +62,10 @@ typedef handest::float_type floatPF;
 		void getPointsFromHand(Hand::Pose& hand);
 
 		/// number of points in hand
-		int handPointCount;
+        int handPointCount;///DB size_t?
 
 		/// number of points in cloud
-		int cloudPointCount;
+        int cloudPointCount; ///DB size_t?
 
 		/// vector of points in cloud assigned to a particular point in hand
 		/// no element for no assignment

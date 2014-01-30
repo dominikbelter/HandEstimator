@@ -14,8 +14,8 @@ floatPF optimizationFunctionPF::FitnessValue(Hand::Pose& hand,Point3D::Cloud& cl
 
 	handPointCount=handPoints.size();
 	cloudPointCount=cloud.size();
-    std::cout<<"Pierwsza: "<<handPointCount<<std::endl;
-    std::cout<<"Druga: "<<cloudPointCount<<std::endl;
+    std::cout<<"Pierwsza: "<<handPointCount<<std::endl;///DB remove
+    std::cout<<"Druga: "<<cloudPointCount<<std::endl;///DB remove
 	/// compare sizes of both clouds
 	if(cloudPointCount>handPointCount)
 	{

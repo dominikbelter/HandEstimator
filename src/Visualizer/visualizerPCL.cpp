@@ -12,12 +12,11 @@ VisualizerPCL::VisualizerPCL(void) {
     pointSize = 5;
 }
 
+///Add Points
 void VisualizerPCL::addCloud(Point3D::Cloud& cloud, RGBA& colour) {
     pcl::PointCloud<pcl::PointXYZRGBA> pcl_cloud;
     convertToPCL(cloud, pcl_cloud, colour);
-    cout << "size: " << pcl_cloud.size() << endl;
     scenePCL.push_back(pcl_cloud);
-    cout << "scene PCL size: " << scenePCL.size() << " " << scenePCL[0].size() << endl;
 }
 
 ///convert to PCL format
@@ -31,6 +30,7 @@ void VisualizerPCL::convertToPCL(Point3D::Cloud& input, pcl::PointCloud<pcl::Poi
     }
 }
 
+///Show Points
 void VisualizerPCL::show(void) const {
     for (size_t i=0;i<scenePCL.size();i++){
         std::stringstream number;

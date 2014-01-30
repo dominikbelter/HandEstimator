@@ -63,6 +63,7 @@ class OptimizationPSO : public Optimization {
 	/// Save data to file
 	virtual void SaveToFile(Hand::Pose& hand);
 
+///DB wszystko ponizej powinno byc prywatne
 
 	/// PSO defooult parameters
 
