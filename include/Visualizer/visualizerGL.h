@@ -10,7 +10,9 @@
 #include "visualizer.h"
 #include <iostream>
 #include <memory>
+#include <cmath>
 #include <GL/glut.h>
+
 
 namespace handest {
 	/// create a single visualizer (OpenGL)
@@ -33,6 +35,14 @@ private:
 	GLdouble currenty;
 	GLdouble transx;
 	GLdouble transy;
+	// angle of rotation for the camera direction
+    GLdouble angle;
+    // actual vector representing the camera's direction
+    GLdouble lx,ly,lz;
+    GLdouble dist;
+    // XZ position of the camera
+    GLdouble x,y,z;
+    GLdouble camNormx,camNormy,camNormz;
 	bool keydown;
 	void CreateHand();
 	void DrawGlobalAxis();

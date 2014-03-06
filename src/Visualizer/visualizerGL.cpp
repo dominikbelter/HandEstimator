@@ -8,15 +8,22 @@ using namespace handest;
 VisualizerGL::Ptr visualizer;
 
 VisualizerGL::VisualizerGL(void) {
-	eyex = 1000;
-	eyey = -500;
-	eyez = 600;
+    // angle of rotation for the camera direction
+    //angle=0;
+    // actual vector representing the camera's direction
+    lx=0.0f,ly = 0.0f, lz=-1.0f;
+    // XYZ position of the camera
+    //x=0.0f,y = 0.0f, z=0.0f;
+    dist = 0.5f;
+	eyex = 2;
+	eyey = 0;
+	eyez = -2;
 	centerx = 0;
 	centery = 0;
-	centerz = 0;
+	centerz = 0.5f;
 	keydown = false;
-	transx = 100;
-	transy = 500;
+	transx = 0;
+	transy = 0;
 }
 
 void VisualizerGL::addCloud(Point3D::Cloud& cloud, RGBA& colour) {
@@ -48,7 +55,7 @@ void VisualizerGL::show(void) const {
 	glutInitDisplayMode( GLUT_DOUBLE | GLUT_RGB);
 	glutInitWindowPosition(50,25);
 	glutInitWindowSize(480,480);
-	glutCreateWindow("Chmura");
+	glutCreateWindow("OpenGL");
 	glShadeModel(GL_SMOOTH);
 	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 	glutDisplayFunc(Draw);
@@ -57,7 +64,10 @@ void VisualizerGL::show(void) const {
 	glutMouseFunc(MouseClick);
 	//glutPassiveMotionFunc(MouseMove);
     glutMotionFunc(MouseMove);
-	glutMainLoop();
+    //glutSetOption(GLUT_ACTION_ON_WINDOW_CLOSE, GLUT_ACTION_CONTINUE_EXECUTION);
+	//glutSetOption(GLUT_ACTION_ON_WINDOW_CLOSE, GLUT_ACTION_GLUTMAINLOOP_RETURNS);
+    glutMainLoop();
+
 	}
 
 }
@@ -73,12 +83,15 @@ void VisualizerGL::CreateHand()
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	glColor3f(0,0,0);
-	gluLookAt( eyex, eyey, eyez, transx, transy, 200, 0, 0, 1 );
-
+	//gluLookAt( eyex, eyey, eyez, transx, transy, 0, 0, 1, 0 );
+	//camNormx = eyex - centerx;
+	//camNormy = eyey - centery;
+	//camNormz = eyez - centerz;
+    gluLookAt(	centerx+lx, centery+ly, centerz+lz, centerx, centery,  centerz, 0.0f, 1.0f,  0.0f);
 	visualizer->DrawGlobalAxis();
-	visualizer->DrawGrid();
+	//visualizer->DrawGrid();
 
-    glPointSize(20.0);
+    glPointSize(2.0);
 	glBegin(GL_POINTS);
 	for(int i=0; i< myPointCloud.size(); i++)
 	{
@@ -99,7 +112,7 @@ void VisualizerGL::Reshape(int width, int height)
 	glMatrixMode( GL_PROJECTION );
     glLoadIdentity();
     // rzutowanie perspektywiczne
-	gluPerspective(45.0f,(GLfloat)width/(GLfloat)height,0.1f,100000.0f);
+	gluPerspective(45.0f,(GLfloat)width/(GLfloat)height,0.1f,10.0f);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	//std::cout << "Resize: " << width << ", " << height;
@@ -108,65 +121,96 @@ void VisualizerGL::Reshape(int width, int height)
 void VisualizerGL::Keyboard(unsigned char key, int x, int y)
 {
 	int max;
-	int boost = 5;
+	double boost = 0.1;
+	float fraction = 0.1;
 	switch( key )
     {
-    case 'w':
-    case 's':
-		max = visualizer->eyex;
-		if(visualizer->eyey > max)
-			max = visualizer->eyey;
-		if(visualizer->eyez > max)
-			max = visualizer->eyez;
-		break;
+        case 'a' :
+			visualizer->angle -= 0.01;
+			visualizer->lx = sin(visualizer->angle);
+			visualizer->lz = -cos(visualizer->angle);
+
+			std::cout << visualizer->centerx+visualizer->lx << ", ";
+			std::cout << visualizer->centery+visualizer->ly << ", ";
+			std::cout << visualizer->centerz+visualizer->lz << std::endl;
+			break;
+		case 'd' :
+			visualizer->angle += 0.01;
+			visualizer->lx = sin(visualizer->angle);
+			visualizer->lz = -cos(visualizer->angle);
+			std::cout << visualizer->centerx+visualizer->lx << ", ";
+			std::cout << visualizer->centery+visualizer->ly << ", ";
+			std::cout << visualizer->centerz+visualizer->lz << std::endl;
+			break;
+		case '+' :
+
+			//sualizer->centerx = visualizer->centerx +0.1;
+			//sualizer->centery = visualizer->centery +0.1;
+			visualizer->centerz = visualizer->centerz +0.1;
+			break;
+		case '-' :
+			//visualizer->centerx = visualizer->centerx -0.1;
+			//visualizer->centery = visualizer->centery -0.1;
+			visualizer->centerz = visualizer->centerz -0.1;
+			break;
+//    case 'w':
+//    case 's':
+//		max = visualizer->eyex;
+//		if(visualizer->eyey > max)
+//			max = visualizer->eyey;
+//		if(visualizer->eyez > max)
+//			max = visualizer->eyez;
+//		break;
+//	}
+//
+//	switch( key )
+//    {
+//    case 'w':
+//			visualizer->eyex -= boost*visualizer->eyex/max;
+//			visualizer->eyey -= boost*visualizer->eyey/max;
+//			visualizer->eyez -= boost*visualizer->eyez/max;
+//
+//		break;
+//    case 's':
+//
+//		visualizer->eyex += boost*visualizer->eyex/max;
+//		visualizer->eyey += boost*visualizer->eyey/max;
+//		visualizer->eyez += boost*visualizer->eyez/max;
+//
+//		break;
+//    case 'a':
+//		if(visualizer->eyey>0)
+//			visualizer->eyex += 1*boost;
+//		else
+//			visualizer->eyex -= 1*boost;
+//		if(visualizer->eyex < 0)
+//			visualizer->eyey += 1*boost;
+//		else
+//			visualizer->eyey -= 1*boost;
+//        break;
+//    case 'd':
+//		if(visualizer->eyey>0)
+//			visualizer->eyex -= 1*boost;
+//		else
+//			visualizer->eyex += 1*boost;
+//		if(visualizer->eyex < 0)
+//			visualizer->eyey -= 1*boost;
+//		else
+//			visualizer->eyey += 1*boost;
+//        break;
+//	case '+':
+//         visualizer->eyez += 1*boost;
+//		 visualizer->eyey += 1*boost;
+//		 visualizer->eyex += 1*boost;
+//		 break;
+//	case '-':
+//         visualizer->eyez -= 1*boost;
+//		 visualizer->eyey -= 1*boost;
+//		 visualizer->eyex -= 1*boost;
+//		 break;
+//
 	}
 
-	switch( key )
-    {
-    case 'w':
-			visualizer->eyex -= boost*visualizer->eyex/max;
-			visualizer->eyey -= boost*visualizer->eyey/max;
-			visualizer->eyez -= boost*visualizer->eyez/max;
-
-		break;
-    case 's':
-
-		visualizer->eyex += boost*visualizer->eyex/max;
-		visualizer->eyey += boost*visualizer->eyey/max;
-		visualizer->eyez += boost*visualizer->eyez/max;
-
-		break;
-    case 'a':
-		if(visualizer->eyey>0)
-			visualizer->eyex += 1*boost;
-		else
-			visualizer->eyex -= 1*boost;
-		if(visualizer->eyex < 0)
-			visualizer->eyey += 1*boost;
-		else
-			visualizer->eyey -= 1*boost;
-        break;
-    case 'd':
-		if(visualizer->eyey>0)
-			visualizer->eyex -= 1*boost;
-		else
-			visualizer->eyex += 1*boost;
-		if(visualizer->eyex < 0)
-			visualizer->eyey -= 1*boost;
-		else
-			visualizer->eyey += 1*boost;
-        break;
-	case '+':
-         visualizer->eyez += 1*boost;
-		 visualizer->eyey += 1*boost;
-		 visualizer->eyex += 1*boost;
-		 break;
-	case '-':
-         visualizer->eyez -= 1*boost;
-		 visualizer->eyey -= 1*boost;
-		 visualizer->eyex -= 1*boost;
-		 break;
-	}
 	Reshape( glutGet( GLUT_WINDOW_WIDTH ), glutGet( GLUT_WINDOW_HEIGHT ) );
 }
 void VisualizerGL::MouseClick(int button, int state,int x, int y)
@@ -188,12 +232,12 @@ void VisualizerGL::MouseClick(int button, int state,int x, int y)
 	}
 	if (button == 3) // mouse wheel
 	{
-		Keyboard('w', x, y);
+		Keyboard('+', x, y);
 		std::cout << "WheelUp \n";
 	}
 	if ((button == 4)) // mouse wheel
 	{
-		Keyboard('s', x, y);
+		Keyboard('-', x, y);
 		std::cout << "WheelDown \n";
 	}
 
@@ -204,7 +248,7 @@ void VisualizerGL::MouseMove(int x, int y)
 	GLdouble prevy = visualizer->currenty;
 	visualizer->currentx = x;
 	visualizer->currenty = y;
-	int boost = 5;
+	double boost = 0.1f;
 	if(prevx == visualizer->currentx && prevy == visualizer->currenty)
 		return;
 	if(visualizer->keydown)
@@ -234,15 +278,15 @@ void VisualizerGL::DrawGlobalAxis()
 	//oœ X (czerowny)
 	glColor3f(255,0,0);
 	glVertex3f(0,0,0);
-	glVertex3f(50,0,0);
+	glVertex3f(2,0,0);
 	//oœ Y (zielony)
 	glColor3f(0,255,0);
 	glVertex3f(0,0,0);
-	glVertex3f(0,50,0);
+	glVertex3f(0,2,0);
 	//oœ Z (niebieski)
 	glColor3f(0,0,255);
 	glVertex3f(0,0,0);
-	glVertex3f(0,0,50);
+	glVertex3f(0,0,2);
 	glEnd();
 	glPopMatrix();
 }
