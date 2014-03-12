@@ -6,6 +6,7 @@
 #include "Filter/filterPCL.h"
 #include "Core/Math/CMat44.h"
 #include "Kinematic/kinematic_liego.h"
+#include "OptimizationFunction/optimizationFunctionGauss.h"
 #include "OptimizationFunction/optimizationFunctionPF.h"
 #include "Optimization/optimizationPSO.h"
 

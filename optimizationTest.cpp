@@ -1,6 +1,7 @@
 #include <iostream>
 #include "handest_defs.h"
 #include "OptimizationFunction/optimizationFunctionPF.h"
+#include "OptimizationFunction/optimizationFunctionGauss.h"
 //#include "Optimization/optimizationPSO.h"
 
 //#include "Grabber/kinect_grabber.h"
@@ -35,7 +36,7 @@ int main()
 		double xCoord = distribution(generator);
 		double yCoord = distribution(generator);
 		double zCoord = distribution(generator);
-	
+
 		Point3D punkt;
 		punkt.position.x=xCoord;
 		punkt.position.y=yCoord;
@@ -59,9 +60,11 @@ int main()
 	}
 
 
-	//create optimizatiom points fitting function 
-	handest::optimizationFunction * optimization_function = createOptimizationFunctionPF();
+	//create optimizatiom points fitting function
+	//handest::optimizationFunction * optimization_function = createOptimizationFunctionPF();
+    //handest::float_type fitness=optimization_function->FitnessValue(hand,chmura);
 
+    handest::optimizationFunction * optimization_function = createOptimizationFunctionGauss();
     handest::float_type fitness=optimization_function->FitnessValue(hand,chmura);
     cout<<"Fitness: "<<fitness<<endl;
 	cin.get();
@@ -91,7 +94,7 @@ int main()
 	}
 
 	visuPCL->show();*////
-	
+
 	//fitness=optimization_function->FitnessValue(dlon,chmura);
     //cout<<"Fitness: "<<fitness<<endl;
     //cin.get();

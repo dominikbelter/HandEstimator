@@ -9,22 +9,21 @@
 
 #include "../handest_defs.h"
 #include "optimizationFunction.h"
+#include <math.h>
 #include <string>
 #include <vector>
-#include <math.h>
+#include <algorithm>
+#include <iostream>
+#include <memory>
 #include "../../dependencies/Eigen/Eigen"
 
-
-
-using namespace handest;
-using namespace Eigen;
-
 namespace handest {
-	/// create a single Point Fitting Optimization Function
-	optimizationFunction* createOptimizationFunctionPF(void);
+	/// create a single Gauss Optimization Function
+	optimizationFunction* createOptimizationFunctionGauss(void);
 };
 
 using namespace handest;
+using namespace Eigen;
 
 /// Optimization Function Point Fitting floating point
 typedef handest::float_type floatGauss;
@@ -32,6 +31,9 @@ typedef handest::float_type floatGauss;
 ///Optimization Function implementation
 	class optimizationFunctionGauss : public optimizationFunction{
 	public:
+	    /// Pointer
+		typedef std::unique_ptr<optimizationFunctionGauss> Ptr;
+
 		/// Fitness between model and grabbed cloud
         virtual floatGauss FitnessValue(Hand::Pose& hand,Point3D::Cloud& cloud);
         ///DB zaginal auto-pointer i podobnie tworzenie obiektu w pliku cpp
@@ -52,16 +54,16 @@ typedef handest::float_type floatGauss;
 		floatGauss covariance_z;
 
         /// maximum sampled cloud values ///DB lepiej tablica
-		int nX;
-		int nY;
-		int nZ;
+		floatGauss nX;
+		floatGauss nY;
+		floatGauss nZ;
 
 		/// 3D gauss function for cloud points
-		floatGauss gaussFunction(Matrix<floatGauss,3,1> points, Point3D::Cloud& cloud);
+		floatGauss gaussFunction(Matrix<floatGauss,3,1> point, Point3D::Cloud& cloud);
 
 		/// sampling cloud
-		Matrix<floatGauss,3,1> xyzToVector(int x, int y, int z);
-		
+		Matrix<floatGauss,3,1> xyzToVector(floatGauss x, floatGauss y, floatGauss z);
+
 	};
 
 #endif // _OPTIMIZATION_FUNCTION_GAUSS_H_
